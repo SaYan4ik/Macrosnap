@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingController" customModule="Macrosnap" customModuleProvider="target">
+            <connections>
+                <outlet property="avatarImageView" destination="jWR-CW-cOH" id="R8V-Xu-c22"/>
+                <outlet property="settingView" destination="4FU-GI-ZEb" id="jcF-U5-F27"/>
+                <outlet property="userNameField" destination="uvd-Sv-9vO" id="XSq-MB-6Fg"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jWR-CW-cOH">
+                    <rect key="frame" x="120" y="79" width="150" height="150"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="S53-1u-I2G"/>
+                        <constraint firstAttribute="height" constant="150" id="UTa-YW-aAv"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4FU-GI-ZEb">
+                    <rect key="frame" x="16" y="353" width="358" height="151"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qG9-DZ-ikl">
+                            <rect key="frame" x="16" y="16" width="326" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uvd-Sv-9vO">
+                            <rect key="frame" x="16" y="53" width="326" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5z-qT-Ugp">
+                            <rect key="frame" x="16" y="103" width="326" height="32"/>
+                            <fontDescription key="fontDescription" name="Charter-Black" family="Charter" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Save">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="saveUserNameDidTap:" destination="-1" eventType="touchUpInside" id="zoA-zp-YgO"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.32560309339999999" green="0.33853795040000001" blue="0.4152230241" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="uvd-Sv-9vO" firstAttribute="leading" secondItem="4FU-GI-ZEb" secondAttribute="leading" constant="16" id="3nH-Xl-y16"/>
+                        <constraint firstAttribute="trailing" secondItem="uvd-Sv-9vO" secondAttribute="trailing" constant="16" id="7pm-Ca-Kvi"/>
+                        <constraint firstItem="qG9-DZ-ikl" firstAttribute="top" secondItem="4FU-GI-ZEb" secondAttribute="top" constant="16" id="K8h-05-Ooe"/>
+                        <constraint firstAttribute="bottom" secondItem="E5z-qT-Ugp" secondAttribute="bottom" constant="16" id="PJS-9S-GIe"/>
+                        <constraint firstItem="E5z-qT-Ugp" firstAttribute="top" secondItem="uvd-Sv-9vO" secondAttribute="bottom" constant="16" id="V33-2u-057"/>
+                        <constraint firstAttribute="trailing" secondItem="qG9-DZ-ikl" secondAttribute="trailing" constant="16" id="W32-tl-FNQ"/>
+                        <constraint firstItem="E5z-qT-Ugp" firstAttribute="leading" secondItem="4FU-GI-ZEb" secondAttribute="leading" constant="16" id="XvT-t3-gxi"/>
+                        <constraint firstItem="uvd-Sv-9vO" firstAttribute="top" secondItem="qG9-DZ-ikl" secondAttribute="bottom" constant="16" id="ega-R2-RWE"/>
+                        <constraint firstAttribute="trailing" secondItem="E5z-qT-Ugp" secondAttribute="trailing" constant="16" id="v7s-gK-Iq4"/>
+                        <constraint firstItem="qG9-DZ-ikl" firstAttribute="leading" secondItem="4FU-GI-ZEb" secondAttribute="leading" constant="16" id="yik-8d-rpc"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTF-An-QDn">
+                    <rect key="frame" x="16" y="245" width="358" height="31"/>
+                    <fontDescription key="fontDescription" name="Charter-Black" family="Charter" pointSize="15"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Upload new avatar">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="changeAvatrImageDidTap:" destination="-1" eventType="touchUpInside" id="0sm-zb-TXI"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="omn-Lg-zcz">
+                    <rect key="frame" x="16" y="292" width="358" height="31"/>
+                    <fontDescription key="fontDescription" name="Charter-Black" family="Charter" pointSize="15"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Save">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="saveAvatarDidTap:" destination="-1" eventType="touchUpInside" id="R1w-et-xcw"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4FU-GI-ZEb" secondAttribute="trailing" constant="16" id="D1S-Lv-rVi"/>
+                <constraint firstItem="jWR-CW-cOH" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="F8R-34-KaI"/>
+                <constraint firstItem="4FU-GI-ZEb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="KX1-dP-LGa"/>
+                <constraint firstItem="GTF-An-QDn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="L4W-dS-qCa"/>
+                <constraint firstItem="omn-Lg-zcz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="V5h-70-dfg"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="GTF-An-QDn" secondAttribute="trailing" constant="16" id="dcr-9R-hYT"/>
+                <constraint firstItem="jWR-CW-cOH" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="32" id="f8u-7N-6FQ"/>
+                <constraint firstItem="GTF-An-QDn" firstAttribute="top" secondItem="jWR-CW-cOH" secondAttribute="bottom" constant="16" id="lxf-Sd-Vio"/>
+                <constraint firstItem="4FU-GI-ZEb" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="rW0-GD-Fo9"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="omn-Lg-zcz" secondAttribute="trailing" constant="16" id="tAP-M7-tE6"/>
+                <constraint firstItem="4FU-GI-ZEb" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="tGo-9X-Ugc"/>
+                <constraint firstItem="omn-Lg-zcz" firstAttribute="top" secondItem="GTF-An-QDn" secondAttribute="bottom" constant="16" id="wto-2b-MEb"/>
+            </constraints>
+            <point key="canvasLocation" x="140" y="20.616113744075829"/>
+        </view>
+    </objects>
+</document>
