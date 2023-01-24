@@ -89,8 +89,10 @@ class PostsCell: UITableViewCell {
 
 extension PostsCell {
     
-    func set(delegate: ButtonDelegate?) {
+    func set(delegate: ButtonDelegate?, typePost: PostType) {
         self.buttonDelegate = delegate
+        self.type = typePost
+        
     }
     
     private func setStyle() {

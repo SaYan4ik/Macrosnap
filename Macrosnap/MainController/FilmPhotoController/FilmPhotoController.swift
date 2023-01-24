@@ -46,7 +46,6 @@ extension FilmPhotoController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostsCell.id, for: indexPath)
         guard let filmPostCell = cell as? PostsCell else { return cell }
         
-        filmPostCell.set(delegate: self)
         filmPostCell.post = filmPosts[indexPath.row]
         return filmPostCell
     }

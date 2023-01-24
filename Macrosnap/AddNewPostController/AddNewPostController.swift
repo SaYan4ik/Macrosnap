@@ -47,56 +47,11 @@ class AddNewPostController: UIViewController {
     
     
     @IBAction func saveButtonDidTap(_ sender: Any) {
-//        guard let camera = cameraField.text,
-//              let lense = lenseField.text,
-//              let description = descriptionField.text
-//        else { return }
-//
-//
-//        addNewPostDocement(camera: camera, lense: lense, description: description) { [weak self] (success) in
-//            guard let self else { return }
-//            if (success) {
-//                self.navigationController?.popToRootViewController(animated: true)
-//            } else {
-//                self.showAlert(title: "Error", message: "There was an error.")
-//            }
-//        }
-//        print("saveButtotDidTap")
         let nib = String(describing: DescriptionController.self)
         let descriptionPostVC = DescriptionController(nibName: nib, bundle: nil)
         descriptionPostVC.imageForAdd = ImageForAdd.image
         navigationController?.pushViewController(descriptionPostVC, animated: true)
     }
-    
-    private func savePost(button: UIButton) {
-        guard let camera = cameraField.text,
-              let lense = lenseField.text,
-              let description = descriptionField.text
-        else { return }
-        
-        if digitalPhotoTypeButton.isSelected {
-            addNewPostDocement(camera: camera, lense: lense, description: description) { [weak self] success in
-                guard let self else { return }
-                if (success) {
-                    self.navigationController?.popToRootViewController(animated: true)
-                } else {
-                    self.showAlert(title: "Error", message: "Post did't upload.")
-                }
-            }
-        }
-        
-        if filmPhotoTypeButton.isSelected {
-            addNewPostDocement(camera: camera, lense: lense, description: description) { [weak self] success in
-                guard let self else { return }
-                if (success) {
-                    self.navigationController?.popToRootViewController(animated: true)
-                } else {
-                    self.showAlert(title: "Error", message: "Post did't upload.")
-                }
-            }
-        }
-    }
-    
 }
 
 // MARK: -

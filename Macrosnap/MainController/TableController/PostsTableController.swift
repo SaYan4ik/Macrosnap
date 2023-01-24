@@ -64,7 +64,7 @@ class PostsTableController: UIViewController {
                 }
                 
             case .filmPhoto:
-                if filmPosts.isEmpty {
+                if posts.isEmpty {
                     query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").limit(to: 2)
                     print("First 2 posts loaded")
                 } else {
@@ -155,7 +155,7 @@ extension PostsTableController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostsCell.id, for: indexPath)
         guard let postCell = cell as? PostsCell else { return cell}
         
-        postCell.set(delegate: self)
+        postCell.set(delegate: self, typePost: type)
         postCell.post = posts[indexPath.row]
         return postCell
     }
@@ -188,20 +188,38 @@ extension PostsTableController: ButtonDelegate {
     }
     
     func likeButtonDidTap(post: Post, button: UIButton) {
-        if button.isSelected {
-            FirebaseSingolton.shared.disLikePost(post: post)
-        } else {
-            FirebaseSingolton.shared.likePost(post: post)
+        
+        switch type {
+            case .digitalPhoto:
+                if button.isSelected {
+                    FirebaseSingolton.shared.disLikePost(post: post)
+                } else {
+                    FirebaseSingolton.shared.likePost(post: post)
+                }
+                
+                FirebaseSingolton.shared.getPostByUID(post: post) { post in
+                    if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                        self.posts[row] = post
+                        let indexPath = IndexPath(row: row, section:0)
+                        self.tableView.reloadRows(at: [indexPath], with: .fade)
+                    }
+                }
+            case .filmPhoto:
+                if button.isSelected {
+                    FirebaseSingolton.shared.disLikeFilmPost(post: post)
+                } else {
+                    FirebaseSingolton.shared.likeFilmPost(post: post)
+                }
+                
+                FirebaseSingolton.shared.getFilmPostByUID(post: post) { post in
+                    if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                        self.posts[row] = post
+                        let indexPath = IndexPath(row: row, section:0)
+                        self.tableView.reloadRows(at: [indexPath], with: .fade)
+                    }
+                }
         }
         
-        FirebaseSingolton.shared.getPostByUID(post: post) { post in
-            if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
-                self.posts[row] = post
-                let indexPath = IndexPath(row: row, section:0)
-                self.tableView.reloadRows(at: [indexPath], with: .fade)
-            }  
-        }
-
     }
     
     func favoriteButtonDidTap() {

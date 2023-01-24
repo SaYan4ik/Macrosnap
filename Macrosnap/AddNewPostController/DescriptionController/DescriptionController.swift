@@ -94,7 +94,7 @@ extension DescriptionController {
         }
         
         if filmPhotoButton.isSelected {
-            addNewPostDocement(camera: camera, lense: lense, description: description) { [weak self] success in
+            addNewFilmPhoto(camera: camera, lense: lense, description: description) { [weak self] success in
                 guard let self else { return }
                 if (success) {
                     self.navigationController?.popViewController(animated: true)
