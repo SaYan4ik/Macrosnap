@@ -15,6 +15,7 @@ class CommentsController: UIViewController {
     @IBOutlet weak var lenseLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var noCommentsView: UIView!
     
     var post: Post?
     var comments = [Comment]()
@@ -62,6 +63,7 @@ extension CommentsController {
     func setStyle() {
         descriptionView.layer.cornerRadius = 12
         descriptionTextView.layer.cornerRadius = 12
+
     }
     
     func setDescription() {
@@ -77,7 +79,13 @@ extension CommentsController {
 // MARK: - UITableViewDataSource
 extension CommentsController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return comments.count
+        if comments.count != 0 {
+            noCommentsView.isHidden = true
+            return comments.count
+        } else {
+            noCommentsView.isHidden = false
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

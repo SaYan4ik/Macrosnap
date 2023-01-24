@@ -15,6 +15,7 @@
                 <outlet property="descriptionView" destination="IQV-YF-ZBy" id="aG2-2t-4z3"/>
                 <outlet property="enterCommentField" destination="Exy-HL-q5F" id="YWA-fw-PQC"/>
                 <outlet property="lenseLabel" destination="7bU-HL-w0y" id="RQI-6v-cQj"/>
+                <outlet property="noCommentsView" destination="HLa-xY-O3p" id="Gcn-H1-CGF"/>
                 <outlet property="tableView" destination="LvF-8b-7Jo" id="sxC-sI-OUx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -93,11 +94,36 @@
                         <action selector="enterCommentButtonDidTap:" destination="-1" eventType="touchUpInside" id="zHm-9h-qGK"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HLa-xY-O3p">
+                    <rect key="frame" x="16" y="325" width="361" height="459"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo (1)" translatesAutoresizingMaskIntoConstraints="NO" id="kOB-9O-LYF">
+                            <rect key="frame" x="63.333333333333329" y="114.66666666666667" width="234.33333333333337" height="229.66666666666663"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No comments yet" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lko-ZA-iZj">
+                            <rect key="frame" x="16" y="349.33333333333337" width="329" height="30.666666666666686"/>
+                            <fontDescription key="fontDescription" name="Charter-Black" family="Charter" pointSize="25"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="kOB-9O-LYF" firstAttribute="centerX" secondItem="HLa-xY-O3p" secondAttribute="centerX" id="JXs-cl-UeA"/>
+                        <constraint firstItem="kOB-9O-LYF" firstAttribute="width" secondItem="HLa-xY-O3p" secondAttribute="width" multiplier="0.65" id="L9y-yk-363"/>
+                        <constraint firstAttribute="trailing" secondItem="lko-ZA-iZj" secondAttribute="trailing" constant="16" id="Xf6-q6-HbS"/>
+                        <constraint firstItem="lko-ZA-iZj" firstAttribute="top" secondItem="kOB-9O-LYF" secondAttribute="bottom" constant="5" id="ddA-ak-zBi"/>
+                        <constraint firstItem="kOB-9O-LYF" firstAttribute="height" secondItem="HLa-xY-O3p" secondAttribute="height" multiplier="0.5" id="hSu-aT-a7d"/>
+                        <constraint firstItem="lko-ZA-iZj" firstAttribute="leading" secondItem="HLa-xY-O3p" secondAttribute="leading" constant="16" id="nu0-sR-Hrc"/>
+                        <constraint firstItem="kOB-9O-LYF" firstAttribute="centerY" secondItem="HLa-xY-O3p" secondAttribute="centerY" id="sJS-fh-sxu"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="jF8-gl-zkY"/>
             <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="LvF-8b-7Jo" secondAttribute="trailing" constant="16" id="4WS-ph-ifv"/>
+                <constraint firstItem="Exy-HL-q5F" firstAttribute="top" secondItem="HLa-xY-O3p" secondAttribute="bottom" id="9IR-0p-RPv"/>
                 <constraint firstItem="jF8-gl-zkY" firstAttribute="trailing" secondItem="IQV-YF-ZBy" secondAttribute="trailing" constant="16" id="GuT-Ma-9MN"/>
                 <constraint firstItem="LvF-8b-7Jo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="IFD-AE-Cs9"/>
                 <constraint firstItem="Exy-HL-q5F" firstAttribute="top" secondItem="LvF-8b-7Jo" secondAttribute="bottom" constant="10" id="Iou-Sh-Ydz"/>
@@ -105,15 +131,19 @@
                 <constraint firstItem="uhj-9G-nX4" firstAttribute="leading" secondItem="Exy-HL-q5F" secondAttribute="trailing" constant="5" id="Ncp-PU-e54"/>
                 <constraint firstItem="IQV-YF-ZBy" firstAttribute="top" secondItem="jF8-gl-zkY" secondAttribute="top" constant="16" id="Nwd-bL-vsq"/>
                 <constraint firstItem="uhj-9G-nX4" firstAttribute="centerY" secondItem="Exy-HL-q5F" secondAttribute="centerY" id="Paw-8s-5Fb"/>
+                <constraint firstItem="HLa-xY-O3p" firstAttribute="leading" secondItem="jF8-gl-zkY" secondAttribute="leading" constant="16" id="Soy-HS-6dm"/>
                 <constraint firstAttribute="trailing" secondItem="uhj-9G-nX4" secondAttribute="trailing" constant="16" id="TxU-x3-7cO"/>
                 <constraint firstItem="LvF-8b-7Jo" firstAttribute="top" secondItem="IQV-YF-ZBy" secondAttribute="bottom" constant="10" id="UPF-9g-A2e"/>
                 <constraint firstItem="Exy-HL-q5F" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="WEj-Fk-4i4"/>
+                <constraint firstItem="jF8-gl-zkY" firstAttribute="trailing" secondItem="HLa-xY-O3p" secondAttribute="trailing" constant="16" id="Wj2-UA-oa9"/>
                 <constraint firstItem="jF8-gl-zkY" firstAttribute="bottom" secondItem="Exy-HL-q5F" secondAttribute="bottom" id="icz-N3-0nw"/>
+                <constraint firstItem="HLa-xY-O3p" firstAttribute="top" secondItem="IQV-YF-ZBy" secondAttribute="bottom" id="jIG-mA-CTd"/>
             </constraints>
             <point key="canvasLocation" x="139.69465648854961" y="20.422535211267608"/>
         </view>
     </objects>
     <resources>
+        <image name="Logo (1)" width="500" height="500"/>
         <image name="paperplane.fill" catalog="system" width="128" height="119"/>
     </resources>
 </document>
