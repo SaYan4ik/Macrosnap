@@ -157,7 +157,7 @@ class FirebaseSingolton {
     }
     
     func getfavouritePostsWithUser(user: User, complition: @escaping ([Post]) -> Void) {
-        Firestore.firestore().collection("favourite").document(user.uid).collection("userFavouritePosts").getDocuments { (snapshot, error) in
+        Firestore.firestore().collection("users").document(user.uid).collection("favouritePosts").getDocuments { (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
             } else {

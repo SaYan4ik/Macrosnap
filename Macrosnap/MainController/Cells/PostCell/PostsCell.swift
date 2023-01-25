@@ -35,7 +35,7 @@ class PostsCell: UITableViewCell {
             
             let scale = UIScreen.main.scale
             let thumbnailSize = CGSize(width: 200 * scale, height: 200 * scale)
-            userPostImage.sd_setImage(with: postUrlRef, placeholderImage: UIImage(named: "HoneyBee"), options: [.progressiveLoad, .continueInBackground, .refreshCached], context: [ .imageThumbnailPixelSize: thumbnailSize])
+            userPostImage.sd_setImage(with: postUrlRef, placeholderImage: nil, options: [.progressiveLoad, .continueInBackground, .refreshCached], context: [ .imageThumbnailPixelSize: thumbnailSize])
             
             self.likeCountLabel.text = "\(post?.like ?? 0)"
             setStyle()
@@ -55,7 +55,7 @@ class PostsCell: UITableViewCell {
     @IBAction func likeButtonDidTap(_ sender: Any) {
         guard let post else { return }
         buttonDelegate?.likeButtonDidTap(post: post, button: likeButton)
-        animate(button: likeButton)
+        animateLike()
         print("Like did tap")
     }
     
@@ -71,22 +71,35 @@ class PostsCell: UITableViewCell {
     @IBAction func favoriteButtonDidTap(_ sender: Any) {
         guard let post else { return }
         buttonDelegate?.favoriteButtonDidTap(post: post, button: favouriteButton)
-        animate(button: favouriteButton)
+        animateFavButton()
         print("Favorite did tap")
         
     }
     
-    private func animate(button: UIButton) {
+    private func animateLike() {
         UIView.animate(withDuration: 0.3,
             animations: {
-                button.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            self.likeButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             },
             completion: { _ in
                 UIView.animate(withDuration: 0.6) {
-                    button.transform = CGAffineTransform.identity
+                    self.likeButton.transform = CGAffineTransform.identity
                 }
             })
     }
+    
+    private func animateFavButton() {
+        UIView.animate(withDuration: 0.3,
+            animations: {
+            self.favouriteButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            },
+            completion: { _ in
+                UIView.animate(withDuration: 0.6) {
+                    self.favouriteButton.transform = CGAffineTransform.identity
+                }
+            })
+    }
+    
 }
 
 // MARK: -

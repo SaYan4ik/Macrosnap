@@ -48,7 +48,7 @@ class ProfileController: UIViewController {
     }
     
     @IBAction func segmentDidchange(_ sender: Any) {
-        guard segment.selectedSegmentIndex < 2 else { return }
+        guard segment.selectedSegmentIndex < 3 else { return }
         self.selectedIndex = segment.selectedSegmentIndex
         insertController()
     }

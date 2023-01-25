@@ -40,7 +40,7 @@ class PostsCollectionController: UIViewController {
             case .filmPosts:
                 getAllFilmPosts(uid: userUID)
             case .favouritePosts:
-                break
+                getAllFavouritePosts(uid: userUID)
         }
     }
     
@@ -62,6 +62,15 @@ class PostsCollectionController: UIViewController {
         }
     }
     
+    private func getAllFavouritePosts(uid: String) {
+        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
+            FirebaseSingolton.shared.getfavouritePostsWithUser(user: user) { favPosts in
+                self.posts = favPosts
+                self.collectionView.reloadData()
+            }
+        }
+        
+    }
     
 }
 
