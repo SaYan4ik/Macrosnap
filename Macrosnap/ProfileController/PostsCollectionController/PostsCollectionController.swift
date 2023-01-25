@@ -15,6 +15,7 @@ class PostsCollectionController: UIViewController {
         
     var posts = [Post]()
     var user: User?
+    private var postsType: ProfilePostType = .digitalPosts
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,10 +24,27 @@ class PostsCollectionController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getAllPostsWithUID(uid: user?.uid ?? "")
+        setupPosts()
     }
 
-    func getAllPostsWithUID(uid: String) {
+    func set(typePost: ProfilePostType) {
+        self.postsType = typePost
+    }
+    
+    private func setupPosts() {
+        guard let userUID = user?.uid else { return }
+        
+        switch postsType {
+            case .digitalPosts:
+                getAllPostsWithUID(uid: userUID)
+            case .filmPosts:
+                getAllFilmPosts(uid: userUID)
+            case .favouritePosts:
+                break
+        }
+    }
+    
+    private func getAllPostsWithUID(uid: String) {
         FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
             FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
                 self.posts = allPosts
@@ -34,6 +52,17 @@ class PostsCollectionController: UIViewController {
             }
         }
     }
+    
+    private func getAllFilmPosts(uid: String) {
+        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
+            FirebaseSingolton.shared.getFilmPostsWithUserUID(user: user) { filmPosts in
+                self.posts = filmPosts
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
+    
 }
 
 // MARK: -
@@ -93,4 +122,14 @@ extension PostsCollectionController: UICollectionViewDelegate {
         present(userPostVC, animated: true)
     }
     
+}
+
+extension PostsCollectionController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let inset = 0.0
+        guard let screen = view.window?.windowScene?.screen else { return .zero }
+        
+        let width = (screen.bounds.width - (inset * (6))) / 3
+        return CGSize(width: width, height: width)
+    }
 }

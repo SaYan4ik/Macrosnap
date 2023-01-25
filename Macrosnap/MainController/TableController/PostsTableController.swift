@@ -10,11 +10,6 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-enum PostType {
-    case digitalPhoto
-    case filmPhoto
-}
-
 class PostsTableController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     

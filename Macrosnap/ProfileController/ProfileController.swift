@@ -44,7 +44,6 @@ class ProfileController: UIViewController {
         super.viewWillAppear(animated)
         setupButton()
         getPostsForUser(uid: user?.uid ?? "")
-//        countFollow()
         setupFollowCount()
     }
     
@@ -114,8 +113,20 @@ extension ProfileController {
         guard let user = user else { return }
         let postCollectionVC = PostsCollectionController(nibName: String(describing: PostsCollectionController.self), bundle: nil)
         postCollectionVC.user = user
+        postCollectionVC.set(typePost: .digitalPosts)
+        
+        let filmPostsVC = PostsCollectionController(nibName: String(describing: PostsCollectionController.self), bundle: nil)
+        filmPostsVC.user = user
+        filmPostsVC.set(typePost: .filmPosts)
+        
+        let favouriteVC = PostsCollectionController(nibName: String(describing: PostsCollectionController.self), bundle: nil)
+        favouriteVC.user = user
+        favouriteVC.set(typePost: .favouritePosts)
         
         controllers.append(postCollectionVC)
+        controllers.append(filmPostsVC)
+        controllers.append(favouriteVC)
+
     }
 
     func insertController() {
