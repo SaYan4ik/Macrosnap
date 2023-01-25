@@ -123,8 +123,23 @@ class FirebaseSingolton {
         
         Firestore.firestore().collection("users").document(userUID).collection("favouritePosts").document(postNameURL).setData([
             "postId": post.postId,
-            "userId": post.user.uid
+            "userId": post.user.uid,
+            "lense": post.lense,
+            "camera": post.camera,
+            "description": post.description,
+            "like": post.like
         ])
+    }
+    
+    func removeFavPost(post: Post) {
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+        let postNameURL = Storage.storage().reference(forURL: post.postId).name
+        
+        Firestore.firestore().collection("users").document(userUID).collection("favouritePosts").document("\(postNameURL)").delete { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     func checkFavByUser(post: Post, complition: @escaping((Bool) -> Void)) {

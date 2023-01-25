@@ -173,6 +173,7 @@ extension PostsTableController: UITableViewDelegate {
 // MARK: -
 // MARK: - UITableViewDelegate
 extension PostsTableController: ButtonDelegate {
+
     
     func present(vc: UIViewController) {
         self.present(vc, animated: true)
@@ -209,7 +210,7 @@ extension PostsTableController: ButtonDelegate {
                 FirebaseSingolton.shared.getFilmPostByUID(post: post) { post in
                     if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
                         self.posts[row] = post
-                        let indexPath = IndexPath(row: row, section:0)
+                        let indexPath = IndexPath(row: row, section: 0)
                         self.tableView.reloadRows(at: [indexPath], with: .fade)
                     }
                 }
@@ -217,9 +218,19 @@ extension PostsTableController: ButtonDelegate {
         
     }
     
-    func favoriteButtonDidTap() {
-        print("Favorite button did tap")
+    func favoriteButtonDidTap(post: Post, button: UIButton) {
+        if button.isSelected {
+            FirebaseSingolton.shared.removeFavPost(post: post)
+        } else {
+            FirebaseSingolton.shared.favouritePost(post: post)
+        }
+        
+        if let rowPost = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+            let indexPath = IndexPath(row: rowPost, section: 0)
+            self.tableView.reloadRows(at: [indexPath], with: .none)
+        }
     }
+    
 
 }
 

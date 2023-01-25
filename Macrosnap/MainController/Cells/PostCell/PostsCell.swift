@@ -16,6 +16,8 @@ class PostsCell: UITableViewCell {
     @IBOutlet weak var likeCountLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     
+    @IBOutlet weak var favouriteButton: UIButton!
+    
     weak var buttonDelegate: ButtonDelegate?
     private var type: PostType = .digitalPhoto
     
@@ -38,6 +40,7 @@ class PostsCell: UITableViewCell {
             self.likeCountLabel.text = "\(post?.like ?? 0)"
             setStyle()
             chekLike()
+            chekFavourite()
             
         }
     }
@@ -52,7 +55,7 @@ class PostsCell: UITableViewCell {
     @IBAction func likeButtonDidTap(_ sender: Any) {
         guard let post else { return }
         buttonDelegate?.likeButtonDidTap(post: post, button: likeButton)
-        animate()
+        animate(button: likeButton)
         print("Like did tap")
     }
     
@@ -66,19 +69,21 @@ class PostsCell: UITableViewCell {
     
     
     @IBAction func favoriteButtonDidTap(_ sender: Any) {
-        buttonDelegate?.favoriteButtonDidTap()
+        guard let post else { return }
+        buttonDelegate?.favoriteButtonDidTap(post: post, button: favouriteButton)
+        animate(button: favouriteButton)
         print("Favorite did tap")
         
     }
     
-    private func animate() {
+    private func animate(button: UIButton) {
         UIView.animate(withDuration: 0.3,
             animations: {
-                self.likeButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                button.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             },
             completion: { _ in
                 UIView.animate(withDuration: 0.6) {
-                    self.likeButton.transform = CGAffineTransform.identity
+                    button.transform = CGAffineTransform.identity
                 }
             })
     }
@@ -100,7 +105,7 @@ extension PostsCell {
     }
     
     private func chekLike() {
-        guard let post = post else { return }
+        guard let post else { return }
         
         FirebaseSingolton.shared.checkLikeByUser(post: post) { postExist in
             if postExist == true {
@@ -112,6 +117,20 @@ extension PostsCell {
             }
         }
         
+    }
+    
+    private func chekFavourite() {
+        guard let post else { return }
+        
+        FirebaseSingolton.shared.checkFavByUser(post: post) { postExist in
+            if postExist == true {
+                self.favouriteButton.isSelected = true
+                self.favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .selected)
+            } else {
+                self.favouriteButton.isSelected = false
+                self.favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)
+            }
+        }
     }
     
 }

@@ -46,8 +46,6 @@
 		A2A99C4B293619C6008D1131 /* SearchController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2A99C49293619C6008D1131 /* SearchController.xib */; };
 		A2A99C54293633B0008D1131 /* SearchUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A99C52293633B0008D1131 /* SearchUserCell.swift */; };
 		A2A99C55293633B0008D1131 /* SearchUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2A99C53293633B0008D1131 /* SearchUserCell.xib */; };
-		A2B4A4AC296BDCAB00448E7E /* FilmPhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B4A4AA296BDCAB00448E7E /* FilmPhotoController.swift */; };
-		A2B4A4AD296BDCAB00448E7E /* FilmPhotoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2B4A4AB296BDCAB00448E7E /* FilmPhotoController.xib */; };
 		A2B4A4AF296D9E7800448E7E /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B4A4AE296D9E7800448E7E /* MessageModel.swift */; };
 		A2B6FEF9295B08E70008F773 /* UserPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B6FEF7295B08E70008F773 /* UserPostController.swift */; };
 		A2B6FEFA295B08E70008F773 /* UserPostController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2B6FEF8295B08E70008F773 /* UserPostController.xib */; };
@@ -110,8 +108,6 @@
 		A2A99C49293619C6008D1131 /* SearchController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchController.xib; sourceTree = "<group>"; };
 		A2A99C52293633B0008D1131 /* SearchUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserCell.swift; sourceTree = "<group>"; };
 		A2A99C53293633B0008D1131 /* SearchUserCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchUserCell.xib; sourceTree = "<group>"; };
-		A2B4A4AA296BDCAB00448E7E /* FilmPhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmPhotoController.swift; sourceTree = "<group>"; };
-		A2B4A4AB296BDCAB00448E7E /* FilmPhotoController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilmPhotoController.xib; sourceTree = "<group>"; };
 		A2B4A4AE296D9E7800448E7E /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		A2B6FEF7295B08E70008F773 /* UserPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostController.swift; sourceTree = "<group>"; };
 		A2B6FEF8295B08E70008F773 /* UserPostController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserPostController.xib; sourceTree = "<group>"; };
@@ -236,7 +232,6 @@
 		A236E1462920119A00B54E2F /* MainController */ = {
 			isa = PBXGroup;
 			children = (
-				A2B4A4A9296BDC8E00448E7E /* FilmPhotoController */,
 				A236E15B29201EA700B54E2F /* CommentsController */,
 				A236E15429201A2B00B54E2F /* Cells */,
 				A236E14F2920184800B54E2F /* TableController */,
@@ -396,15 +391,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		A2B4A4A9296BDC8E00448E7E /* FilmPhotoController */ = {
-			isa = PBXGroup;
-			children = (
-				A2B4A4AA296BDCAB00448E7E /* FilmPhotoController.swift */,
-				A2B4A4AB296BDCAB00448E7E /* FilmPhotoController.xib */,
-			);
-			path = FilmPhotoController;
-			sourceTree = "<group>";
-		};
 		A2B6FEF6295B08CC0008F773 /* UserPostController */ = {
 			isa = PBXGroup;
 			children = (
@@ -534,7 +520,6 @@
 				A2DC83FE29265588005DD92B /* PostCollectionCell.xib in Resources */,
 				A2B6FEFA295B08E70008F773 /* UserPostController.xib in Resources */,
 				A236E1312920072F00B54E2F /* LaunchScreen.storyboard in Resources */,
-				A2B4A4AD296BDCAB00448E7E /* FilmPhotoController.xib in Resources */,
 				A2B6FF00295C8D2E0008F773 /* CommentCell.xib in Resources */,
 				A27E03C229530EC200FCF8CB /* FollowCell.xib in Resources */,
 				A236E1422920085800B54E2F /* RegistrationController.xib in Resources */,
@@ -618,7 +603,6 @@
 				A2DC83F929265142005DD92B /* PostsCollectionController.swift in Sources */,
 				A283874B2921630D0042A8BB /* AddNewPostController.swift in Sources */,
 				A236E13D2920084A00B54E2F /* LoginController.swift in Sources */,
-				A2B4A4AC296BDCAB00448E7E /* FilmPhotoController.swift in Sources */,
 				A283876A29238D580042A8BB /* UserModel.swift in Sources */,
 				A2B6FF02295D7F3F0008F773 /* DateExtension.swift in Sources */,
 				A255BC252934B27600224FB2 /* SettingController.swift in Sources */,

@@ -15,7 +15,7 @@ protocol ButtonDelegate: AnyObject {
     func present(vc: UIViewController)
     func push(vc: UIViewController)
     func likeButtonDidTap(post: Post, button: UIButton)
-    func favoriteButtonDidTap()
+    func favoriteButtonDidTap(post: Post, button: UIButton)
 }
 
 //MARK: -
