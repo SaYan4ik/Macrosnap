@@ -109,10 +109,59 @@ class FirebaseSingolton {
         
         Firestore.firestore().collection("users").document(userUID).collection("usersLike").document(postNameURL).getDocument { (snapshot, error) in
             if let error = error {
-                print("Ошибка проверка лайка для юзера \(userUID), \(error.localizedDescription)")
+                print("User like check error \(userUID), \(error.localizedDescription)")
             } else {
                 guard let snapshot = snapshot?.exists else { return }
                 complition(snapshot)
+            }
+        }
+    }
+    
+    func favouritePost(post: Post) {
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+        let postNameURL = Storage.storage().reference(forURL: post.postId).name
+        
+        Firestore.firestore().collection("users").document(userUID).collection("favouritePosts").document(postNameURL).setData([
+            "postId": post.postId,
+            "userId": post.user.uid
+        ])
+    }
+    
+    func checkFavByUser(post: Post, complition: @escaping((Bool) -> Void)) {
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+        let postNameURL = Storage.storage().reference(forURL: post.postId).name
+        
+        Firestore.firestore().collection("users").document(userUID).collection("favouritePosts").document(postNameURL).getDocument { (snapshot, error) in
+            if let error = error {
+                print("User like check error \(userUID), \(error.localizedDescription)")
+            } else {
+                guard let snapshot = snapshot?.exists else { return }
+                complition(snapshot)
+            }
+        }
+    }
+    
+    func getfavouritePostsWithUser(user: User, complition: @escaping ([Post]) -> Void) {
+        Firestore.firestore().collection("favourite").document(user.uid).collection("userFavouritePosts").getDocuments { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                guard let snapshot = snapshot else { return }
+                var allPosts = [Post]()
+                for document in snapshot.documents {
+                    let data = document.data()
+                    guard let postId = data["postId"] as? String,
+                          let userId = data["userId"] as? String,
+                          let lense = data["lense"] as? String,
+                          let camera = data["camera"] as? String,
+                          let description = data["description"] as? String,
+                          let like = data["like"] as? Int
+                    else { return }
+                    
+                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                    allPosts.append(post)
+                }
+                complition(allPosts)
             }
         }
     }
