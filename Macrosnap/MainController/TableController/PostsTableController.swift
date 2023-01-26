@@ -12,12 +12,14 @@ import FirebaseStorage
 
 class PostsTableController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     private var type: PostType = .digitalPhoto
     var posts = [Post]()
     var filmPosts = [Post]()
     var query: Query?
     var lastDocumentSnapshot: DocumentSnapshot?
+    var indexPath = IndexPath(row: 0, section: 0)
     var fetchingMore = false
     
     override func viewDidLoad() {
@@ -38,8 +40,10 @@ class PostsTableController: UIViewController {
     
     private func getAllPostWithPaging() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
+        spinner.startAnimating()
         FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
             self.pagination(user: user)
+            self.spinner.stopAnimating()
         }
     }
     
@@ -91,12 +95,12 @@ class PostsTableController: UIViewController {
                     let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
                     self.posts.append(post)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                    self.tableView.reloadData()
-                    self.fetchingMore = false
-
-                })
-                
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+//                    self.tableView.reloadData()
+//                    self.fetchingMore = false
+//
+//                })
+                self.tableView.reloadData()
                 self.lastDocumentSnapshot = snapshot.documents.last
             }
         }
@@ -219,6 +223,7 @@ extension PostsTableController: ButtonDelegate {
     }
     
     func favoriteButtonDidTap(post: Post, button: UIButton) {
+        
         if button.isSelected {
             FirebaseSingolton.shared.removeFavPost(post: post)
         } else {

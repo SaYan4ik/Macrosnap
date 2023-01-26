@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostsTableController" customModule="Macrosnap" customModuleProvider="target">
             <connections>
+                <outlet property="spinner" destination="8CW-hT-WMo" id="FFa-CE-vd0"/>
                 <outlet property="tableView" destination="X5i-jA-bQE" id="WKL-iY-Wvq"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -23,6 +24,10 @@
                     <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <color key="separatorColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 </tableView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="8CW-hT-WMo">
+                    <rect key="frame" x="178" y="420" width="37" height="37"/>
+                    <color key="color" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -30,7 +35,9 @@
                 <constraint firstItem="X5i-jA-bQE" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="XMB-ex-2NP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="X5i-jA-bQE" secondAttribute="trailing" id="eIV-mW-aGb"/>
                 <constraint firstItem="X5i-jA-bQE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="opD-7o-cK6"/>
+                <constraint firstItem="8CW-hT-WMo" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="qAK-EK-tD0"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="X5i-jA-bQE" secondAttribute="bottom" id="qSz-fd-cHr"/>
+                <constraint firstItem="8CW-hT-WMo" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="tEY-1a-7Jl"/>
             </constraints>
             <point key="canvasLocation" x="140" y="21"/>
         </view>
