@@ -201,7 +201,12 @@ extension PostsTableController: ButtonDelegate {
                     if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
                         self.posts[row] = post
                         let indexPath = IndexPath(row: row, section:0)
-                        self.tableView.reloadRows(at: [indexPath], with: .none)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
+                            self.tableView.reloadRows(at: [indexPath], with: .none)
+                        })
+                        
+//                        self.tableView.reloadRows(at: [indexPath], with: .fade)
                     }
                 }
             case .filmPhoto:
@@ -215,7 +220,12 @@ extension PostsTableController: ButtonDelegate {
                     if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
                         self.posts[row] = post
                         let indexPath = IndexPath(row: row, section: 0)
-                        self.tableView.reloadRows(at: [indexPath], with: .none)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
+                            self.tableView.reloadRows(at: [indexPath], with: .none)
+                        })
+                        
+//                        self.tableView.reloadRows(at: [indexPath], with: .none)
                     }
                 }
         }
@@ -232,8 +242,16 @@ extension PostsTableController: ButtonDelegate {
         
         if let rowPost = self.posts.firstIndex(where: { $0.postId == post.postId }) {
             let indexPath = IndexPath(row: rowPost, section: 0)
-            self.tableView.reloadRows(at: [indexPath], with: .none)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+            })
+            
+//            self.tableView.reloadRows(at: [indexPath], with: .none)
         }
+        
+
+        
     }
     
 

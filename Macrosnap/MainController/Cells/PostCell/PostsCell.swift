@@ -35,10 +35,9 @@ class PostsCell: UITableViewCell {
             
             let scale = UIScreen.main.scale
             let thumbnailSize = CGSize(width: 200 * scale, height: 200 * scale)
-            userPostImage.sd_setImage(with: postUrlRef, placeholderImage: nil, options: [.progressiveLoad, .continueInBackground, .refreshCached], context: [ .imageThumbnailPixelSize: thumbnailSize])
+            userPostImage.sd_setImage(with: postUrlRef, placeholderImage: UIImage(systemName: "HoneyBee"), options: [.progressiveLoad, .continueInBackground, .refreshCached], context: [ .imageThumbnailPixelSize: thumbnailSize])
             
             self.likeCountLabel.text = "\(post?.like ?? 0)"
-            setStyle()
             chekLike()
             chekFavourite()
             
@@ -49,9 +48,8 @@ class PostsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
     }
-    
+
     @IBAction func likeButtonDidTap(_ sender: Any) {
         guard let post else { return }
         buttonDelegate?.likeButtonDidTap(post: post, button: likeButton)
@@ -77,19 +75,19 @@ class PostsCell: UITableViewCell {
     }
     
     private func animateLike() {
-        UIView.animate(withDuration: 0.3,
+        UIView.animate(withDuration: 0.5,
             animations: {
             self.likeButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             },
             completion: { _ in
-                UIView.animate(withDuration: 0.6) {
+                UIView.animate(withDuration: 0.5) {
                     self.likeButton.transform = CGAffineTransform.identity
                 }
             })
     }
     
     private func animateFavButton() {
-        UIView.animate(withDuration: 0.3,
+        UIView.animate(withDuration: 0.5,
             animations: {
             self.favouriteButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             },
@@ -110,11 +108,13 @@ extension PostsCell {
     func set(delegate: ButtonDelegate?, typePost: PostType) {
         self.buttonDelegate = delegate
         self.type = typePost
-        
+        setStyle()
+
     }
     
     private func setStyle() {
         userProfileimage.layer.cornerRadius = userProfileimage.frame.height / 2
+        self.contentView.layer.cornerRadius = 12
     }
     
     private func chekLike() {

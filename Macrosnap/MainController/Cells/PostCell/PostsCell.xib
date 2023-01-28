@@ -48,8 +48,7 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HoneyBee" translatesAutoresizingMaskIntoConstraints="NO" id="gbi-m8-1I2">
                                 <rect key="frame" x="15.666666666666657" y="65" width="330" height="330"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="330" id="HOC-G9-o2o"/>
-                                    <constraint firstAttribute="height" constant="330" id="n8h-Tm-tE3"/>
+                                    <constraint firstAttribute="width" secondItem="gbi-m8-1I2" secondAttribute="height" multiplier="1080:1080" id="wkR-sB-zTY"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BoD-Js-amu">
@@ -122,7 +121,6 @@
                         <color key="backgroundColor" red="0.24313727020000001" green="0.25098040700000002" blue="0.30196079609999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="tintColor" systemColor="labelColor"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="455" id="3ZF-9R-YYs"/>
                             <constraint firstAttribute="bottom" secondItem="BoD-Js-amu" secondAttribute="bottom" constant="5" id="6Do-Gd-h0w"/>
                             <constraint firstAttribute="trailing" secondItem="re8-lt-fH5" secondAttribute="trailing" id="AxT-50-Jzo"/>
                             <constraint firstAttribute="trailing" secondItem="BoD-Js-amu" secondAttribute="trailing" constant="22" id="DOf-t4-NRf"/>
@@ -130,11 +128,13 @@
                             <constraint firstItem="BoD-Js-amu" firstAttribute="top" secondItem="gbi-m8-1I2" secondAttribute="bottom" constant="5" id="Pl7-Tg-FKH"/>
                             <constraint firstItem="re8-lt-fH5" firstAttribute="top" secondItem="j2I-LG-Bca" secondAttribute="top" id="Rn7-6B-iis"/>
                             <constraint firstItem="gbi-m8-1I2" firstAttribute="top" secondItem="re8-lt-fH5" secondAttribute="bottom" constant="5" id="T4L-KQ-3Kq"/>
+                            <constraint firstAttribute="height" constant="455" id="TvE-WA-tC2"/>
                             <constraint firstItem="BoD-Js-amu" firstAttribute="leading" secondItem="j2I-LG-Bca" secondAttribute="leading" constant="22" id="mSl-Dv-iqk"/>
                             <constraint firstAttribute="width" constant="361" id="oMn-Ux-rih"/>
                         </constraints>
                     </stackView>
                 </subviews>
+                <color key="backgroundColor" red="0.24313727020000001" green="0.25098040700000002" blue="0.30196079609999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="j2I-LG-Bca" secondAttribute="bottom" id="G4V-HA-CdK"/>
                     <constraint firstAttribute="trailing" secondItem="j2I-LG-Bca" secondAttribute="trailing" id="Ocg-sG-ch6"/>
@@ -143,6 +143,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" red="0.24313727020000001" green="0.25098040700000002" blue="0.30196079609999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <connections>
                 <outlet property="favouriteButton" destination="u1f-lI-8rd" id="xQP-qB-TUz"/>
                 <outlet property="likeButton" destination="qAj-9r-y2V" id="joj-uk-VZs"/>

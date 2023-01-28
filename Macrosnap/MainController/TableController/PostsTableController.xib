@@ -19,10 +19,11 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="X5i-jA-bQE">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="X5i-jA-bQE">
                     <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                     <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    <color key="separatorColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <color key="separatorColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="8CW-hT-WMo">
                     <rect key="frame" x="178" y="420" width="37" height="37"/>
@@ -36,10 +37,10 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="X5i-jA-bQE" secondAttribute="trailing" id="eIV-mW-aGb"/>
                 <constraint firstItem="X5i-jA-bQE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="opD-7o-cK6"/>
                 <constraint firstItem="8CW-hT-WMo" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="qAK-EK-tD0"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="X5i-jA-bQE" secondAttribute="bottom" id="qSz-fd-cHr"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="X5i-jA-bQE" secondAttribute="bottom" id="t3g-Rs-KkG"/>
                 <constraint firstItem="8CW-hT-WMo" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="tEY-1a-7Jl"/>
             </constraints>
-            <point key="canvasLocation" x="140" y="21"/>
+            <point key="canvasLocation" x="139.69465648854961" y="20.422535211267608"/>
         </view>
     </objects>
 </document>

@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -70,17 +69,17 @@
                     </connections>
                 </segmentedControl>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8bE-He-Rl8">
-                    <rect key="frame" x="16" y="166" width="361" height="647"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <rect key="frame" x="16" y="166" width="361" height="686"/>
+                    <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="8bE-He-Rl8" secondAttribute="bottom" constant="5" id="1qz-ja-sjf"/>
                 <constraint firstItem="o3L-th-6Cw" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="ACj-HI-vPe"/>
                 <constraint firstItem="o3L-th-6Cw" firstAttribute="top" secondItem="Qf6-5X-TU9" secondAttribute="bottom" constant="16" id="DAH-5e-GuL"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="8bE-He-Rl8" secondAttribute="trailing" constant="16" id="Dxe-GY-RtS"/>
+                <constraint firstAttribute="bottom" secondItem="8bE-He-Rl8" secondAttribute="bottom" id="NXH-CB-WAg"/>
                 <constraint firstItem="8bE-He-Rl8" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="PsU-ew-kOF"/>
                 <constraint firstItem="Qf6-5X-TU9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Ufl-H1-0cR"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="o3L-th-6Cw" secondAttribute="trailing" constant="16" id="f2o-p2-woM"/>
@@ -96,8 +95,5 @@
         <image name="camera.fill" catalog="system" width="128" height="93"/>
         <image name="film.fill" catalog="system" width="128" height="93"/>
         <image name="paperplane.fill" catalog="system" width="128" height="119"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>
