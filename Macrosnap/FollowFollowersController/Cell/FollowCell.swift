@@ -19,20 +19,22 @@ class FollowCell: UITableViewCell {
             guard let url = URL(string: imageUrl) else { return }
             let scale = UIScreen.main.scale
             let thumbnailSize = CGSize(width: 200 * scale, height: 200 * scale)
-            avatarImageView.sd_setImage(with: url, placeholderImage: nil, options: [.progressiveLoad, .continueInBackground, .refreshCached], context: [ .imageThumbnailPixelSize: thumbnailSize])
+            avatarImageView.sd_setImage(
+                with: url,
+                placeholderImage: nil,
+                options: [.progressiveLoad, .continueInBackground, .refreshCached],
+                context: [ .imageThumbnailPixelSize: thumbnailSize]
+            )
             
         }
     }
+    
     static var id = String(describing: FollowCell.self)
     
     override func awakeFromNib() {
         super.awakeFromNib()
         setStyle()
-
     }
-    
-    
-    
     
 }
 

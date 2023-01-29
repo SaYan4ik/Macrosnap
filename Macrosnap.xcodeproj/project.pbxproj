@@ -170,7 +170,6 @@
 		A236E1232920072E00B54E2F /* Macrosnap */ = {
 			isa = PBXGroup;
 			children = (
-				A2BFA70A293210A2001D37F1 /* FollowFollowersController */,
 				A283876829238D480042A8BB /* Model */,
 				A2838757292241180042A8BB /* Extensions */,
 				A283872E292157F70042A8BB /* Protocols */,
@@ -181,6 +180,7 @@
 				A236E1462920119A00B54E2F /* MainController */,
 				A283874D292169A60042A8BB /* SearchController */,
 				A2838730292158A70042A8BB /* AddNewPostController */,
+				A2BFA70A293210A2001D37F1 /* FollowFollowersController */,
 				A283875129216BD80042A8BB /* ProfileController */,
 				A236E1242920072E00B54E2F /* AppDelegate.swift */,
 				A236E1262920072E00B54E2F /* SceneDelegate.swift */,

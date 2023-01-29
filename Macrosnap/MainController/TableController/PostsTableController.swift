@@ -15,12 +15,10 @@ class PostsTableController: UIViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     private var type: PostType = .digitalPhoto
-    var posts = [Post]()
-    var filmPosts = [Post]()
-    var query: Query?
-    var lastDocumentSnapshot: DocumentSnapshot?
-    var indexPath = IndexPath(row: 0, section: 0)
-    var fetchingMore = false
+    private var posts = [Post]()
+    private var query: Query?
+    private var lastDocumentSnapshot: DocumentSnapshot?
+    private var fetchingMore = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,6 +131,7 @@ fileprivate extension PostsTableController {
     private func configureTable() {
         tableView.dataSource = self
         tableView.delegate = self
+        self.tableView.layer.cornerRadius = 12
     }
     
     private func registrationCell() {
@@ -177,8 +176,6 @@ extension PostsTableController: UITableViewDelegate {
 // MARK: -
 // MARK: - UITableViewDelegate
 extension PostsTableController: ButtonDelegate {
-
-    
     func present(vc: UIViewController) {
         self.present(vc, animated: true)
     }
@@ -188,7 +185,6 @@ extension PostsTableController: ButtonDelegate {
     }
     
     func likeButtonDidTap(post: Post, button: UIButton) {
-        
         switch type {
             case .digitalPhoto:
                 if button.isSelected {
@@ -205,7 +201,6 @@ extension PostsTableController: ButtonDelegate {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
                             self.tableView.reloadRows(at: [indexPath], with: .none)
                         })
-                        
 //                        self.tableView.reloadRows(at: [indexPath], with: .fade)
                     }
                 }
@@ -224,7 +219,6 @@ extension PostsTableController: ButtonDelegate {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
                             self.tableView.reloadRows(at: [indexPath], with: .none)
                         })
-                        
 //                        self.tableView.reloadRows(at: [indexPath], with: .none)
                     }
                 }
@@ -233,7 +227,6 @@ extension PostsTableController: ButtonDelegate {
     }
     
     func favoriteButtonDidTap(post: Post, button: UIButton) {
-        
         if button.isSelected {
             FirebaseSingolton.shared.removeFavPost(post: post)
         } else {
@@ -249,11 +242,6 @@ extension PostsTableController: ButtonDelegate {
             
 //            self.tableView.reloadRows(at: [indexPath], with: .none)
         }
-        
-
-        
     }
-    
-
 }
 

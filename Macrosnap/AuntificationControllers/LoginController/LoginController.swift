@@ -17,9 +17,7 @@ class LoginController: UIViewController {
         super.viewDidLoad()
         setStyle()
         addGesture()
-        
     }
-    
     
     @IBAction func loginButtonDidTap(_ sender: Any) {
         guard let email = emailField.text,
@@ -35,7 +33,6 @@ class LoginController: UIViewController {
         }
         
     }
-    
     
     @IBAction func registrationButtonDidTap(_ sender: Any) {
         let regVC = RegistrationController(nibName: String(describing: RegistrationController.self), bundle: nil)
@@ -60,7 +57,6 @@ class LoginController: UIViewController {
 // MARK: -
 // MARK: - SetStyle
 extension LoginController {
-    
     func setStyle() {
         loginView.layer.cornerRadius = 12
     }

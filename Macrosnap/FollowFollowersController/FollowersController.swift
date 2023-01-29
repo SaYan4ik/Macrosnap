@@ -10,7 +10,7 @@ import UIKit
 class FollowersController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    var followingUsers = [User]()
+     var followingUsers = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

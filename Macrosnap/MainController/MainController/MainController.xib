@@ -69,7 +69,7 @@
                     </connections>
                 </segmentedControl>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8bE-He-Rl8">
-                    <rect key="frame" x="16" y="166" width="361" height="686"/>
+                    <rect key="frame" x="0.0" y="166" width="393" height="686"/>
                     <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 </view>
             </subviews>
@@ -78,9 +78,9 @@
             <constraints>
                 <constraint firstItem="o3L-th-6Cw" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="ACj-HI-vPe"/>
                 <constraint firstItem="o3L-th-6Cw" firstAttribute="top" secondItem="Qf6-5X-TU9" secondAttribute="bottom" constant="16" id="DAH-5e-GuL"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="8bE-He-Rl8" secondAttribute="trailing" constant="16" id="Dxe-GY-RtS"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="8bE-He-Rl8" secondAttribute="trailing" id="Dxe-GY-RtS"/>
                 <constraint firstAttribute="bottom" secondItem="8bE-He-Rl8" secondAttribute="bottom" id="NXH-CB-WAg"/>
-                <constraint firstItem="8bE-He-Rl8" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="PsU-ew-kOF"/>
+                <constraint firstItem="8bE-He-Rl8" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="PsU-ew-kOF"/>
                 <constraint firstItem="Qf6-5X-TU9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Ufl-H1-0cR"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="o3L-th-6Cw" secondAttribute="trailing" constant="16" id="f2o-p2-woM"/>
                 <constraint firstItem="Qf6-5X-TU9" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="hF4-Op-0Mx"/>

@@ -78,7 +78,6 @@ class ProfileController: UIViewController {
         followVC.followingUsers = followingUsers
         
         navigationController?.pushViewController(followVC, animated: true)
-
     }
     
      func setupNavBar() {
@@ -92,7 +91,6 @@ class ProfileController: UIViewController {
     @IBAction func backAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-    
     
 }
 
@@ -126,7 +124,6 @@ extension ProfileController {
         controllers.append(postCollectionVC)
         controllers.append(filmPostsVC)
         controllers.append(favouriteVC)
-
     }
 
     func insertController() {
@@ -198,15 +195,12 @@ extension ProfileController {
     }
     
     private func setupFollowCount() {
-//        followCountLabel.text = "\(0)"
         followersCountLabel.text = "\(0)"
         
         FirebaseSingolton.shared.getFollowingUsers { followingUsers in
             self.followingUsers = followingUsers
             self.followCountLabel.text = "\(followingUsers.count)"
         }
-        
-        
     }
     
     private func configureUser() {

@@ -14,7 +14,6 @@ class Post {
     var lense: String = ""
     var camera: String = ""
     var description: String = ""
-
     var like: Int = 0
     var likeCurrentUser: Bool = false
     

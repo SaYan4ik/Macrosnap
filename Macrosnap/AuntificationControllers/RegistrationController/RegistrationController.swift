@@ -11,15 +11,10 @@ import FirebaseFirestore
 import FirebaseStorage
 
 class RegistrationController: UIViewController {
-
-// MARK: -
-// MARK: - FieldsOutlet
     @IBOutlet weak var fullNameField: UITextField!
     @IBOutlet weak var userNameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
-// MARK: -
-// MARK: - ViewOutlet
     @IBOutlet weak var registrationView: UIView!
     @IBOutlet weak var imageView: UIImageView!
     
@@ -37,8 +32,6 @@ class RegistrationController: UIViewController {
         present(picker, animated: true)
     }
     
-    
-
     @IBAction func registrationButtonDidTap(_ sender: Any) {
         guard let fullName = fullNameField.text,
               let userName = userNameField.text,
@@ -136,7 +129,7 @@ extension RegistrationController {
                         completionBlock(false)
                 }
             }
-        } // compelation Block end
+        }
     }
 }
 

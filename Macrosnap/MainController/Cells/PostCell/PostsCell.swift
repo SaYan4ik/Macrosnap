@@ -15,8 +15,9 @@ class PostsCell: UITableViewCell {
     @IBOutlet weak var userPostImage: UIImageView!
     @IBOutlet weak var likeCountLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
-    
     @IBOutlet weak var favouriteButton: UIButton!
+    
+    @IBOutlet weak var container: UIStackView!
     
     weak var buttonDelegate: ButtonDelegate?
     private var type: PostType = .digitalPhoto
@@ -35,7 +36,7 @@ class PostsCell: UITableViewCell {
             
             let scale = UIScreen.main.scale
             let thumbnailSize = CGSize(width: 200 * scale, height: 200 * scale)
-            userPostImage.sd_setImage(with: postUrlRef, placeholderImage: UIImage(systemName: "HoneyBee"), options: [.progressiveLoad, .continueInBackground, .refreshCached], context: [ .imageThumbnailPixelSize: thumbnailSize])
+            userPostImage.sd_setImage(with: postUrlRef, placeholderImage: nil, options: [.progressiveLoad, .continueInBackground, .refreshCached], context: [ .imageThumbnailPixelSize: thumbnailSize])
             
             self.likeCountLabel.text = "\(post?.like ?? 0)"
             chekLike()
@@ -76,26 +77,26 @@ class PostsCell: UITableViewCell {
     
     private func animateLike() {
         UIView.animate(withDuration: 0.5,
-            animations: {
+                       animations: {
             self.likeButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-            },
-            completion: { _ in
-                UIView.animate(withDuration: 0.5) {
-                    self.likeButton.transform = CGAffineTransform.identity
-                }
-            })
+        },
+                       completion: { _ in
+            UIView.animate(withDuration: 0.5) {
+                self.likeButton.transform = CGAffineTransform.identity
+            }
+        })
     }
     
     private func animateFavButton() {
         UIView.animate(withDuration: 0.5,
-            animations: {
+                       animations: {
             self.favouriteButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-            },
-            completion: { _ in
-                UIView.animate(withDuration: 0.6) {
-                    self.favouriteButton.transform = CGAffineTransform.identity
-                }
-            })
+        },
+                       completion: { _ in
+            UIView.animate(withDuration: 0.6) {
+                self.favouriteButton.transform = CGAffineTransform.identity
+            }
+        })
     }
     
 }
@@ -104,17 +105,16 @@ class PostsCell: UITableViewCell {
 // MARK: - PostsConfigure
 
 extension PostsCell {
-    
     func set(delegate: ButtonDelegate?, typePost: PostType) {
         self.buttonDelegate = delegate
         self.type = typePost
         setStyle()
-
     }
     
     private func setStyle() {
         userProfileimage.layer.cornerRadius = userProfileimage.frame.height / 2
-        self.contentView.layer.cornerRadius = 12
+        self.container.layer.cornerRadius = 12
+        self.userPostImage.layer.cornerRadius = 12
     }
     
     private func chekLike() {
@@ -129,7 +129,6 @@ extension PostsCell {
                 self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
             }
         }
-        
     }
     
     private func chekFavourite() {

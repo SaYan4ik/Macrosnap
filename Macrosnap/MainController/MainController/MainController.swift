@@ -38,7 +38,6 @@ class MainController: UIViewController {
 // MARK: -
 // MARK: - SetStyle
 extension MainController {
-    
     func setStyle() {
         self.topView.layer.cornerRadius = 12
         self.container.layer.cornerRadius = 12

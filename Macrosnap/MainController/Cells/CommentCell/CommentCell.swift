@@ -9,7 +9,6 @@ import UIKit
 import SDWebImage
 
 class CommentCell: UITableViewCell {
-
     @IBOutlet weak var userAvatarImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var commentTextLabel: UILabel!
