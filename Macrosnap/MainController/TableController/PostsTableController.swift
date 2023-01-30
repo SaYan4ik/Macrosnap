@@ -53,21 +53,17 @@ class PostsTableController: UIViewController {
             case .digitalPhoto:
                 if posts.isEmpty {
                     query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").limit(to: 2)
-                    print("First 2 posts loaded")
                 } else {
                     guard let lastDocumentSnapshot else { return }
                     query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
-                    print("Next 2 posts loaded")
                 }
                 
             case .filmPhoto:
                 if posts.isEmpty {
                     query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").limit(to: 2)
-                    print("First 2 posts loaded")
                 } else {
                     guard let lastDocumentSnapshot else { return }
                     query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
-                    print("Next 2 posts loaded")
                 }
         }
 
@@ -151,10 +147,11 @@ extension PostsTableController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostsCell.id, for: indexPath)
-        guard let postCell = cell as? PostsCell else { return cell}
+        guard let postCell = cell as? PostsCell else { return cell }
         
         postCell.set(delegate: self, typePost: type)
         postCell.post = posts[indexPath.row]
+        
         return postCell
     }
     
@@ -198,12 +195,12 @@ extension PostsTableController: ButtonDelegate {
                         self.posts[row] = post
                         let indexPath = IndexPath(row: row, section:0)
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6 , execute: {
                             self.tableView.reloadRows(at: [indexPath], with: .none)
                         })
-//                        self.tableView.reloadRows(at: [indexPath], with: .fade)
                     }
                 }
+
             case .filmPhoto:
                 if button.isSelected {
                     FirebaseSingolton.shared.disLikeFilmPost(post: post)
@@ -219,7 +216,6 @@ extension PostsTableController: ButtonDelegate {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
                             self.tableView.reloadRows(at: [indexPath], with: .none)
                         })
-//                        self.tableView.reloadRows(at: [indexPath], with: .none)
                     }
                 }
         }
@@ -239,8 +235,6 @@ extension PostsTableController: ButtonDelegate {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
                 self.tableView.reloadRows(at: [indexPath], with: .none)
             })
-            
-//            self.tableView.reloadRows(at: [indexPath], with: .none)
         }
     }
 }

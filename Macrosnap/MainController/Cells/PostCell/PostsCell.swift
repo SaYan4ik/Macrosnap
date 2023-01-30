@@ -9,14 +9,12 @@ import UIKit
 import SDWebImage
 
 class PostsCell: UITableViewCell {
-
     @IBOutlet weak var userProfileimage: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userPostImage: UIImageView!
     @IBOutlet weak var likeCountLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var favouriteButton: UIButton!
-    
     @IBOutlet weak var container: UIStackView!
     
     weak var buttonDelegate: ButtonDelegate?
@@ -36,12 +34,17 @@ class PostsCell: UITableViewCell {
             
             let scale = UIScreen.main.scale
             let thumbnailSize = CGSize(width: 200 * scale, height: 200 * scale)
-            userPostImage.sd_setImage(with: postUrlRef, placeholderImage: nil, options: [.progressiveLoad, .continueInBackground, .refreshCached], context: [ .imageThumbnailPixelSize: thumbnailSize])
+            userPostImage.sd_setImage(
+                with: postUrlRef,
+                placeholderImage: nil,
+                options: [.progressiveLoad, .continueInBackground, .refreshCached],
+                context: [ .imageThumbnailPixelSize: thumbnailSize]
+            )
             
             self.likeCountLabel.text = "\(post?.like ?? 0)"
+            
             chekLike()
             chekFavourite()
-            
         }
     }
 
@@ -51,7 +54,7 @@ class PostsCell: UITableViewCell {
         super.awakeFromNib()
     }
 
-    @IBAction func likeButtonDidTap(_ sender: Any) {
+    @IBAction func likeButtonDidTap(_ sender: UIButton) {
         guard let post else { return }
         buttonDelegate?.likeButtonDidTap(post: post, button: likeButton)
         animateLike()
@@ -67,7 +70,7 @@ class PostsCell: UITableViewCell {
     }
     
     
-    @IBAction func favoriteButtonDidTap(_ sender: Any) {
+    @IBAction func favoriteButtonDidTap(_ sender: UIButton) {
         guard let post else { return }
         buttonDelegate?.favoriteButtonDidTap(post: post, button: favouriteButton)
         animateFavButton()
@@ -93,7 +96,7 @@ class PostsCell: UITableViewCell {
             self.favouriteButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         },
                        completion: { _ in
-            UIView.animate(withDuration: 0.6) {
+            UIView.animate(withDuration: 0.5) {
                 self.favouriteButton.transform = CGAffineTransform.identity
             }
         })
@@ -121,9 +124,9 @@ extension PostsCell {
         guard let post else { return }
         
         FirebaseSingolton.shared.checkLikeByUser(post: post) { postExist in
-            if postExist == true {
+            if postExist{
                 self.likeButton.isSelected = true
-                self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+                self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             } else {
                 self.likeButton.isSelected = false
                 self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -137,7 +140,7 @@ extension PostsCell {
         FirebaseSingolton.shared.checkFavByUser(post: post) { postExist in
             if postExist == true {
                 self.favouriteButton.isSelected = true
-                self.favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .selected)
+                self.favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             } else {
                 self.favouriteButton.isSelected = false
                 self.favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)

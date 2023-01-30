@@ -64,7 +64,6 @@ class UserPostController: UIViewController {
             FirebaseSingolton.shared.favouritePost(post: post)
         }
         animateFavourite()
-        
     }
     
     private func chekFavourite() {
