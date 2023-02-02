@@ -61,6 +61,8 @@
 		A2D3354E298BBBA300F24E0D /* ChatsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D3354C298BBBA300F24E0D /* ChatsController.xib */; };
 		A2D33552298BBEB100F24E0D /* ChatsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D33550298BBEB100F24E0D /* ChatsCell.swift */; };
 		A2D33553298BBEB100F24E0D /* ChatsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D33551298BBEB100F24E0D /* ChatsCell.xib */; };
+		A2D33558298BD6D900F24E0D /* ChatWithUserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D33556298BD6D900F24E0D /* ChatWithUserController.swift */; };
+		A2D33559298BD6D900F24E0D /* ChatWithUserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D33557298BD6D900F24E0D /* ChatWithUserController.xib */; };
 		A2DC83F429252628005DD92B /* FirebaseSingolton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DC83F329252628005DD92B /* FirebaseSingolton.swift */; };
 		A2DC83F929265142005DD92B /* PostsCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DC83F729265142005DD92B /* PostsCollectionController.swift */; };
 		A2DC83FA29265142005DD92B /* PostsCollectionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DC83F829265142005DD92B /* PostsCollectionController.xib */; };
@@ -128,6 +130,8 @@
 		A2D3354C298BBBA300F24E0D /* ChatsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatsController.xib; sourceTree = "<group>"; };
 		A2D33550298BBEB100F24E0D /* ChatsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsCell.swift; sourceTree = "<group>"; };
 		A2D33551298BBEB100F24E0D /* ChatsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatsCell.xib; sourceTree = "<group>"; };
+		A2D33556298BD6D900F24E0D /* ChatWithUserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWithUserController.swift; sourceTree = "<group>"; };
+		A2D33557298BD6D900F24E0D /* ChatWithUserController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatWithUserController.xib; sourceTree = "<group>"; };
 		A2DC83F329252628005DD92B /* FirebaseSingolton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSingolton.swift; sourceTree = "<group>"; };
 		A2DC83F729265142005DD92B /* PostsCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsCollectionController.swift; sourceTree = "<group>"; };
 		A2DC83F829265142005DD92B /* PostsCollectionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostsCollectionController.xib; sourceTree = "<group>"; };
@@ -444,8 +448,8 @@
 		A2D33542298BAAF500F24E0D /* ChatsController */ = {
 			isa = PBXGroup;
 			children = (
-				A2D3354B298BBBA300F24E0D /* ChatsController.swift */,
-				A2D3354C298BBBA300F24E0D /* ChatsController.xib */,
+				A2D33555298BD6BC00F24E0D /* ChatsController */,
+				A2D33554298BD6AC00F24E0D /* ChatWithUserController */,
 			);
 			path = ChatsController;
 			sourceTree = "<group>";
@@ -457,6 +461,24 @@
 				A2D33551298BBEB100F24E0D /* ChatsCell.xib */,
 			);
 			path = ChatsCell;
+			sourceTree = "<group>";
+		};
+		A2D33554298BD6AC00F24E0D /* ChatWithUserController */ = {
+			isa = PBXGroup;
+			children = (
+				A2D33556298BD6D900F24E0D /* ChatWithUserController.swift */,
+				A2D33557298BD6D900F24E0D /* ChatWithUserController.xib */,
+			);
+			path = ChatWithUserController;
+			sourceTree = "<group>";
+		};
+		A2D33555298BD6BC00F24E0D /* ChatsController */ = {
+			isa = PBXGroup;
+			children = (
+				A2D3354B298BBBA300F24E0D /* ChatsController.swift */,
+				A2D3354C298BBBA300F24E0D /* ChatsController.xib */,
+			);
+			path = ChatsController;
 			sourceTree = "<group>";
 		};
 		A2DC83F52926510B005DD92B /* PostsCollectionController */ = {
@@ -565,6 +587,7 @@
 				A2A99C4B293619C6008D1131 /* SearchController.xib in Resources */,
 				A2A99C55293633B0008D1131 /* SearchUserCell.xib in Resources */,
 				A236E12E2920072F00B54E2F /* Assets.xcassets in Resources */,
+				A2D33559298BD6D900F24E0D /* ChatWithUserController.xib in Resources */,
 				A236E12C2920072E00B54E2F /* Main.storyboard in Resources */,
 				A2DC83FA29265142005DD92B /* PostsCollectionController.xib in Resources */,
 				A283874C2921630D0042A8BB /* AddNewPostController.xib in Resources */,
@@ -630,6 +653,7 @@
 				A236E1522920193200B54E2F /* PostsTableController.swift in Sources */,
 				A2F0C33A294B5347004A6375 /* CommentModel.swift in Sources */,
 				A236E16629203D1800B54E2F /* Protocols.swift in Sources */,
+				A2D33558298BD6D900F24E0D /* ChatWithUserController.swift in Sources */,
 				A27E03C129530EC200FCF8CB /* FollowCell.swift in Sources */,
 				A2838759292241350042A8BB /* ShowAlertExtension.swift in Sources */,
 				A2BFA70D293210C0001D37F1 /* FollowersController.swift in Sources */,

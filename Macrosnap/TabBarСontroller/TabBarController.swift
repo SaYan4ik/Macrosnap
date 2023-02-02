@@ -25,6 +25,7 @@ class TabBarController: UITabBarController {
         guard let curentUID = Auth.auth().currentUser?.uid else { return }
         
         let mainVC = MainController(nibName: "MainController", bundle: nil)
+        let mainNavVC = UINavigationController(rootViewController: mainVC)
         let searchVC = SearchController(nibName: "SearchController", bundle: nil)
         let searchNavVC = UINavigationController(rootViewController: searchVC)
         let addPostVC = AddNewPostController(nibName: "AddNewPostController", bundle: nil)
@@ -37,7 +38,7 @@ class TabBarController: UITabBarController {
         }
         let navProfVC = UINavigationController(rootViewController: profileVC)
         
-        self.viewControllers = [mainVC,
+        self.viewControllers = [mainNavVC,
                                 searchNavVC,
                                 navAddPostVC,
                                 navProfVC]

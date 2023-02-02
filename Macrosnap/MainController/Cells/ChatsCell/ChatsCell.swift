@@ -27,7 +27,6 @@ class ChatsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
     }
     
     private func setStyle() {

@@ -24,7 +24,9 @@ class MainController: UIViewController {
     }
 
     @IBAction func mailButtonDidTap(_ sender: Any) {
-
+        let nib = String(describing: ChatsController.self)
+        let chatVC = ChatsController(nibName: nib, bundle: nil)
+        navigationController?.pushViewController(chatVC, animated: true)
     }
     
     @IBAction func segmentDidChange(_ sender: Any) {

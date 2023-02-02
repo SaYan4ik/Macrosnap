@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatWithUserController" customModule="Macrosnap" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Message text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dcU-7E-SXf">
+                    <rect key="frame" x="16" y="760" width="317" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRg-IK-At9">
+                    <rect key="frame" x="349" y="764.66666666666663" width="25" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="10d-bJ-Z2f"/>
+                        <constraint firstAttribute="width" constant="25" id="u4c-uu-DGn"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="paperplane.fill" catalog="system"/>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hKL-lt-HES">
+                    <rect key="frame" x="0.0" y="754" width="390" height="1"/>
+                    <color key="backgroundColor" red="0.32560309339999999" green="0.33853795040000001" blue="0.4152230241" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="jFk-cb-E9F"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <constraints>
+                <constraint firstItem="cRg-IK-At9" firstAttribute="centerY" secondItem="dcU-7E-SXf" secondAttribute="centerY" id="B0c-hi-RBV"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="hKL-lt-HES" secondAttribute="trailing" id="SPi-xl-BZq"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="dcU-7E-SXf" secondAttribute="bottom" constant="16" id="Y7f-pX-XJ6"/>
+                <constraint firstItem="hKL-lt-HES" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="frH-bv-bcL"/>
+                <constraint firstItem="dcU-7E-SXf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="iD9-dO-7yo"/>
+                <constraint firstItem="cRg-IK-At9" firstAttribute="leading" secondItem="dcU-7E-SXf" secondAttribute="trailing" constant="16" id="qEY-Ni-iQW"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="cRg-IK-At9" secondAttribute="trailing" constant="16" id="sk3-AJ-9sc"/>
+                <constraint firstItem="dcU-7E-SXf" firstAttribute="top" secondItem="hKL-lt-HES" secondAttribute="bottom" constant="5" id="yWC-qY-LaS"/>
+            </constraints>
+            <point key="canvasLocation" x="118" y="21"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="paperplane.fill" catalog="system" width="128" height="119"/>
+    </resources>
+</document>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatsController" customModule="Macrosnap" customModuleProvider="target">
+            <connections>
+                <outlet property="noChatsView" destination="CEE-cb-JB5" id="UfE-a4-ETR"/>
+                <outlet property="tableView" destination="dDN-nw-SWY" id="cxx-6g-U83"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="dDN-nw-SWY">
+                    <rect key="frame" x="500" y="47" width="390" height="763"/>
+                    <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CEE-cb-JB5">
+                    <rect key="frame" x="129" y="344" width="132" height="169"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo (1)" translatesAutoresizingMaskIntoConstraints="NO" id="zhJ-NL-VJN">
+                            <rect key="frame" x="16" y="16" width="100" height="100"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="100" id="PZQ-Xd-6dj"/>
+                                <constraint firstAttribute="width" constant="100" id="y7r-Uh-BCm"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No chats" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GCA-IG-Leh">
+                            <rect key="frame" x="16" y="132" width="100" height="21"/>
+                            <fontDescription key="fontDescription" name="Charter-Black" family="Charter" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="zhJ-NL-VJN" firstAttribute="centerX" secondItem="CEE-cb-JB5" secondAttribute="centerX" id="6WO-EQ-cG6"/>
+                        <constraint firstItem="zhJ-NL-VJN" firstAttribute="leading" secondItem="CEE-cb-JB5" secondAttribute="leading" constant="16" id="7Dy-sH-tAk"/>
+                        <constraint firstItem="GCA-IG-Leh" firstAttribute="leading" secondItem="CEE-cb-JB5" secondAttribute="leading" constant="16" id="FJW-jy-axL"/>
+                        <constraint firstItem="zhJ-NL-VJN" firstAttribute="top" secondItem="CEE-cb-JB5" secondAttribute="top" constant="16" id="MbT-mL-UyN"/>
+                        <constraint firstItem="GCA-IG-Leh" firstAttribute="top" secondItem="zhJ-NL-VJN" secondAttribute="bottom" constant="16" id="VSn-iR-EaQ"/>
+                        <constraint firstAttribute="trailing" secondItem="GCA-IG-Leh" secondAttribute="trailing" constant="16" id="ZQZ-Hg-mZO"/>
+                        <constraint firstAttribute="bottom" secondItem="GCA-IG-Leh" secondAttribute="bottom" constant="16" id="v8e-FC-EAs"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <constraints>
+                <constraint firstItem="CEE-cb-JB5" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="KUg-Cx-ImP"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dDN-nw-SWY" secondAttribute="trailing" id="byf-CH-Xn2"/>
+                <constraint firstItem="dDN-nw-SWY" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="c3C-Rm-9p3"/>
+                <constraint firstItem="CEE-cb-JB5" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="eSK-4N-oJN"/>
+                <constraint firstItem="dDN-nw-SWY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="iKw-jm-R0t"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="dDN-nw-SWY" secondAttribute="bottom" id="wJ8-8X-sDN"/>
+            </constraints>
+            <point key="canvasLocation" x="116.92307692307692" y="20.616113744075829"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Logo (1)" width="500" height="500"/>
+    </resources>
+</document>
