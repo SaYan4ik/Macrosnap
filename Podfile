@@ -12,4 +12,6 @@ target 'Macrosnap' do
 	pod 'Firebase/Auth'
 	pod 'Firebase/Firestore'
 	pod 'SDWebImage'
+	pod 'MessageKit'
+
 end
