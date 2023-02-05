@@ -25,12 +25,22 @@ class ChatsCell: UITableViewCell {
         }
     }
     
+    var chat: Chat?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        getChatUserInfo()
     }
     
     private func setStyle() {
         self.container.layer.cornerRadius = 12
+    }
+    
+    private func getChatUserInfo() {
+        guard let chat else { return }
+        FirebaseSingolton.shared.getUserWithUID(uid: chat.users[1]) { user in
+            self.user = user
+        }
     }
     
 }

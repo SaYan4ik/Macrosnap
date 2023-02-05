@@ -21,17 +21,27 @@ class FollowersController: UIViewController {
         setupNavBar()
         tableView.layer.cornerRadius = 12
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getFollowUsers()
+    }
 
+    func set(type: FollowersType) {
+        self.typeController = type
+    }
+    
     private func registrationCell() {
         let cellNib = UINib(nibName: FollowCell.id, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: FollowCell.id)
     }
     
-//    private func getFollowUsers() {
-//        FirebaseSingolton.shared.getFollowingUsers { users in
-//            self.followingUsers = users
-//        }
-//    }
+    private func getFollowUsers() {
+        FirebaseSingolton.shared.getFollowingUsers { users in
+            self.followingUsers = users
+            self.tableView.reloadData()
+        }
+    }
     
     private func setupNavBar() {
         let button = UIButton()
@@ -75,7 +85,10 @@ extension FollowersController: UITableViewDelegate {
                 navigationController?.pushViewController(profVC, animated: true)
                 
             case .openChat:
-                break
+                let nib = String(describing: ChatWithUserController.self)
+                let chatVC = ChatWithUserController(nibName: nib, bundle: nil)
+                chatVC.chatUserUID = followingUsers[indexPath.row].uid
+                navigationController?.pushViewController(chatVC, animated: true)
                 
                 
         }

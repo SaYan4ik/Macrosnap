@@ -33,6 +33,8 @@
 		A257260129810E4700972B14 /* PostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257260029810E4700972B14 /* PostType.swift */; };
 		A257260329810F9400972B14 /* ProfilePostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257260229810F9400972B14 /* ProfilePostType.swift */; };
 		A258B105298EA37A0003E712 /* FollowersType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A258B104298EA37A0003E712 /* FollowersType.swift */; };
+		A258B1092990011D0003E712 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A258B1072990011D0003E712 /* MessageCell.swift */; };
+		A258B10A2990011D0003E712 /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A258B1082990011D0003E712 /* MessageCell.xib */; };
 		A27E03C129530EC200FCF8CB /* FollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27E03BF29530EC200FCF8CB /* FollowCell.swift */; };
 		A27E03C229530EC200FCF8CB /* FollowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A27E03C029530EC200FCF8CB /* FollowCell.xib */; };
 		A283874B2921630D0042A8BB /* AddNewPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28387492921630D0042A8BB /* AddNewPostController.swift */; };
@@ -103,6 +105,8 @@
 		A257260029810E4700972B14 /* PostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostType.swift; sourceTree = "<group>"; };
 		A257260229810F9400972B14 /* ProfilePostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostType.swift; sourceTree = "<group>"; };
 		A258B104298EA37A0003E712 /* FollowersType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersType.swift; sourceTree = "<group>"; };
+		A258B1072990011D0003E712 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		A258B1082990011D0003E712 /* MessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
 		A27E03BF29530EC200FCF8CB /* FollowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowCell.swift; sourceTree = "<group>"; };
 		A27E03C029530EC200FCF8CB /* FollowCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FollowCell.xib; sourceTree = "<group>"; };
 		A28387492921630D0042A8BB /* AddNewPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPostController.swift; sourceTree = "<group>"; };
@@ -286,6 +290,7 @@
 		A236E15429201A2B00B54E2F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				A258B106299001000003E712 /* MessageCell */,
 				A2D3354F298BBE9300F24E0D /* ChatsCell */,
 				A2B6FEFC295C8D1C0008F773 /* CommentCell */,
 				A236E15929201E6900B54E2F /* PostCell */,
@@ -328,6 +333,15 @@
 				A255BC242934B27600224FB2 /* SettingController.xib */,
 			);
 			path = SettingController;
+			sourceTree = "<group>";
+		};
+		A258B106299001000003E712 /* MessageCell */ = {
+			isa = PBXGroup;
+			children = (
+				A258B1072990011D0003E712 /* MessageCell.swift */,
+				A258B1082990011D0003E712 /* MessageCell.xib */,
+			);
+			path = MessageCell;
 			sourceTree = "<group>";
 		};
 		A27E03BE29530EAB00FCF8CB /* Cell */ = {
@@ -573,6 +587,7 @@
 				A236E16329201F4B00B54E2F /* CommentsController.xib in Resources */,
 				A236E1532920193200B54E2F /* PostsTableController.xib in Resources */,
 				A283875529216BEE0042A8BB /* ProfileController.xib in Resources */,
+				A258B10A2990011D0003E712 /* MessageCell.xib in Resources */,
 				A2DC83FE29265588005DD92B /* PostCollectionCell.xib in Resources */,
 				A2B6FEFA295B08E70008F773 /* UserPostController.xib in Resources */,
 				A236E1312920072F00B54E2F /* LaunchScreen.storyboard in Resources */,
@@ -664,6 +679,7 @@
 				A236E1292920072E00B54E2F /* ViewController.swift in Sources */,
 				A2DC83F929265142005DD92B /* PostsCollectionController.swift in Sources */,
 				A283874B2921630D0042A8BB /* AddNewPostController.swift in Sources */,
+				A258B1092990011D0003E712 /* MessageCell.swift in Sources */,
 				A236E13D2920084A00B54E2F /* LoginController.swift in Sources */,
 				A283876A29238D580042A8BB /* UserModel.swift in Sources */,
 				A2B6FF02295D7F3F0008F773 /* DateExtension.swift in Sources */,
