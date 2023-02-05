@@ -9,7 +9,6 @@ import UIKit
 import SDWebImage
 import Firebase
 import FirebaseFirestore
-import MessageKit
 
 class ChatsController: UIViewController {
     
@@ -21,7 +20,7 @@ class ChatsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        setupNavBar()
+        setupNavBar()   
     }
     
     private func setupNavBar() {
@@ -43,7 +42,9 @@ class ChatsController: UIViewController {
     }
     
     @objc private func addUserForChat() {
-        
+        let nib = String(describing: FollowersController.self)
+        let newUserChat = FollowersController(nibName: nib, bundle: nil)
+        navigationController?.pushViewController(newUserChat, animated: true)
     }
     
     private func configureTableView() {

@@ -10,7 +10,8 @@ import UIKit
 class FollowersController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-     var followingUsers = [User]()
+    private var typeController: FollowersType = .openProfile
+    var followingUsers = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,11 +26,12 @@ class FollowersController: UIViewController {
         let cellNib = UINib(nibName: FollowCell.id, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: FollowCell.id)
     }
-    private func getFollowUsers() {
-        FirebaseSingolton.shared.getFollowingUsers { users in
-            self.followingUsers = users
-        }
-    }
+    
+//    private func getFollowUsers() {
+//        FirebaseSingolton.shared.getFollowingUsers { users in
+//            self.followingUsers = users
+//        }
+//    }
     
     private func setupNavBar() {
         let button = UIButton()
@@ -39,7 +41,7 @@ class FollowersController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
     }
     
-    @IBAction func backAction(_ sender: Any) {
+    @objc private func backAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
     
@@ -62,11 +64,20 @@ extension FollowersController: UITableViewDataSource {
 
 extension FollowersController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let nib = String(describing: ProfileController.self)
-        let profVC = ProfileController(nibName: nib, bundle: nil)
         
-        profVC.user = followingUsers[indexPath.row]
-        profVC.setupNavBar()
-        navigationController?.pushViewController(profVC, animated: true)
+        switch typeController {
+            case .openProfile:
+                let nib = String(describing: ProfileController.self)
+                let profVC = ProfileController(nibName: nib, bundle: nil)
+                
+                profVC.user = followingUsers[indexPath.row]
+                profVC.setupNavBar()
+                navigationController?.pushViewController(profVC, animated: true)
+                
+            case .openChat:
+                break
+                
+                
+        }
     }
 }

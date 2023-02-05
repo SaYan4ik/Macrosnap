@@ -75,20 +75,20 @@ class ProfileController: UIViewController {
     @IBAction func followUserDidTap(_ sender: Any) {
         let followNib = String(describing: FollowersController.self)
         let followVC = FollowersController(nibName: followNib , bundle: nil)
-        followVC.followingUsers = followingUsers
+//        followVC.followingUsers = followingUsers
         
         navigationController?.pushViewController(followVC, animated: true)
     }
     
      func setupNavBar() {
         let button = UIButton()
-        button.addTarget(self, action: #selector(backAction), for: .allEvents)
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.tintColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
     }
     
-    @IBAction func backAction(_ sender: Any) {
+    @objc private  func backAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
     

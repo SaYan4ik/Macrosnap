@@ -435,5 +435,13 @@ class FirebaseSingolton {
             }
         }
     }
+    
+    
+//MARK: -
+//MARK: - Chat
+    
+    func startChat() {
+        
+    }
+    
 }
-

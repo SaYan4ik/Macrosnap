@@ -9,6 +9,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatWithUserController" customModule="Macrosnap" customModuleProvider="target">
             <connections>
+                <outlet property="collectionView" destination="kDK-PZ-2XQ" id="gLf-Up-x7l"/>
+                <outlet property="mesageField" destination="dcU-7E-SXf" id="keY-dJ-GbO"/>
+                <outlet property="sendMessageButton" destination="cRg-IK-At9" id="CYZ-bs-zd6"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -39,6 +42,16 @@
                         <constraint firstAttribute="height" constant="1" id="jFk-cb-E9F"/>
                     </constraints>
                 </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="kDK-PZ-2XQ">
+                    <rect key="frame" x="0.0" y="47" width="390" height="707"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="672-GH-dR2">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -46,11 +59,15 @@
                 <constraint firstItem="cRg-IK-At9" firstAttribute="centerY" secondItem="dcU-7E-SXf" secondAttribute="centerY" id="B0c-hi-RBV"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="hKL-lt-HES" secondAttribute="trailing" id="SPi-xl-BZq"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="dcU-7E-SXf" secondAttribute="bottom" constant="16" id="Y7f-pX-XJ6"/>
+                <constraint firstItem="kDK-PZ-2XQ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="ZVr-gj-8ts"/>
                 <constraint firstItem="hKL-lt-HES" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="frH-bv-bcL"/>
+                <constraint firstItem="kDK-PZ-2XQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hZb-RK-hwg"/>
                 <constraint firstItem="dcU-7E-SXf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="iD9-dO-7yo"/>
+                <constraint firstItem="hKL-lt-HES" firstAttribute="top" secondItem="kDK-PZ-2XQ" secondAttribute="bottom" id="khl-b7-Z2j"/>
                 <constraint firstItem="cRg-IK-At9" firstAttribute="leading" secondItem="dcU-7E-SXf" secondAttribute="trailing" constant="16" id="qEY-Ni-iQW"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="cRg-IK-At9" secondAttribute="trailing" constant="16" id="sk3-AJ-9sc"/>
                 <constraint firstItem="dcU-7E-SXf" firstAttribute="top" secondItem="hKL-lt-HES" secondAttribute="bottom" constant="5" id="yWC-qY-LaS"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="kDK-PZ-2XQ" secondAttribute="trailing" id="ypw-BV-JCc"/>
             </constraints>
             <point key="canvasLocation" x="118" y="21"/>
         </view>
