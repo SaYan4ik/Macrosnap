@@ -19,9 +19,13 @@ class ChatsController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getChats()
         configureTableView()
         setupNavBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getChats()
     }
     
     private func setupNavBar() {
@@ -61,7 +65,7 @@ class ChatsController: UIViewController {
     }
     
     private func getChats() {
-        let db = Firestore.firestore().collection("chats").whereField("currentUserUID", arrayContains: Auth.auth().currentUser?.uid ?? "Not found user 1")
+        let db = Firestore.firestore().collection("chats").whereField("users", arrayContains: Auth.auth().currentUser?.uid ?? "Not found user 1")
         db.getDocuments { (chatSnapshot, error) in
             if let error = error {
                 print("Error \(error.localizedDescription)")
@@ -71,11 +75,14 @@ class ChatsController: UIViewController {
                 guard let chatSnapshot else { return }
                 chatSnapshot.documents.forEach { document in
                     let data = document.data()
-                    guard let users = data["users"] as? [String] else { return }
-                    let chat = Chat(users: users)
+                    guard let users = data["users"] as? [String],
+                          let chatUID = data["chatUID"] as? String
+                    else { return }
+                    let chat = Chat(users: users, chatUID: chatUID )
                     allChats.append(chat)
                 }
                 self.chats = allChats
+                self.tableView.reloadData()
             }
         }
     }
@@ -96,9 +103,7 @@ extension ChatsController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatsCell.id, for: indexPath)
         guard let chatsCell = cell as? ChatsCell else { return cell }
-        chatsCell.chat = chats[indexPath.row]
-        
-        
+        chatsCell.set(chat: chats[indexPath.row])
         return chatsCell
     }
 }

@@ -15,6 +15,7 @@ class ChatsCell: UITableViewCell {
     
     static var id = String(describing: ChatsCell.self)
     
+    var chat: Chat?
     var user: User? {
         didSet {
             self.userNameLabel.text = user?.username
@@ -24,16 +25,24 @@ class ChatsCell: UITableViewCell {
             userAvatarImage.sd_setImage(with: userUrlRef, completed: nil)
         }
     }
-    
-    var chat: Chat?
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        getChatUserInfo()
     }
+    
+    func set(chat: Chat) {
+        self.chat = chat
+        FirebaseSingolton.shared.getUserWithUID(uid: chat.users[1]) { user in
+            self.user = user
+        }
+        self.setStyle()
+    }
+    
     
     private func setStyle() {
         self.container.layer.cornerRadius = 12
+        self.userAvatarImage.layer.cornerRadius = self.userAvatarImage.frame.height / 2
     }
     
     private func getChatUserInfo() {

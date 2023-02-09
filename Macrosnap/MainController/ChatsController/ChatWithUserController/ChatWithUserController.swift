@@ -25,8 +25,18 @@ class ChatWithUserController: UIViewController {
         self.loadChat()
         self.getUser()
         setupNavBar()
-        self.collectionView.dataSource = self
+        self.setupCollection()
 
+    }
+    
+    private func setupCollection() {
+        self.collectionView.dataSource = self
+        self.registerCell()
+    }
+    
+    private func registerCell() {
+        let nib = UINib(nibName: MessageCell.id, bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: MessageCell.id)
     }
     
     private func setupNavBar() {
@@ -47,33 +57,39 @@ class ChatWithUserController: UIViewController {
         saveMessage(user: user)
     }
     
-
+// create chat
     private func createChat() {
         guard let  curentUserUID = Auth.auth().currentUser?.uid else { return }
         let users = [curentUserUID, chatUserUID]
+        let chatUID = UUID().uuidString
         
-        Firestore.firestore().collection("chats").document(curentUserUID).setData([
-            "users": users
+        Firestore.firestore().collection("chats").document(chatUID).setData([
+            "users": users,
+            "chatUID": chatUID
         ]) { error in
             if error != nil {
                 print("Unable create chat \(String(describing: error?.localizedDescription))")
             }
-            print("Succses create chat")
+            self.loadChat()
         }
     }
     
+    
+//     get user for chat
     private func getUser() {
         guard let  curentUserUID = Auth.auth().currentUser?.uid else { return }
         FirebaseSingolton.shared.getUserWithUID(uid: curentUserUID) { user in
             self.user = user
         }
     }
- 
+// save message for user who send
     private func saveMessage(user: User) {
         let messageUID = UUID()
-        guard let userUID = Auth.auth().currentUser?.uid else { return }
-        guard let message = self.mesageField.text else { return }
-        Firestore.firestore().collection("chats").document(userUID).collection("messages").addDocument(data: [
+        guard let message = self.mesageField.text,
+              let chat
+        else { return }
+        
+        Firestore.firestore().collection("chats").document(chat.chatUID).collection("messages").addDocument(data: [
             "id": "\(messageUID)",
             "content": message,
             "created": Date.now,
@@ -85,13 +101,53 @@ class ChatWithUserController: UIViewController {
                 return
             }
             self.collectionView.reloadData()
-            self.collectionView.scrollToItem(at: IndexPath(row: self.messages.count, section: 0), at: [], animated: false)
+//            self.collectionView.scrollToItem(at: IndexPath(row: self.messages.count, section: 0), at: [], animated: false)
+        }
+    }
+// load chat for user
+    private func loadChatForUser(chat: Chat) {
+        guard let user else { return }
+        let db = Firestore.firestore().collection("chats").whereField("users", arrayContains: user.uid)
+        db.getDocuments { (chatSnapshot, error )in
+            print(error?.localizedDescription ?? "No Error while load chat")
+            guard let countSnapshot = chatSnapshot?.documents.count,
+                  let chatSnapshot else { return }
+            
+            if countSnapshot == 0 {
+                self.createChat()
+            } else {
+                chatSnapshot.documents.forEach { document in
+                    if chat.users.contains(self.chatUserUID) {
+                        self.docReference = document.reference
+                        document.reference.collection("mesages").order(by: "created", descending: false).addSnapshotListener(includeMetadataChanges: true) { (messagesSnapshot, error) in
+                            print(error?.localizedDescription ?? "No error while load messages")
+                            guard let messagesSnapshot else { return }
+                            self.messages.removeAll()
+                            messagesSnapshot.documents.forEach { message in
+                                let data = message.data()
+                                guard let id = data["id"] as? String,
+                                      let content = data["content"] as? String,
+                                      let created = data["created"] as? Timestamp,
+                                      let senderUID = data["senderUID"] as? String,
+                                      let senderName = data["senderName"] as? String
+                                else { return }
+                                
+                                let message = Message(id: id, content: content, created: created, senderUID: senderUID, senderName: senderName)
+                                self.messages.append(message)
+
+                            }
+                            self.collectionView.reloadData()
+                        }
+                    }
+                    self.createChat()
+                }
+            }
         }
     }
     
     
     private func loadChat() {
-        let db = Firestore.firestore().collection("chats").whereField("currentUserUID", arrayContains: Auth.auth().currentUser?.uid ?? "Not found user 1")
+        let db = Firestore.firestore().collection("chats").whereField("users", arrayContains: Auth.auth().currentUser?.uid ?? "Not found user 1")
         db.getDocuments { (chatSnapshot, error) in
             if let error = error {
                 print("Error \(error.localizedDescription)")
@@ -108,10 +164,13 @@ class ChatWithUserController: UIViewController {
 
                     for document in chatSnapshot.documents {
                         let data = document.data()
-                        guard let users = data["users"] as? [String] else { return }
+                        guard let users = data["users"] as? [String],
+                              let chatUID = data["chatUID"] as? String
+                        else { return }
 
-                        let chat = Chat(users: users)
-
+                        let chat = Chat(users: users, chatUID: chatUID)
+                        self.chat = chat
+                        
                         if chat.users.contains(self.chatUserUID) {
                             self.docReference = document.reference
                             document.reference.collection("messages").order(by: "created", descending: false).addSnapshotListener(includeMetadataChanges: true, listener: { (messageSnapshot, error )in
@@ -120,6 +179,7 @@ class ChatWithUserController: UIViewController {
                                     return
                                 } else {
                                     self.messages.removeAll()
+                                    var allMSG = [Message]()
                                     guard let messageSnapshot else { return }
                                     for message in messageSnapshot.documents {
                                         let data = message.data()
@@ -131,11 +191,13 @@ class ChatWithUserController: UIViewController {
                                         else { return }
 
                                         let msg = Message(id: id, content: content, created: created, senderUID: senderUID, senderName: senderName)
-                                        self.messages.append(msg)
+//                                        self.messages.append(msg)
+                                        allMSG.append(msg)
+                   
                                     }
-
+                                    self.messages = allMSG
                                     self.collectionView.reloadData()
-                                    self.collectionView.scrollToItem(at: IndexPath(row: self.messages.count, section: 0), at: [], animated: false)
+//                                    self.collectionView.scrollToItem(at: IndexPath(row: self.messages.count, section: 0), at: [], animated: false)
                                 }
                             })
                             return

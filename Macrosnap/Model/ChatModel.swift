@@ -9,8 +9,11 @@ import Foundation
 
 class Chat {
     var users: [String] = [String]()
+    var chatUID: String = ""
     
-    init(users: [String]) {
+    init(users: [String], chatUID: String) {
         self.users = users
+        self.chatUID = chatUID
+        
     }
 }
