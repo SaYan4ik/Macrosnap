@@ -208,8 +208,6 @@ class ChatWithUserController: UIViewController {
             }
         }
     }
-
-    
 }
 
 
@@ -225,41 +223,3 @@ extension ChatWithUserController: UICollectionViewDataSource {
         return messageCell
     }
 }
-
-
-
-//private func getMessagesForChat(chat: Chat) {
-//    if chat.users.contains(self.chatUserUID) {
-//        Firestore.firestore().collection("Chats").document(Auth.auth().currentUser?.uid ?? "Not found user 1").collection("Messages").order(by: "created", descending: false).addSnapshotListener(includeMetadataChanges: true) { ( messageSnapshot, error ) in
-//
-//            if let error = error {
-//                print("Error \(error.localizedDescription)")
-//                return
-//            } else {
-//                self.messages.removeAll()
-//                guard let messageSnapshot else { return }
-//                for message in messageSnapshot.documents {
-//                    let data = message.data()
-//                    guard let id = data["id"] as? String,
-//                          let content = data["content"] as? String,
-//                          let created = data["created"] as? Timestamp,
-//                          let senderUID = data["senderUID"] as? String,
-//                          let senderName = data["senderName"] as? String
-//                    else { return }
-//
-//                    let msg = Message(id: id, content: content, created: created, senderUID: senderUID, senderName: senderName)
-//                    self.messages.append(msg)
-//                }
-//                self.collectionView.reloadData()
-//                self.collectionView.scrollToItem(at: IndexPath(row: self.messages.count, section: 0), at: .bottom, animated: false)
-//            }
-//        }
-//        return
-//    }
-//    self.createChat()
-//}
-//
-//private func setupChat() {
-//    guard let chat else { return }
-//    getMessagesForChat(chat: chat)
-//}
