@@ -16,7 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
-        window?.rootViewController = UINavigationController(rootViewController: LoginController(nibName: String(describing: LoginController.self), bundle: nil))
+//        window?.rootViewController = UINavigationController(rootViewController: LoginController(nibName: String(describing: LoginController.self), bundle: nil))
+        window?.rootViewController = TabBarController()
+
         window?.makeKeyAndVisible()
     }
 
@@ -25,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func setLoginAsInitial() {
-        window?.rootViewController = LoginController(nibName: String(describing: LoginController.self), bundle: nil)
+        window?.rootViewController = UINavigationController(rootViewController: LoginController(nibName: String(describing: LoginController.self), bundle: nil))
     }
     
     

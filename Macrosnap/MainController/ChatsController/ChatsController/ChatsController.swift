@@ -11,7 +11,6 @@ import Firebase
 import FirebaseFirestore
 
 class ChatsController: UIViewController {
-    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var noChatsView: UIView!
     

@@ -15,7 +15,6 @@ class Post {
     var camera: String = ""
     var description: String = ""
     var like: Int = 0
-    var likeCurrentUser: Bool = false
     
     init(user: User, postId: String, userId: String, lense: String, camera: String, description: String, like: Int) {
         self.user = user

@@ -20,7 +20,6 @@ class MainController: UIViewController {
         setStyle()
         configureControllers()
         insertController()
-
     }
 
     @IBAction func mailButtonDidTap(_ sender: Any) {
@@ -48,7 +47,6 @@ extension MainController {
 
 // MARK: -
 // MARK: - SegmentController
-
 extension MainController {
     
     private func configureControllers() {

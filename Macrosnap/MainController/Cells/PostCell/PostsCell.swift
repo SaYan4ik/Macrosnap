@@ -42,7 +42,6 @@ class PostsCell: UITableViewCell {
             )
             
             self.likeCountLabel.text = "\(post?.like ?? 0)"
-            
             chekLike()
             chekFavourite()
         }
@@ -52,6 +51,11 @@ class PostsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
     }
 
     @IBAction func likeButtonDidTap(_ sender: UIButton) {

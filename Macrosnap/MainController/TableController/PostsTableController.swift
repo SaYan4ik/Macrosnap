@@ -16,13 +16,11 @@ class PostsTableController: UIViewController {
     
     private var type: PostType = .digitalPhoto
     private var posts = [Post]()
-    private var query: Query?
     private var lastDocumentSnapshot: DocumentSnapshot?
     private var fetchingMore = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getPostsFollowingUsers()
         configure()
     }
     
@@ -43,6 +41,14 @@ class PostsTableController: UIViewController {
             self.pagination(user: user)
             self.spinner.stopAnimating()
         }
+        
+//        FirebaseSingolton.shared.getFollowingUsers { folllowingUsers in
+//            folllowingUsers.forEach { user in
+//                FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
+//                    self.pagination(user: user)
+//                }
+//            }
+//        }
     }
     
     private func pagination(user: User) {
@@ -89,11 +95,6 @@ class PostsTableController: UIViewController {
                     let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
                     self.posts.append(post)
                 }
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-//                    self.tableView.reloadData()
-//                    self.fetchingMore = false
-//
-//                })
                 self.tableView.reloadData()
                 self.lastDocumentSnapshot = snapshot.documents.last
             }
@@ -103,9 +104,7 @@ class PostsTableController: UIViewController {
     private func getPostsFollowingUsers() {
         FirebaseSingolton.shared.getFollowingUsers { folllowingUsers in
             folllowingUsers.forEach { user in
-                print(user.username)
                 FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
-                    print(allPosts)
                     self.pagination(user: user)
                 }
             }
@@ -137,6 +136,10 @@ fileprivate extension PostsTableController {
 
 }
 
+extension PostsTableController: UITableViewDelegate {
+    
+}
+
 // MARK: -
 // MARK: - UITableViewDataSource
 
@@ -151,7 +154,6 @@ extension PostsTableController: UITableViewDataSource {
         
         postCell.set(delegate: self, typePost: type)
         postCell.post = posts[indexPath.row]
-        
         return postCell
     }
     
@@ -160,13 +162,6 @@ extension PostsTableController: UITableViewDataSource {
             getAllPostWithPaging()
         }
     }
-    
-}
-
-// MARK: -
-// MARK: - UITableViewDelegate
-
-extension PostsTableController: UITableViewDelegate {
     
 }
 

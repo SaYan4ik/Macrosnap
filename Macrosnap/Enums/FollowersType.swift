@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FollowersType {
+enum FollowersControllerType {
     case openProfile
     case openChat
 }

@@ -25,7 +25,6 @@ class ChatsCell: UITableViewCell {
             userAvatarImage.sd_setImage(with: userUrlRef, completed: nil)
         }
     }
-
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,7 +37,6 @@ class ChatsCell: UITableViewCell {
         }
         self.setStyle()
     }
-    
     
     private func setStyle() {
         self.container.layer.cornerRadius = 12

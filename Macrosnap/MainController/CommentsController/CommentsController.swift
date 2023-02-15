@@ -28,7 +28,6 @@ class CommentsController: UIViewController {
         tableView.dataSource = self
         registerCell()
         tableView.layer.cornerRadius = 12
-
     }
     
     override func viewWillAppear(_ animated: Bool) {

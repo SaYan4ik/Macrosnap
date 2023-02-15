@@ -10,7 +10,7 @@ import UIKit
 class FollowersController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    private var typeController: FollowersType = .openProfile
+    private var typeController: FollowersControllerType = .openProfile
     var followingUsers = [User]()
     
     override func viewDidLoad() {
@@ -27,7 +27,7 @@ class FollowersController: UIViewController {
         getFollowUsers()
     }
 
-    func set(type: FollowersType) {
+    func set(type: FollowersControllerType) {
         self.typeController = type
     }
     

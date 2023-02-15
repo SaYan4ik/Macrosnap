@@ -22,7 +22,6 @@ class RegistrationController: UIViewController {
         super.viewDidLoad()
         setStyle()
         addGesture()
-
     }
 
     @IBAction func addPhotoButtonDidTap(_ sender: Any) {

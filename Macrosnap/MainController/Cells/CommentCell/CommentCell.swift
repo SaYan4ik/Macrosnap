@@ -13,7 +13,7 @@ class CommentCell: UITableViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var commentTextLabel: UILabel!
     @IBOutlet weak var dataOfCreateCommentLabel: UILabel!
-    @IBOutlet weak var likeCommentButton: UIButton!
+    @IBOutlet weak var containerView: UIView!
     
     weak var buttonDelegate: CommentButtonDelegate?
     static var id = String(describing: CommentCell.self)
@@ -36,12 +36,7 @@ class CommentCell: UITableViewCell {
         super.awakeFromNib()
         setStyle()
     }
-    
-    @IBAction func likeCommentButtonDidTap(_ sender: Any) {
-        guard let comment else { return }
-        buttonDelegate?.likeCommentButtonDidTap(comment: comment, button: likeCommentButton)
-    }
-    
+
 }
 
 //MARK: -
@@ -50,19 +45,12 @@ class CommentCell: UITableViewCell {
 extension CommentCell {
     private func setStyle() {
         userAvatarImage.layer.cornerRadius = userAvatarImage.frame.height / 2
+        self.contentView.layer.cornerRadius = 12
+        self.containerView.layer.cornerRadius = 12
     }
     
     func set(delegate: CommentButtonDelegate?) {
         self.buttonDelegate = delegate
     }
-    
-    private func animate() {
-        UIView.animate(withDuration: 0.3) {
-            self.likeCommentButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        } completion: { _ in
-            UIView.animate(withDuration: 0.6) {
-                self.likeCommentButton.transform = CGAffineTransform.identity
-            }
-        }
-    }
+
 }

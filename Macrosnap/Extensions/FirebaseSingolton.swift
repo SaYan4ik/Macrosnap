@@ -16,7 +16,6 @@ class FirebaseSingolton {
 
     // MARK: -
     // MARK: - DigitalPosts
-    
     func getPostsWithUserUID(user: User, complition: @escaping ([Post]) -> Void) {
         Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").getDocuments { (snapshot, error) in
             if let error = error {
@@ -45,7 +44,7 @@ class FirebaseSingolton {
     func getPostByUID(post: Post, complition: @escaping((Post) -> Void)) {
         let postNameURL = Storage.storage().reference(forURL: post.postId).name
         
-        Firestore.firestore().collection("posts").document(post.user.uid).collection("userPosts").document(postNameURL).getDocument { (snapshot, error ) in
+        Firestore.firestore().collection("posts").document(post.userId).collection("userPosts").document(postNameURL).getDocument { (snapshot, error ) in
             if let error = error {
                 print("Error get post by uid \(error.localizedDescription)")
             } else {
@@ -269,7 +268,7 @@ class FirebaseSingolton {
         guard let userUID = Auth.auth().currentUser?.uid else { return }
         let postNameURL = Storage.storage().reference(forURL: post.postId).name
 
-        Firestore.firestore().collection("filmPosts").document(userUID).collection("userFilmPosts").document(postNameURL).updateData(["like": post.like + 1])
+        Firestore.firestore().collection("filmPosts").document(post.user.uid).collection("userFilmPosts").document(postNameURL).updateData(["like": post.like + 1])
         
         Firestore.firestore().collection("users").document(userUID).collection("usersLike").document(postNameURL).setData([
             "postId": post.postId,
@@ -281,7 +280,7 @@ class FirebaseSingolton {
         guard let userUID = Auth.auth().currentUser?.uid else { return }
         let postNameURL = Storage.storage().reference(forURL: post.postId).name
         
-        Firestore.firestore().collection("filmPosts").document(userUID).collection("userFilmPosts").document(postNameURL).updateData(["like" : post.like - 1])
+        Firestore.firestore().collection("filmPosts").document(post.user.uid).collection("userFilmPosts").document(postNameURL).updateData(["like" : post.like - 1])
         Firestore.firestore().collection("users").document(userUID).collection("usersLike").document("\(postNameURL)").delete { error in
             if let error = error {
                 print(error.localizedDescription)
@@ -440,8 +439,5 @@ class FirebaseSingolton {
 //MARK: -
 //MARK: - Chat
     
-    func startChat() {
-        
-    }
     
 }
