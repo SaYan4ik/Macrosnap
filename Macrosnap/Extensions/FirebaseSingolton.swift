@@ -439,5 +439,33 @@ class FirebaseSingolton {
 //MARK: -
 //MARK: - Chat
     
+    func getLastMessage(chat: Chat, complition: @escaping ((Message) -> Void) ) {
+        
+        Firestore.firestore().collection("chats").document(chat.chatUID).collection("messages").order(by: "created", descending: true).limit(to: 1).getDocuments { ( messageSnapshot, error )  in
+            
+            if let error = error {
+                print("Error \(error.localizedDescription)")
+                return
+            }
+            
+            guard let messageSnapshot else { return }
+            
+            messageSnapshot.documents.forEach { message in
+                let data = message.data()
+                
+                guard let id = data["id"] as? String,
+                      let content = data["content"] as? String,
+                      let created = data["created"] as? Timestamp,
+                      let senderUID = data["senderUID"] as? String,
+                      let senderName = data["senderName"] as? String
+                else { return }
+                
+                let msg = Message(id: id, content: content, created: created, senderUID: senderUID, senderName: senderName)
+                
+                complition(msg)
+            }
+        }
+        
+    }
     
 }

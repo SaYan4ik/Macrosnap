@@ -1,5 +1,5 @@
 //
-//  MessageCell.swift
+//  TestMessageCell.swift
 //  Macrosnap
 //
 //  Created by Александр Янчик on 16.02.23.
@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-class MessageCell: UITableViewCell {
+class TestMessageCell: UITableViewCell {
 
     let messageView: UITextView = {
         let textView = UITextView()
@@ -56,16 +56,15 @@ class MessageCell: UITableViewCell {
         self.backgroundColor = .clear
         
         NSLayoutConstraint.activate([
-            messageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            messageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            messageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            messageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             messageView.widthAnchor.constraint(equalToConstant: 200)
         ])
         
         rightMessageAnchor = messageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         rightMessageAnchor?.isActive = true
         leftMessageAnchor = messageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8)
-        leftMessageAnchor?.isActive = false
+        leftMessageAnchor?.isActive = true
     }
     
 }
-

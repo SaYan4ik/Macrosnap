@@ -24,9 +24,15 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U22-xF-5Cl">
-                        <rect key="frame" x="65" y="19.666666666666668" width="48" height="21.000000000000004"/>
-                        <fontDescription key="fontDescription" name="Charter-Black" family="Charter" pointSize="17"/>
+                        <rect key="frame" x="65" y="21" width="42.333333333333343" height="18.333333333333329"/>
+                        <fontDescription key="fontDescription" name="Charter-Black" family="Charter" pointSize="15"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eH0-oS-b1M">
+                        <rect key="frame" x="65" y="4.9999999999999991" width="31.333333333333329" height="15.666666666666664"/>
+                        <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="13"/>
+                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -35,17 +41,20 @@
                     <constraint firstItem="s48-8X-OUZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="4rp-vZ-Q5a"/>
                     <constraint firstItem="U22-xF-5Cl" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="HrZ-bq-ybz"/>
                     <constraint firstAttribute="bottom" secondItem="s48-8X-OUZ" secondAttribute="bottom" constant="5" id="QZ6-zA-3mN"/>
+                    <constraint firstItem="eH0-oS-b1M" firstAttribute="leading" secondItem="s48-8X-OUZ" secondAttribute="trailing" constant="10" id="bI5-qX-4Kk"/>
                     <constraint firstItem="s48-8X-OUZ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ewk-je-z3O"/>
                     <constraint firstItem="s48-8X-OUZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="g8l-9c-gxA"/>
                     <constraint firstItem="U22-xF-5Cl" firstAttribute="leading" secondItem="s48-8X-OUZ" secondAttribute="trailing" constant="10" id="nd6-Bj-FVe"/>
+                    <constraint firstItem="eH0-oS-b1M" firstAttribute="top" secondItem="s48-8X-OUZ" secondAttribute="top" id="p5c-gh-RTN"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="chatWithUserLabe" destination="eH0-oS-b1M" id="eAK-NT-5YE"/>
                 <outlet property="container" destination="H2p-sc-9uM" id="tkT-ae-jwz"/>
+                <outlet property="lastMessageLabel" destination="U22-xF-5Cl" id="fcm-tr-g4R"/>
                 <outlet property="userAvatarImage" destination="s48-8X-OUZ" id="xb1-Tq-flP"/>
-                <outlet property="userNameLabel" destination="U22-xF-5Cl" id="hTZ-0d-MnY"/>
             </connections>
             <point key="canvasLocation" x="133.07692307692307" y="27.369668246445496"/>
         </tableViewCell>
