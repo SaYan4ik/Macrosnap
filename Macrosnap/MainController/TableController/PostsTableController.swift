@@ -22,6 +22,7 @@ class PostsTableController: UIViewController {
         super.viewDidLoad()
         configure()
         tableViewRefresher()
+        getAllPosts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
