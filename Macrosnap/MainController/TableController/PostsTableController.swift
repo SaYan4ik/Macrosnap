@@ -34,6 +34,55 @@ class PostsTableController: UIViewController {
         self.type = type
     }
     
+    private func tableViewRefresher() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableView?.refreshControl = refreshControl
+    }
+    
+    @objc private func handleRefresh() {
+        posts.removeAll()
+        getAllPosts()
+    }
+    
+    private func getAllPosts() {
+        getAllPostsForUser()
+        getAllPostsForFollowUsers()
+    }
+    
+    private func getAllPostsForUser() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        tableView.refreshControl?.beginRefreshing()
+        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
+            
+            switch self.type {
+                case .digitalPhoto:
+                    
+                    FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
+                        self.posts.append(contentsOf: allPosts)
+                        
+                        self.tableView.reloadData()
+                        self.tableView.refreshControl?.endRefreshing()
+                    }
+                    
+                case .filmPhoto:
+                    
+                    FirebaseSingolton.shared.getFilmPostsWithUserUID(user: user) { allPosts in
+                        self.posts.append(contentsOf: allPosts)
+                        
+                        self.tableView.reloadData()
+                        self.tableView.refreshControl?.endRefreshing()
+                    }
+                    
+            }
+        }
+    }
+    
+    private func getAllPostsForFollowUsers() {
+        
+    }
+    
     private func getAllPostWithPaging() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         spinner.startAnimating()
