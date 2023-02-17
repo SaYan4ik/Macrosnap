@@ -169,17 +169,6 @@ class PostsTableController: UIViewController {
             }
         }
     }
-    
-    private func getPostsFollowingUsers() {
-        FirebaseSingolton.shared.getFollowingUsers { folllowingUsers in
-            folllowingUsers.forEach { user in
-                FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
-                    self.pagination(user: user)
-                }
-            }
-        }
-    }
-    
 }
 
 // MARK: -
@@ -226,11 +215,11 @@ extension PostsTableController: UITableViewDataSource {
         return postCell
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if (indexPath.row == posts.count - 1) {
-            getAllPostWithPaging()
-        }
-    }
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        if (indexPath.row == posts.count - 1) {
+//            getAllPostWithPaging()
+//        }
+//    }
     
 }
 

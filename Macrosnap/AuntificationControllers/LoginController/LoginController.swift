@@ -15,7 +15,6 @@ class LoginController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkIfUserLogIn()
         setStyle()
         addGesture()
     }
@@ -52,15 +51,7 @@ class LoginController: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    private func checkIfUserLogIn() {
-        if Auth.auth().currentUser == nil {
-            DispatchQueue.main.async {
-                Environment.sceneDelegare?.setLoginAsInitial()
-            }
-        }
-    }
-    
+
 }
 
 // MARK: -
