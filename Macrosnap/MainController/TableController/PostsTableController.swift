@@ -17,17 +17,15 @@ class PostsTableController: UIViewController {
     private var type: PostType = .digitalPhoto
     private var posts = [Post]()
     private var lastDocumentSnapshot: DocumentSnapshot?
-    private var allUsersForLoadPost = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        tableViewRefresher()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
-        getAllPostWithPaging()
     }
     
     func set(type: PostType) {
@@ -74,13 +72,34 @@ class PostsTableController: UIViewController {
                         self.tableView.reloadData()
                         self.tableView.refreshControl?.endRefreshing()
                     }
-                    
             }
         }
     }
     
     private func getAllPostsForFollowUsers() {
-        
+        FirebaseSingolton.shared.getFollowingUsers { followUsers in
+            followUsers.forEach { user in
+                switch self.type {
+                        
+                    case .digitalPhoto:
+                        FirebaseSingolton.shared.getPostsWithUserUID(user: user) { followUserPosts in
+                            self.posts.append(contentsOf: followUserPosts)
+                            
+                            self.tableView.reloadData()
+                            self.tableView.refreshControl?.endRefreshing()
+                        }
+                        
+                    case .filmPhoto:
+                        
+                        FirebaseSingolton.shared.getFilmPostsWithUserUID(user: user) { allPosts in
+                            self.posts.append(contentsOf: allPosts)
+                            
+                            self.tableView.reloadData()
+                            self.tableView.refreshControl?.endRefreshing()
+                        }
+                }
+            }
+        }
     }
     
     private func getAllPostWithPaging() {
@@ -98,24 +117,6 @@ class PostsTableController: UIViewController {
                     self.pagination(user: user)
                 }
             }
-        }
-    }
-//   Test
-    private func getAllUsersForPagination() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
-            self.allUsersForLoadPost.append(user)
-        }
-        
-        FirebaseSingolton.shared.getFollowingUsers { folllowingUsers in
-            self.allUsersForLoadPost.append(contentsOf: folllowingUsers)
-        }
-    }
-//    Test
-    private func getFeedPosts() {
-        allUsersForLoadPost.forEach { user in
-            pagination(user: user)
-            self.tableView.reloadData()
         }
     }
     
