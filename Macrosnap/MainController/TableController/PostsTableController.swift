@@ -17,7 +17,7 @@ class PostsTableController: UIViewController {
     private var type: PostType = .digitalPhoto
     private var posts = [Post]()
     private var lastDocumentSnapshot: DocumentSnapshot?
-    private var fetchingMore = false
+    private var allUsersForLoadPost = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,17 +42,35 @@ class PostsTableController: UIViewController {
             self.spinner.stopAnimating()
         }
         
-//        FirebaseSingolton.shared.getFollowingUsers { folllowingUsers in
-//            folllowingUsers.forEach { user in
-//                FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
-//                    self.pagination(user: user)
-//                }
-//            }
-//        }
+        FirebaseSingolton.shared.getFollowingUsers { folllowingUsers in
+            
+            folllowingUsers.forEach { user in
+                FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
+                    self.pagination(user: user)
+                }
+            }
+        }
+    }
+//   Test
+    private func getAllUsersForPagination() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
+            self.allUsersForLoadPost.append(user)
+        }
+        
+        FirebaseSingolton.shared.getFollowingUsers { folllowingUsers in
+            self.allUsersForLoadPost.append(contentsOf: folllowingUsers)
+        }
+    }
+//    Test
+    private func getFeedPosts() {
+        allUsersForLoadPost.forEach { user in
+            pagination(user: user)
+            self.tableView.reloadData()
+        }
     }
     
     private func pagination(user: User) {
-        fetchingMore = true
         var query: Query
         
         switch type {
@@ -77,8 +95,8 @@ class PostsTableController: UIViewController {
             guard let snapshot else { return }
             if let error = error {
                 print("\(error.localizedDescription)")
+                return
             } else if snapshot.isEmpty {
-                self.fetchingMore = false
                 return
             } else {
                 for document in snapshot.documents {

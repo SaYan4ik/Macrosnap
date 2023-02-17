@@ -465,7 +465,57 @@ class FirebaseSingolton {
                 complition(msg)
             }
         }
-        
     }
     
+// MARK: -
+// MARK: - Pagination
+    func pagination(user: User, posts: [Post], type: PostType, complition: @escaping (([Post]) -> Void)) {
+        var query: Query
+        var lastDocumentSnapshot: DocumentSnapshot?
+        
+        switch type {
+            case .digitalPhoto:
+                if posts.isEmpty {
+                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").limit(to: 2)
+                } else {
+                    guard let lastDocumentSnapshot else { return }
+                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+                }
+                
+            case .filmPhoto:
+                if posts.isEmpty {
+                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").limit(to: 2)
+                } else {
+                    guard let lastDocumentSnapshot else { return }
+                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+                }
+        }
+
+        query.getDocuments { snapshot, error in
+            guard let snapshot else { return }
+            if let error = error {
+                print("\(error.localizedDescription)")
+            } else if snapshot.isEmpty {
+                return
+            } else {
+                var allPosts = [Post]()
+                for document in snapshot.documents {
+                    let data = document.data()
+
+                    guard let postId = data["postId"] as? String,
+                          let userId = data["userId"] as? String,
+                          let lense = data["lense"] as? String,
+                          let camera = data["camera"] as? String,
+                          let description = data["description"] as? String,
+                          let like = data["like"] as? Int
+                    else { return }
+
+                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                    allPosts.append(post)
+                }
+                complition(allPosts)
+                lastDocumentSnapshot = snapshot.documents.last
+            }
+        }
+    }
 }

@@ -52,7 +52,6 @@
 		A2B6FEFF295C8D2E0008F773 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B6FEFD295C8D2E0008F773 /* CommentCell.swift */; };
 		A2B6FF00295C8D2E0008F773 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2B6FEFE295C8D2E0008F773 /* CommentCell.xib */; };
 		A2B6FF02295D7F3F0008F773 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B6FF01295D7F3F0008F773 /* DateExtension.swift */; };
-		A2BA0464299E2C0B00B9805E /* TestMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BA0463299E2C0B00B9805E /* TestMessageCell.swift */; };
 		A2BA0467299E590D00B9805E /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BA0466299E590D00B9805E /* MessageCell.swift */; };
 		A2BFA70D293210C0001D37F1 /* FollowersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BFA70B293210C0001D37F1 /* FollowersController.swift */; };
 		A2BFA70E293210C0001D37F1 /* FollowersController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2BFA70C293210C0001D37F1 /* FollowersController.xib */; };
@@ -124,7 +123,6 @@
 		A2B6FEFD295C8D2E0008F773 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		A2B6FEFE295C8D2E0008F773 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		A2B6FF01295D7F3F0008F773 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
-		A2BA0463299E2C0B00B9805E /* TestMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMessageCell.swift; sourceTree = "<group>"; };
 		A2BA0466299E590D00B9805E /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		A2BFA70B293210C0001D37F1 /* FollowersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersController.swift; sourceTree = "<group>"; };
 		A2BFA70C293210C0001D37F1 /* FollowersController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FollowersController.xib; sourceTree = "<group>"; };
@@ -190,11 +188,8 @@
 		A236E1232920072E00B54E2F /* Macrosnap */ = {
 			isa = PBXGroup;
 			children = (
+				A2B1762B299F7FF100F6056A /* Helpers */,
 				A283876829238D480042A8BB /* Model */,
-				A2838757292241180042A8BB /* Extensions */,
-				A283872E292157F70042A8BB /* Protocols */,
-				A236E1642920301E00B54E2F /* Enums */,
-				A236E147292011D900B54E2F /* Environment */,
 				A236E14329200F7300B54E2F /* TabBarСontroller */,
 				A236E138292007B800B54E2F /* AuntificationControllers */,
 				A236E1462920119A00B54E2F /* MainController */,
@@ -291,7 +286,6 @@
 			isa = PBXGroup;
 			children = (
 				A2BA0465299E58F600B9805E /* MessageCell */,
-				A2BA0462299E2BF000B9805E /* TestMessageCell */,
 				A2D3354F298BBE9300F24E0D /* ChatsCell */,
 				A2B6FEFC295C8D1C0008F773 /* CommentCell */,
 				A236E15929201E6900B54E2F /* PostCell */,
@@ -390,7 +384,6 @@
 			isa = PBXGroup;
 			children = (
 				A2838758292241350042A8BB /* ShowAlertExtension.swift */,
-				A2DC83F329252628005DD92B /* FirebaseSingolton.swift */,
 				A2B6FF01295D7F3F0008F773 /* DateExtension.swift */,
 			);
 			path = Extensions;
@@ -417,6 +410,26 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		A2B1762B299F7FF100F6056A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A236E147292011D900B54E2F /* Environment */,
+				A236E1642920301E00B54E2F /* Enums */,
+				A283872E292157F70042A8BB /* Protocols */,
+				A2838757292241180042A8BB /* Extensions */,
+				A2B1762C299F7FF800F6056A /* API */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		A2B1762C299F7FF800F6056A /* API */ = {
+			isa = PBXGroup;
+			children = (
+				A2DC83F329252628005DD92B /* FirebaseSingolton.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		A2B6FEF6295B08CC0008F773 /* UserPostController */ = {
 			isa = PBXGroup;
 			children = (
@@ -433,14 +446,6 @@
 				A2B6FEFE295C8D2E0008F773 /* CommentCell.xib */,
 			);
 			path = CommentCell;
-			sourceTree = "<group>";
-		};
-		A2BA0462299E2BF000B9805E /* TestMessageCell */ = {
-			isa = PBXGroup;
-			children = (
-				A2BA0463299E2C0B00B9805E /* TestMessageCell.swift */,
-			);
-			path = TestMessageCell;
 			sourceTree = "<group>";
 		};
 		A2BA0465299E58F600B9805E /* MessageCell */ = {
@@ -680,7 +685,6 @@
 				A2F0C33A294B5347004A6375 /* CommentModel.swift in Sources */,
 				A236E16629203D1800B54E2F /* Protocols.swift in Sources */,
 				A2D33558298BD6D900F24E0D /* ChatWithUserController.swift in Sources */,
-				A2BA0464299E2C0B00B9805E /* TestMessageCell.swift in Sources */,
 				A27E03C129530EC200FCF8CB /* FollowCell.swift in Sources */,
 				A2838759292241350042A8BB /* ShowAlertExtension.swift in Sources */,
 				A2BFA70D293210C0001D37F1 /* FollowersController.swift in Sources */,
