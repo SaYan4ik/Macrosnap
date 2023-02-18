@@ -11,7 +11,7 @@ class SearchController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var searchBar:UISearchBar = UISearchBar()
+    var searchBar: UISearchBar = UISearchBar()
     var users = [User]()
     var filteredUsers = [User]()
     
@@ -95,5 +95,9 @@ extension SearchController: UISearchBarDelegate {
             }
         }
         tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }

@@ -17,7 +17,6 @@ class TabBarController: UITabBarController {
         checkIfUserLogIn()
     }
     
-    
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         let index = self.tabBar.items?.firstIndex(of: item)
         let subView = tabBar.subviews[index!+1].subviews.first as! UIImageView

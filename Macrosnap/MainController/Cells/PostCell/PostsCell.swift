@@ -44,6 +44,7 @@ class PostsCell: UITableViewCell {
             self.likeCountLabel.text = "\(post?.like ?? 0)"
             chekLike()
             chekFavourite()
+            
         }
     }
 
@@ -51,6 +52,7 @@ class PostsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
     }
     
     override func prepareForReuse() {
@@ -61,7 +63,7 @@ class PostsCell: UITableViewCell {
     @IBAction func likeButtonDidTap(_ sender: UIButton) {
         guard let post else { return }
         buttonDelegate?.likeButtonDidTap(post: post, button: likeButton)
-        animateLike()
+        animateShapeButton(button: likeButton)
         print("Like did tap")
     }
     
@@ -77,42 +79,30 @@ class PostsCell: UITableViewCell {
     @IBAction func favoriteButtonDidTap(_ sender: UIButton) {
         guard let post else { return }
         buttonDelegate?.favoriteButtonDidTap(post: post, button: favouriteButton)
-        animateFavButton()
+        animateShapeButton(button: favouriteButton)
         print("Favorite did tap")
         
     }
     
-    private func animateLike() {
+    private func animateShapeButton(button: UIButton) {
         UIView.animate(withDuration: 0.5,
                        animations: {
-            self.likeButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            button.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         },
                        completion: { _ in
             UIView.animate(withDuration: 0.5) {
-                self.likeButton.transform = CGAffineTransform.identity
+                button.transform = CGAffineTransform.identity
             }
         })
     }
-    
-    private func animateFavButton() {
-        UIView.animate(withDuration: 0.5,
-                       animations: {
-            self.favouriteButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        },
-                       completion: { _ in
-            UIView.animate(withDuration: 0.5) {
-                self.favouriteButton.transform = CGAffineTransform.identity
-            }
-        })
-    }
-    
 }
 
 // MARK: -
 // MARK: - PostsConfigure
 
 extension PostsCell {
-    func set(delegate: ButtonDelegate?, typePost: PostType) {
+    func set(delegate: ButtonDelegate?, typePost: PostType, post: Post) {
+        self.post = post
         self.buttonDelegate = delegate
         self.type = typePost
         setStyle()
@@ -124,11 +114,61 @@ extension PostsCell {
         self.userPostImage.layer.cornerRadius = 12
     }
     
+//    LikeButton
+    func testLike() {
+        guard let post else { return }
+        
+        switch type {
+            case .digitalPhoto:
+                if likeButton.isSelected == true {
+                    FirebaseSingolton.shared.disLikePost(post: post)
+                    post.like = post.like - 1
+                    likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                    
+                } else {
+                    FirebaseSingolton.shared.likePost(post: post)
+                    post.like = post.like + 1
+                    likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                }
+                
+            case .filmPhoto:
+                if likeButton.isSelected {
+                    FirebaseSingolton.shared.disLikeFilmPost(post: post)
+                } else {
+                    FirebaseSingolton.shared.likeFilmPost(post: post)
+                }
+                
+        }
+    }
+//    Test
+    func testFavo() {
+        guard let post else { return }
+        
+        switch type {
+            case .digitalPhoto:
+                if favouriteButton.isSelected == true {
+                    FirebaseSingolton.shared.removeFavPost(post: post)
+                    favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)
+                } else {
+                    FirebaseSingolton.shared.favouritePost(post: post)
+                    favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                }
+            case .filmPhoto:
+                if favouriteButton.isSelected {
+                    FirebaseSingolton.shared.removeFavPost(post: post)
+                    self.favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)
+                } else {
+                    FirebaseSingolton.shared.favouritePost(post: post)
+                    self.favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                }
+        }
+    }
+    
     private func chekLike() {
         guard let post else { return }
         
         FirebaseSingolton.shared.checkLikeByUser(post: post) { postExist in
-            if postExist{
+            if postExist {
                 self.likeButton.isSelected = true
                 self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             } else {
@@ -141,8 +181,8 @@ extension PostsCell {
     private func chekFavourite() {
         guard let post else { return }
         
-        FirebaseSingolton.shared.checkFavByUser(post: post) { postExist in
-            if postExist == true {
+        FirebaseSingolton.shared.checkFavByUser(post: post) { postFavExist in
+            if postFavExist {
                 self.favouriteButton.isSelected = true
                 self.favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             } else {

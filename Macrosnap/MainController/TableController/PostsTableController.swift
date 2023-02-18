@@ -103,72 +103,72 @@ class PostsTableController: UIViewController {
         }
     }
     
-    private func getAllPostWithPaging() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        spinner.startAnimating()
-        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
-            self.pagination(user: user)
-            self.spinner.stopAnimating()
-        }
-        
-        FirebaseSingolton.shared.getFollowingUsers { folllowingUsers in
-            
-            folllowingUsers.forEach { user in
-                FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
-                    self.pagination(user: user)
-                }
-            }
-        }
-    }
-    
-    private func pagination(user: User) {
-        var query: Query
-        
-        switch type {
-            case .digitalPhoto:
-                if posts.isEmpty {
-                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").limit(to: 2)
-                } else {
-                    guard let lastDocumentSnapshot else { return }
-                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
-                }
-                
-            case .filmPhoto:
-                if posts.isEmpty {
-                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").limit(to: 2)
-                } else {
-                    guard let lastDocumentSnapshot else { return }
-                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
-                }
-        }
-
-        query.getDocuments { snapshot, error in
-            guard let snapshot else { return }
-            if let error = error {
-                print("\(error.localizedDescription)")
-                return
-            } else if snapshot.isEmpty {
-                return
-            } else {
-                for document in snapshot.documents {
-                    let data = document.data()
-
-                    guard let postId = data["postId"] as? String,
-                          let userId = data["userId"] as? String,
-                          let lense = data["lense"] as? String,
-                          let camera = data["camera"] as? String,
-                          let description = data["description"] as? String,
-                          let like = data["like"] as? Int
-                    else { return }
-
-                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
-                    self.posts.append(post)
-                }
-                self.tableView.reloadData()
-                self.lastDocumentSnapshot = snapshot.documents.last
-            }
-        }
-    }
+//    private func getAllPostWithPaging() {
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        spinner.startAnimating()
+//        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
+//            self.pagination(user: user)
+//            self.spinner.stopAnimating()
+//        }
+//        
+//        FirebaseSingolton.shared.getFollowingUsers { folllowingUsers in
+//            
+//            folllowingUsers.forEach { user in
+//                FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
+//                    self.pagination(user: user)
+//                }
+//            }
+//        }
+//    }
+//
+//    private func pagination(user: User) {
+//        var query: Query
+//
+//        switch type {
+//            case .digitalPhoto:
+//                if posts.isEmpty {
+//                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").limit(to: 2)
+//                } else {
+//                    guard let lastDocumentSnapshot else { return }
+//                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+//                }
+//
+//            case .filmPhoto:
+//                if posts.isEmpty {
+//                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").limit(to: 2)
+//                } else {
+//                    guard let lastDocumentSnapshot else { return }
+//                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+//                }
+//        }
+//
+//        query.getDocuments { snapshot, error in
+//            guard let snapshot else { return }
+//            if let error = error {
+//                print("\(error.localizedDescription)")
+//                return
+//            } else if snapshot.isEmpty {
+//                return
+//            } else {
+//                for document in snapshot.documents {
+//                    let data = document.data()
+//
+//                    guard let postId = data["postId"] as? String,
+//                          let userId = data["userId"] as? String,
+//                          let lense = data["lense"] as? String,
+//                          let camera = data["camera"] as? String,
+//                          let description = data["description"] as? String,
+//                          let like = data["like"] as? Int
+//                    else { return }
+//
+//                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+//                    self.posts.append(post)
+//                }
+//                self.tableView.reloadData()
+//                self.lastDocumentSnapshot = snapshot.documents.last
+//            }
+//        }
+//    }
 }
 
 // MARK: -
@@ -210,8 +210,7 @@ extension PostsTableController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostsCell.id, for: indexPath)
         guard let postCell = cell as? PostsCell else { return cell }
         
-        postCell.set(delegate: self, typePost: type)
-        postCell.post = posts[indexPath.row]
+        postCell.set(delegate: self, typePost: type, post: posts[indexPath.row])
         return postCell
     }
     
@@ -237,17 +236,24 @@ extension PostsTableController: ButtonDelegate {
     func likeButtonDidTap(post: Post, button: UIButton) {
         switch type {
             case .digitalPhoto:
+                
                 if button.isSelected {
                     FirebaseSingolton.shared.disLikePost(post: post)
+                    post.like = post.like - 1
+                    button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+
                 } else {
                     FirebaseSingolton.shared.likePost(post: post)
+                    post.like = post.like + 1
+                    button.setImage(UIImage(systemName: "heart"), for: .normal)
                 }
-                
+
                 FirebaseSingolton.shared.getPostByUID(post: post) { post in
+
                     if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
                         self.posts[row] = post
                         let indexPath = IndexPath(row: row, section:0)
-                        
+
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6 , execute: {
                             self.tableView.reloadRows(at: [indexPath], with: .none)
                         })
@@ -260,12 +266,12 @@ extension PostsTableController: ButtonDelegate {
                 } else {
                     FirebaseSingolton.shared.likeFilmPost(post: post)
                 }
-                
+
                 FirebaseSingolton.shared.getFilmPostByUID(post: post) { post in
                     if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
                         self.posts[row] = post
                         let indexPath = IndexPath(row: row, section: 0)
-                        
+
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
                             self.tableView.reloadRows(at: [indexPath], with: .none)
                         })
@@ -276,15 +282,16 @@ extension PostsTableController: ButtonDelegate {
     }
     
     func favoriteButtonDidTap(post: Post, button: UIButton) {
+        
         if button.isSelected {
             FirebaseSingolton.shared.removeFavPost(post: post)
         } else {
             FirebaseSingolton.shared.favouritePost(post: post)
         }
-        
+
         if let rowPost = self.posts.firstIndex(where: { $0.postId == post.postId }) {
             let indexPath = IndexPath(row: rowPost, section: 0)
-            
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
                 self.tableView.reloadRows(at: [indexPath], with: .none)
             })

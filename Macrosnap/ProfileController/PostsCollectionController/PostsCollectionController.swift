@@ -16,6 +16,7 @@ class PostsCollectionController: UIViewController {
     var posts = [Post]()
     var user: User?
     private var postsType: ProfilePostType = .digitalPosts
+    private var lastDocumentSnapshot: DocumentSnapshot?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,15 +34,17 @@ class PostsCollectionController: UIViewController {
     
     private func setupPosts() {
         guard let userUID = user?.uid else { return }
-        
-        switch postsType {
-            case .digitalPosts:
-                getAllPostsWithUID(uid: userUID)
-            case .filmPosts:
-                getAllFilmPosts(uid: userUID)
-            case .favouritePosts:
-                getAllFavouritePosts(uid: userUID)
-        }
+        guard let user else { return }
+        pagination(user: user)
+//        switch postsType {
+//            case .digitalPosts:
+//                getAllPostsWithUID(uid: userUID)
+//
+//            case .filmPosts:
+//                getAllFilmPosts(uid: userUID)
+//            case .favouritePosts:
+//                getAllFavouritePosts(uid: userUID)
+//        }
     }
     
     private func getAllPostsWithUID(uid: String) {
@@ -69,8 +72,65 @@ class PostsCollectionController: UIViewController {
                 self.collectionView.reloadData()
             }
         }
-        
     }
+    
+    private func pagination(user: User) {
+        var query: Query
+        
+        switch postsType {
+            case .digitalPosts:
+                if posts.isEmpty {
+                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").limit(to: 2)
+                } else {
+                    guard let lastDocumentSnapshot else { return }
+                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+                }
+                
+            case .filmPosts:
+                if posts.isEmpty {
+                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").limit(to: 2)
+                } else {
+                    guard let lastDocumentSnapshot else { return }
+                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+                }
+                
+            case .favouritePosts:
+                if posts.isEmpty {
+                    query = Firestore.firestore().collection("users").document(user.uid).collection("favouritePosts").limit(to: 2)
+                } else {
+                    guard let lastDocumentSnapshot else { return }
+                    query = Firestore.firestore().collection("users").document(user.uid).collection("favouritePosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+            }
+        }
+
+        query.getDocuments { snapshot, error in
+            guard let snapshot else { return }
+            if let error = error {
+                print("\(error.localizedDescription)")
+                return
+            } else if snapshot.isEmpty {
+                return
+            } else {
+                for document in snapshot.documents {
+                    let data = document.data()
+
+                    guard let postId = data["postId"] as? String,
+                          let userId = data["userId"] as? String,
+                          let lense = data["lense"] as? String,
+                          let camera = data["camera"] as? String,
+                          let description = data["description"] as? String,
+                          let like = data["like"] as? Int
+                    else { return }
+
+                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                    self.posts.append(post)
+                }
+                self.collectionView.reloadData()
+                self.lastDocumentSnapshot = snapshot.documents.last
+            }
+        }
+    }
+    
     
 }
 
@@ -113,6 +173,13 @@ extension PostsCollectionController: UICollectionViewDataSource {
         guard let postCell = cell as? PostCollectionCell else { return cell}
         postCell.post = posts[indexPath.item]
         return postCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if (indexPath.row == posts.count - 1) {
+            guard let user else {return}
+            pagination(user: user)
+        }
     }
 }
 
