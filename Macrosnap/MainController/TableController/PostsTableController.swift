@@ -210,7 +210,7 @@ extension PostsTableController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostsCell.id, for: indexPath)
         guard let postCell = cell as? PostsCell else { return cell }
         
-        postCell.set(delegate: self, typePost: type, post: posts[indexPath.row])
+        postCell.set(delegate: self, post: posts[indexPath.row])
         return postCell
     }
     

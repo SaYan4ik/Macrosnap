@@ -17,7 +17,7 @@ class UserPostController: UIViewController {
     @IBOutlet weak var favouriteButton: UIButton!
     @IBOutlet weak var infoView: UIView!
     
-    var post: Post? {
+    private var post: Post? {
             didSet {
                 guard let imageUrl = post?.postId else { return }
                 guard let url = URL(string: imageUrl) else { return }

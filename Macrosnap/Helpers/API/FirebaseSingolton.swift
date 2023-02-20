@@ -349,6 +349,22 @@ class FirebaseSingolton {
             }
         }
     }
+    
+    
+    func updateAvatar(avatarURL: String?) {
+        guard let currentUID = Auth.auth().currentUser?.uid,
+              let avatarURL
+        else { return }
+        Firestore.firestore().collection("users").document(currentUID).updateData(["avatarURL": avatarURL])
+        
+        Storage.storage().reference().child("posts").child(currentUID).delete { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    
 
 // MARK: -
 // MARK: - Follow / Followers

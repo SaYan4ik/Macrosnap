@@ -66,9 +66,11 @@
                                         <constraint firstAttribute="width" constant="35" id="A2z-qc-lrg"/>
                                         <constraint firstAttribute="height" constant="35" id="SJN-i9-bgH"/>
                                     </constraints>
-                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" image="star" catalog="system"/>
+                                    <buttonConfiguration key="configuration" style="plain" image="star" catalog="system">
+                                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </buttonConfiguration>
                                     <connections>
                                         <action selector="favouriteButtonDidTap:" destination="-1" eventType="touchUpInside" id="qr2-cf-m80"/>
                                     </connections>

@@ -9,10 +9,10 @@ import Foundation
 import FirebaseFirestore
 
 class User {
-    let uid: String
-    let username: String
-    let fullName: String
-    let avatarURL: String
+    var uid: String
+    var username: String
+    var fullName: String
+    var avatarURL: String
     
     init(uid: String, username: String, fullName: String, profileURL: String) {
         self.uid = uid

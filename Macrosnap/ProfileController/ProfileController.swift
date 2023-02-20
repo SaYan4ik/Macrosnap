@@ -27,7 +27,6 @@ class ProfileController: UIViewController {
 
     private var controllers = [UIViewController]()
     private var selectedIndex = 0
-    var updateBlock: (() -> Void)?
     var posts = [Post]()
     var user: User?
     var followingUsers = [User]()
@@ -69,7 +68,12 @@ class ProfileController: UIViewController {
     @IBAction func settingButtonDidTap(_ sender: Any) {
         let settingNib = String(describing: SettingController.self)
         let settingVC = SettingController(nibName: settingNib, bundle: nil)
-        present(settingVC, animated: true)
+        settingVC.user = user
+        settingVC.updateAvatarBlock = { newImage in
+            self.profileimage.image = newImage
+            print(newImage)
+        }
+        navigationController?.pushViewController(settingVC, animated: true)
     }
     
     @IBAction func followUserDidTap(_ sender: Any) {
@@ -146,6 +150,12 @@ extension ProfileController {
         guard let avatarUrl = user?.avatarURL else { return }
         guard let url = URL(string: avatarUrl) else { return }
         profileimage.sd_setImage(with: url)
+    }
+    
+    func updateInfo() {
+        let settingNib = String(describing: SettingController.self)
+        let settingVC = SettingController(nibName: "SettingController", bundle: nil)
+        
     }
     
     private func setupButton() {

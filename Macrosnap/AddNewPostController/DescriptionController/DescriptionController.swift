@@ -63,7 +63,7 @@ class DescriptionController: UIViewController {
     
     private func setupNavBar() {
         let button = UIButton()
-        button.addTarget(self, action: #selector(backAction), for: .allEvents)
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.tintColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)

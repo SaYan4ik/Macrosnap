@@ -21,7 +21,7 @@ class PostCollectionCell: UICollectionViewCell {
                 let scale = UIScreen.main.scale
                 let thumbnailSize = CGSize(width: 200 * scale, height: 200 * scale)
 
-                postImage.sd_setImage(with: url, placeholderImage: nil, options: [.progressiveLoad, .continueInBackground, .refreshCached], context: [ .imageThumbnailPixelSize: thumbnailSize])
+                postImage.sd_setImage(with: url, placeholderImage: nil, options: [.progressiveLoad, .continueInBackground, .refreshCached, .waitStoreCache, .scaleDownLargeImages], context: [ .imageThumbnailPixelSize: thumbnailSize])
                 
             }
         }
@@ -31,11 +31,4 @@ class PostCollectionCell: UICollectionViewCell {
 
     }
     
-//    
-//    func set(post: Post) {
-//        let postId = post.postId
-//        let url = URL(string: postId)
-//        postImage.sd_setImage(with: url)
-//    }
-
 }

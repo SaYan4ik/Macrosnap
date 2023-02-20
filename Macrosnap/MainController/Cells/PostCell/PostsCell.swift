@@ -18,7 +18,6 @@ class PostsCell: UITableViewCell {
     @IBOutlet weak var container: UIStackView!
     
     weak var buttonDelegate: ButtonDelegate?
-    private var type: PostType = .digitalPhoto
     
     var post: Post? {
         didSet {
@@ -33,12 +32,12 @@ class PostsCell: UITableViewCell {
             guard let postUrlRef = URL(string: postUrl) else { return }
             
             let scale = UIScreen.main.scale
-            let thumbnailSize = CGSize(width: 200 * scale, height: 200 * scale)
+            let thumbnailSize = CGSize(width: 150 * scale, height: 150 * scale)
             userPostImage.sd_setImage(
                 with: postUrlRef,
                 placeholderImage: nil,
-                options: [.progressiveLoad, .continueInBackground, .refreshCached],
-                context: [ .imageThumbnailPixelSize: thumbnailSize]
+                options: [.progressiveLoad, .continueInBackground, .refreshCached, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
+                context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
             )
             
             self.likeCountLabel.text = "\(post?.like ?? 0)"
@@ -55,11 +54,6 @@ class PostsCell: UITableViewCell {
         
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-    }
-
     @IBAction func likeButtonDidTap(_ sender: UIButton) {
         guard let post else { return }
         buttonDelegate?.likeButtonDidTap(post: post, button: likeButton)
@@ -81,7 +75,6 @@ class PostsCell: UITableViewCell {
         buttonDelegate?.favoriteButtonDidTap(post: post, button: favouriteButton)
         animateShapeButton(button: favouriteButton)
         print("Favorite did tap")
-        
     }
     
     private func animateShapeButton(button: UIButton) {
@@ -101,10 +94,9 @@ class PostsCell: UITableViewCell {
 // MARK: - PostsConfigure
 
 extension PostsCell {
-    func set(delegate: ButtonDelegate?, typePost: PostType, post: Post) {
+    func set(delegate: ButtonDelegate?, post: Post) {
         self.post = post
         self.buttonDelegate = delegate
-        self.type = typePost
         setStyle()
     }
     
@@ -112,56 +104,6 @@ extension PostsCell {
         userProfileimage.layer.cornerRadius = userProfileimage.frame.height / 2
         self.container.layer.cornerRadius = 12
         self.userPostImage.layer.cornerRadius = 12
-    }
-    
-//    LikeButton
-    func testLike() {
-        guard let post else { return }
-        
-        switch type {
-            case .digitalPhoto:
-                if likeButton.isSelected == true {
-                    FirebaseSingolton.shared.disLikePost(post: post)
-                    post.like = post.like - 1
-                    likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                    
-                } else {
-                    FirebaseSingolton.shared.likePost(post: post)
-                    post.like = post.like + 1
-                    likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                }
-                
-            case .filmPhoto:
-                if likeButton.isSelected {
-                    FirebaseSingolton.shared.disLikeFilmPost(post: post)
-                } else {
-                    FirebaseSingolton.shared.likeFilmPost(post: post)
-                }
-                
-        }
-    }
-//    Test
-    func testFavo() {
-        guard let post else { return }
-        
-        switch type {
-            case .digitalPhoto:
-                if favouriteButton.isSelected == true {
-                    FirebaseSingolton.shared.removeFavPost(post: post)
-                    favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-                } else {
-                    FirebaseSingolton.shared.favouritePost(post: post)
-                    favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-                }
-            case .filmPhoto:
-                if favouriteButton.isSelected {
-                    FirebaseSingolton.shared.removeFavPost(post: post)
-                    self.favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-                } else {
-                    FirebaseSingolton.shared.favouritePost(post: post)
-                    self.favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-                }
-        }
     }
     
     private func chekLike() {
