@@ -363,6 +363,14 @@ class FirebaseSingolton {
             }
         }
     }
+    
+    func updateUserName(newUserName: String?) {
+        guard let currentUID = Auth.auth().currentUser?.uid,
+              let newUserName
+        else { return }
+        
+        Firestore.firestore().collection("users").document(currentUID).updateData(["userName": newUserName]) 
+    }
 
     
 

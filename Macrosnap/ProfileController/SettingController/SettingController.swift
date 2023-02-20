@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseStorage
+import SDWebImage
 
 class SettingController: UIViewController {
 
@@ -23,7 +24,6 @@ class SettingController: UIViewController {
         setData()
         addTapGesture()
         setupNavBar()
-        infoChanged()
     }
     
     @IBAction func saveAvatarDidTap(_ sender: Any) {
@@ -34,15 +34,14 @@ class SettingController: UIViewController {
     
     
     @IBAction func saveUserNameDidTap(_ sender: Any) {
+        guard let newUserName = userNameField.text else { return }
         
-    }
-    
-    private func infoChanged() {
-        if userNameField.text == user?.username || avatarImageView.image == avatarImageView.image {
-            saveInfoButton.isEnabled = false
+        if user?.username != newUserName {
+            FirebaseSingolton.shared.updateUserName(newUserName: newUserName)
         } else {
-            saveInfoButton.isEnabled = true
+            self.showAlert(title: "Error", message: "You need to change your name")
         }
+
     }
     
     private func setupNavBar() {
