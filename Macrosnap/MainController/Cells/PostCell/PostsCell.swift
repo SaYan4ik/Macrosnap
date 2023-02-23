@@ -57,7 +57,7 @@ class PostsCell: UITableViewCell {
     @IBAction func likeButtonDidTap(_ sender: UIButton) {
         guard let post else { return }
         buttonDelegate?.likeButtonDidTap(post: post, button: likeButton)
-        animateShapeButton(button: likeButton)
+          animateShapeButton(button: likeButton)
         print("Like did tap")
     }
     

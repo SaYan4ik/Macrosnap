@@ -210,7 +210,10 @@ extension PostsTableController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostsCell.id, for: indexPath)
         guard let postCell = cell as? PostsCell else { return cell }
         
-        postCell.set(delegate: self, post: posts[indexPath.row])
+        if !posts.isEmpty {
+            postCell.set(delegate: self, post: posts[indexPath.row])
+        }
+        
         return postCell
     }
     
@@ -248,16 +251,12 @@ extension PostsTableController: ButtonDelegate {
                     button.setImage(UIImage(systemName: "heart"), for: .normal)
                 }
 
-                FirebaseSingolton.shared.getPostByUID(post: post) { post in
+                if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                    let indexPath = IndexPath(row: row, section:0)
 
-                    if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
-                        self.posts[row] = post
-                        let indexPath = IndexPath(row: row, section:0)
-
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6 , execute: {
-                            self.tableView.reloadRows(at: [indexPath], with: .none)
-                        })
-                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6 , execute: {
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
+                    })
                 }
 
             case .filmPhoto:

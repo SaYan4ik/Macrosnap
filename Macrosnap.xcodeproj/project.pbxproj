@@ -33,6 +33,7 @@
 		A257260129810E4700972B14 /* PostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257260029810E4700972B14 /* PostType.swift */; };
 		A257260329810F9400972B14 /* ProfilePostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257260229810F9400972B14 /* ProfilePostType.swift */; };
 		A258B105298EA37A0003E712 /* FollowersType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A258B104298EA37A0003E712 /* FollowersType.swift */; };
+		A27727E429A3D8CB00F78254 /* ExtensionSaveIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27727E329A3D8CB00F78254 /* ExtensionSaveIndex.swift */; };
 		A27E03C129530EC200FCF8CB /* FollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27E03BF29530EC200FCF8CB /* FollowCell.swift */; };
 		A27E03C229530EC200FCF8CB /* FollowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A27E03C029530EC200FCF8CB /* FollowCell.xib */; };
 		A283874B2921630D0042A8BB /* AddNewPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28387492921630D0042A8BB /* AddNewPostController.swift */; };
@@ -104,6 +105,7 @@
 		A257260029810E4700972B14 /* PostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostType.swift; sourceTree = "<group>"; };
 		A257260229810F9400972B14 /* ProfilePostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostType.swift; sourceTree = "<group>"; };
 		A258B104298EA37A0003E712 /* FollowersType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersType.swift; sourceTree = "<group>"; };
+		A27727E329A3D8CB00F78254 /* ExtensionSaveIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionSaveIndex.swift; sourceTree = "<group>"; };
 		A27E03BF29530EC200FCF8CB /* FollowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowCell.swift; sourceTree = "<group>"; };
 		A27E03C029530EC200FCF8CB /* FollowCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FollowCell.xib; sourceTree = "<group>"; };
 		A28387492921630D0042A8BB /* AddNewPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPostController.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 			children = (
 				A2838758292241350042A8BB /* ShowAlertExtension.swift */,
 				A2B6FF01295D7F3F0008F773 /* DateExtension.swift */,
+				A27727E329A3D8CB00F78254 /* ExtensionSaveIndex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -705,6 +708,7 @@
 				A236E1452920109600B54E2F /* TabBarController.swift in Sources */,
 				A2A99C4A293619C6008D1131 /* SearchController.swift in Sources */,
 				A2D3354A298BACA400F24E0D /* Message.swift in Sources */,
+				A27727E429A3D8CB00F78254 /* ExtensionSaveIndex.swift in Sources */,
 				A2D33552298BBEB100F24E0D /* ChatsCell.swift in Sources */,
 				A2BA0467299E590D00B9805E /* MessageCell.swift in Sources */,
 				A257260129810E4700972B14 /* PostType.swift in Sources */,

@@ -21,21 +21,33 @@ class PostsCollectionController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        collectionViewRefresher()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupPosts()
+        getAllPosts()
     }
 
     func set(typePost: ProfilePostType) {
         self.postsType = typePost
     }
     
-    private func setupPosts() {
-        guard let userUID = user?.uid else { return }
+    private func collectionViewRefresher() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView?.refreshControl = refreshControl
+    }
+    
+    @objc private func handleRefresh() {
+        posts.removeAll()
+        getAllPosts()
+    }
+    
+    private func getAllPosts() {
         guard let user else { return }
         pagination(user: user)
+        
 //        switch postsType {
 //            case .digitalPosts:
 //                getAllPostsWithUID(uid: userUID)
@@ -76,7 +88,6 @@ class PostsCollectionController: UIViewController {
     
     private func pagination(user: User) {
         var query: Query
-        
         switch postsType {
             case .digitalPosts:
                 if posts.isEmpty {
@@ -126,6 +137,7 @@ class PostsCollectionController: UIViewController {
                     self.posts.append(post)
                 }
                 self.collectionView.reloadData()
+                self.collectionView.refreshControl?.endRefreshing()
                 self.lastDocumentSnapshot = snapshot.documents.last
             }
         }
@@ -171,7 +183,10 @@ extension PostsCollectionController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionCell.id, for: indexPath)
         guard let postCell = cell as? PostCollectionCell else { return cell}
-        postCell.post = posts[indexPath.item]
+        
+        if !posts.isEmpty {
+            postCell.post = posts[indexPath.item]
+        }
         return postCell
     }
     
@@ -190,7 +205,6 @@ extension PostsCollectionController: UICollectionViewDelegate {
         let nib = String(describing: UserPostController.self)
         let userPostVC = UserPostController(nibName: nib, bundle: nil)
         
-//        userPostVC.post = posts[indexPath.item]
         userPostVC.getPostByUID(post: posts[indexPath.item])
         userPostVC.modalPresentationStyle = .fullScreen
         userPostVC.modalTransitionStyle = .crossDissolve
