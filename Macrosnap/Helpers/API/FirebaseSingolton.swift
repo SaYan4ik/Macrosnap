@@ -386,12 +386,22 @@ class FirebaseSingolton {
             "userUID": user.uid,
             "avatarURL": user.avatarURL,
         ])
+        
+        Firestore.firestore().collection("followers").document("\(user.uid)").collection("usersFollowsYou").document(userUID).setData([
+            "userUID": userUID
+        ])
     }
     
     func unfollowDidTap(user: User) {
         guard let userUID = Auth.auth().currentUser?.uid else { return }
         
         Firestore.firestore().collection("following").document(userUID).collection("usersFollowing").document("\(user.uid)").delete { error in
+            if let error = error {
+                print("\(error.localizedDescription)")
+            }
+        }
+        
+        Firestore.firestore().collection("followers").document("\(user.uid)").collection("usersFollowsYou").document(userUID).delete { error in
             if let error = error {
                 print("\(error.localizedDescription)")
             }
@@ -455,6 +465,25 @@ class FirebaseSingolton {
                 
                 let followUser = User(uid: userUID, username: username, fullName: fullName, profileURL: avatarURL)
                 comlition(followUser)
+            }
+        }
+    }
+    
+    func getAllFollowsUsersUID(user: User, complition: @escaping ([String]) -> Void ) {
+        Firestore.firestore().collection("followers").document(user.uid).collection("usersFollowsYou").getDocuments { (snapshot, error)  in
+            if let error = error {
+                print("Error for get all follows you users: \(error.localizedDescription)")
+            } else {
+                var followsYouUsersUID = [String]()
+                guard let snapshot = snapshot else { return }
+                for document in snapshot.documents {
+                    let data = document.data()
+                    guard let followUserUID = data["userUID"] as? String else { return }
+                    
+                    followsYouUsersUID.append(followUserUID)
+                    
+                }
+                complition(followsYouUsersUID)
             }
         }
     }

@@ -79,7 +79,6 @@ class ProfileController: UIViewController {
     @IBAction func followUserDidTap(_ sender: Any) {
         let followNib = String(describing: FollowersController.self)
         let followVC = FollowersController(nibName: followNib , bundle: nil)
-//        followVC.followingUsers = followingUsers
         
         navigationController?.pushViewController(followVC, animated: true)
     }
