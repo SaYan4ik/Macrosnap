@@ -44,6 +44,7 @@ class ProfileController: UIViewController {
         setupButton()
         getPostsForUser(uid: user?.uid ?? "")
         setupFollowCount()
+        setupFollowsCount()
     }
     
     @IBAction func segmentDidchange(_ sender: Any) {
@@ -78,8 +79,7 @@ class ProfileController: UIViewController {
     
     @IBAction func followUserDidTap(_ sender: Any) {
         let followNib = String(describing: FollowersController.self)
-        let followVC = FollowersController(nibName: followNib , bundle: nil)
-        
+        let followVC = FollowersController(nibName: followNib , bundle: nil)        
         navigationController?.pushViewController(followVC, animated: true)
     }
     
@@ -143,10 +143,11 @@ extension ProfileController {
 // MARK: - UserSettings
 
 extension ProfileController {
-    private func setUserInfo() {
-        self.userNameLabel.text = user?.username
+    private func configureUser() {
+        guard let user = user else { return }
         
-        guard let avatarUrl = user?.avatarURL else { return }
+        self.userNameLabel.text = user.username
+        let avatarUrl = user.avatarURL
         guard let url = URL(string: avatarUrl) else { return }
         profileimage.sd_setImage(with: url)
     }
@@ -212,13 +213,13 @@ extension ProfileController {
         }
     }
     
-    private func configureUser() {
-        guard let user = user else { return }
+    private func setupFollowsCount() {
+        guard let user else { return }
+        followersCountLabel.text = "\(0)"
         
-        self.userNameLabel.text = user.username
-        let avatarUrl = user.avatarURL
-        guard let url = URL(string: avatarUrl) else { return }
-        profileimage.sd_setImage(with: url)
+        FirebaseSingolton.shared.getAllFollowsUsersUID(user: user) { allUsersList in
+            self.followersCountLabel.text = "\(allUsersList.count)"
+        }
     }
 
 }
