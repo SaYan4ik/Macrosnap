@@ -58,6 +58,7 @@ class FirebaseSingolton {
                       let like = data["like"] as? Int
                 else { return }
                 let post = Post(user: post.user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                print("Post was upload")
                 complition(post)
             }
 

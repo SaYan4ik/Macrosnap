@@ -91,7 +91,6 @@ extension SearchController: UISearchBarDelegate {
         } else {
             filteredUsers = self.users.filter { (user) -> Bool in
                 return user.username.lowercased().contains(searchText.lowercased())
-
             }
         }
         tableView.reloadData()

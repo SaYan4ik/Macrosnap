@@ -136,7 +136,6 @@ extension ProfileController {
         self.contentView.addSubview(controller.view)
         self.didMove(toParent: controller)
     }
-    
 }
 
 // MARK: -
@@ -152,11 +151,6 @@ extension ProfileController {
         profileimage.sd_setImage(with: url)
     }
     
-    func updateInfo() {
-        let settingNib = String(describing: SettingController.self)
-        let settingVC = SettingController(nibName: "SettingController", bundle: nil)
-        
-    }
     
     private func setupButton() {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }

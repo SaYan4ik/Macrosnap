@@ -102,73 +102,6 @@ class PostsTableController: UIViewController {
             }
         }
     }
-    
-//    private func getAllPostWithPaging() {
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        spinner.startAnimating()
-//        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
-//            self.pagination(user: user)
-//            self.spinner.stopAnimating()
-//        }
-//        
-//        FirebaseSingolton.shared.getFollowingUsers { folllowingUsers in
-//            
-//            folllowingUsers.forEach { user in
-//                FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
-//                    self.pagination(user: user)
-//                }
-//            }
-//        }
-//    }
-//
-//    private func pagination(user: User) {
-//        var query: Query
-//
-//        switch type {
-//            case .digitalPhoto:
-//                if posts.isEmpty {
-//                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").limit(to: 2)
-//                } else {
-//                    guard let lastDocumentSnapshot else { return }
-//                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
-//                }
-//
-//            case .filmPhoto:
-//                if posts.isEmpty {
-//                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").limit(to: 2)
-//                } else {
-//                    guard let lastDocumentSnapshot else { return }
-//                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
-//                }
-//        }
-//
-//        query.getDocuments { snapshot, error in
-//            guard let snapshot else { return }
-//            if let error = error {
-//                print("\(error.localizedDescription)")
-//                return
-//            } else if snapshot.isEmpty {
-//                return
-//            } else {
-//                for document in snapshot.documents {
-//                    let data = document.data()
-//
-//                    guard let postId = data["postId"] as? String,
-//                          let userId = data["userId"] as? String,
-//                          let lense = data["lense"] as? String,
-//                          let camera = data["camera"] as? String,
-//                          let description = data["description"] as? String,
-//                          let like = data["like"] as? Int
-//                    else { return }
-//
-//                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
-//                    self.posts.append(post)
-//                }
-//                self.tableView.reloadData()
-//                self.lastDocumentSnapshot = snapshot.documents.last
-//            }
-//        }
-//    }
 }
 
 // MARK: -
@@ -216,12 +149,6 @@ extension PostsTableController: UITableViewDataSource {
         
         return postCell
     }
-    
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        if (indexPath.row == posts.count - 1) {
-//            getAllPostWithPaging()
-//        }
-//    }
     
 }
 

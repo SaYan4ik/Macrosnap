@@ -39,6 +39,7 @@ class CommentsController: UIViewController {
         guard let post else { return }
         guard let comment = enterCommentField.text else { return }
         FirebaseSingolton.shared.addCommentForPost(post: post, commentText: comment)
+        getComment()
     }
     
     private func getComment() {
