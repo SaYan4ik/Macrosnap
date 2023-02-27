@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A21EB54929AA7BF800CA3AE5 /* UserPostsCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EB54729AA7BF800CA3AE5 /* UserPostsCollectionController.swift */; };
+		A21EB54A29AA7BF800CA3AE5 /* UserPostsCollectionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A21EB54829AA7BF800CA3AE5 /* UserPostsCollectionController.xib */; };
+		A21EB54E29AA7C8800CA3AE5 /* UserPostCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EB54C29AA7C8800CA3AE5 /* UserPostCollectionCell.swift */; };
+		A21EB54F29AA7C8800CA3AE5 /* UserPostCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A21EB54D29AA7C8800CA3AE5 /* UserPostCollectionCell.xib */; };
+		A21EB55329AA800F00CA3AE5 /* PostsCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EB55229AA800F00CA3AE5 /* PostsCollectionViewFlowLayout.swift */; };
 		A236E1252920072E00B54E2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A236E1242920072E00B54E2F /* AppDelegate.swift */; };
 		A236E1272920072E00B54E2F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A236E1262920072E00B54E2F /* SceneDelegate.swift */; };
 		A236E1292920072E00B54E2F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A236E1282920072E00B54E2F /* ViewController.swift */; };
@@ -77,6 +82,11 @@
 
 /* Begin PBXFileReference section */
 		490A578F43732043961A7569 /* Pods-Macrosnap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Macrosnap.debug.xcconfig"; path = "Target Support Files/Pods-Macrosnap/Pods-Macrosnap.debug.xcconfig"; sourceTree = "<group>"; };
+		A21EB54729AA7BF800CA3AE5 /* UserPostsCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsCollectionController.swift; sourceTree = "<group>"; };
+		A21EB54829AA7BF800CA3AE5 /* UserPostsCollectionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserPostsCollectionController.xib; sourceTree = "<group>"; };
+		A21EB54C29AA7C8800CA3AE5 /* UserPostCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostCollectionCell.swift; sourceTree = "<group>"; };
+		A21EB54D29AA7C8800CA3AE5 /* UserPostCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserPostCollectionCell.xib; sourceTree = "<group>"; };
+		A21EB55229AA800F00CA3AE5 /* PostsCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		A236E1212920072E00B54E2F /* Macrosnap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Macrosnap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A236E1242920072E00B54E2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A236E1262920072E00B54E2F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -167,6 +177,34 @@
 				FCF0E63BAC44ED0E31FB7D29 /* Pods-Macrosnap.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		A21EB54629AA7BCF00CA3AE5 /* UserPostsCollectionController */ = {
+			isa = PBXGroup;
+			children = (
+				A21EB55129AA7F9400CA3AE5 /* PostsCollectionFlowLayout */,
+				A21EB54B29AA7C6A00CA3AE5 /* UserPostCollectionCell */,
+				A21EB54729AA7BF800CA3AE5 /* UserPostsCollectionController.swift */,
+				A21EB54829AA7BF800CA3AE5 /* UserPostsCollectionController.xib */,
+			);
+			path = UserPostsCollectionController;
+			sourceTree = "<group>";
+		};
+		A21EB54B29AA7C6A00CA3AE5 /* UserPostCollectionCell */ = {
+			isa = PBXGroup;
+			children = (
+				A21EB54C29AA7C8800CA3AE5 /* UserPostCollectionCell.swift */,
+				A21EB54D29AA7C8800CA3AE5 /* UserPostCollectionCell.xib */,
+			);
+			path = UserPostCollectionCell;
+			sourceTree = "<group>";
+		};
+		A21EB55129AA7F9400CA3AE5 /* PostsCollectionFlowLayout */ = {
+			isa = PBXGroup;
+			children = (
+				A21EB55229AA800F00CA3AE5 /* PostsCollectionViewFlowLayout.swift */,
+			);
+			path = PostsCollectionFlowLayout;
 			sourceTree = "<group>";
 		};
 		A236E1182920072E00B54E2F = {
@@ -372,6 +410,7 @@
 		A283875129216BD80042A8BB /* ProfileController */ = {
 			isa = PBXGroup;
 			children = (
+				A21EB54629AA7BCF00CA3AE5 /* UserPostsCollectionController */,
 				A2B6FEF6295B08CC0008F773 /* UserPostController */,
 				A255BC222934B22800224FB2 /* SettingController */,
 				A2DC83F62926511C005DD92B /* PostCollectionCell */,
@@ -618,6 +657,8 @@
 				A2C40DFC2972C68000CF6495 /* DescriptionController.xib in Resources */,
 				A236E13E2920084A00B54E2F /* LoginController.xib in Resources */,
 				A2A99C4B293619C6008D1131 /* SearchController.xib in Resources */,
+				A21EB54A29AA7BF800CA3AE5 /* UserPostsCollectionController.xib in Resources */,
+				A21EB54F29AA7C8800CA3AE5 /* UserPostCollectionCell.xib in Resources */,
 				A2A99C55293633B0008D1131 /* SearchUserCell.xib in Resources */,
 				A236E12E2920072F00B54E2F /* Assets.xcassets in Resources */,
 				A2D33559298BD6D900F24E0D /* ChatWithUserController.xib in Resources */,
@@ -685,6 +726,7 @@
 				A2D3354D298BBBA300F24E0D /* ChatsController.swift in Sources */,
 				A236E15729201A4200B54E2F /* PostsCell.swift in Sources */,
 				A236E1522920193200B54E2F /* PostsTableController.swift in Sources */,
+				A21EB54929AA7BF800CA3AE5 /* UserPostsCollectionController.swift in Sources */,
 				A2F0C33A294B5347004A6375 /* CommentModel.swift in Sources */,
 				A236E16629203D1800B54E2F /* Protocols.swift in Sources */,
 				A2D33558298BD6D900F24E0D /* ChatWithUserController.swift in Sources */,
@@ -702,12 +744,14 @@
 				A2DC83F429252628005DD92B /* FirebaseSingolton.swift in Sources */,
 				A2A99C54293633B0008D1131 /* SearchUserCell.swift in Sources */,
 				A2D33548298BAB4E00F24E0D /* ChatModel.swift in Sources */,
+				A21EB54E29AA7C8800CA3AE5 /* UserPostCollectionCell.swift in Sources */,
 				A236E1252920072E00B54E2F /* AppDelegate.swift in Sources */,
 				A2DC83FD29265588005DD92B /* PostCollectionCell.swift in Sources */,
 				A236E149292011F200B54E2F /* Environment.swift in Sources */,
 				A236E1452920109600B54E2F /* TabBarController.swift in Sources */,
 				A2A99C4A293619C6008D1131 /* SearchController.swift in Sources */,
 				A2D3354A298BACA400F24E0D /* Message.swift in Sources */,
+				A21EB55329AA800F00CA3AE5 /* PostsCollectionViewFlowLayout.swift in Sources */,
 				A27727E429A3D8CB00F78254 /* ExtensionSaveIndex.swift in Sources */,
 				A2D33552298BBEB100F24E0D /* ChatsCell.swift in Sources */,
 				A2BA0467299E590D00B9805E /* MessageCell.swift in Sources */,

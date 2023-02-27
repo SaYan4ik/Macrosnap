@@ -202,14 +202,20 @@ extension PostsCollectionController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDataSource
 extension PostsCollectionController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let nib = String(describing: UserPostController.self)
-        let userPostVC = UserPostController(nibName: nib, bundle: nil)
-        
-        userPostVC.getPostByUID(post: posts[indexPath.item])
-        userPostVC.modalPresentationStyle = .fullScreen
-        userPostVC.modalTransitionStyle = .crossDissolve
-        
-        present(userPostVC, animated: true)
+//        let nib = String(describing: UserPostController.self)
+//        let userPostVC = UserPostController(nibName: nib, bundle: nil)
+//
+//        userPostVC.getPostByUID(post: posts[indexPath.item])
+//        userPostVC.modalPresentationStyle = .fullScreen
+//        userPostVC.modalTransitionStyle = .crossDissolve
+//
+//        present(userPostVC, animated: true)
+        let nib = String(describing: UserPostsCollectionController.self)
+        let userPostsCollection = UserPostsCollectionController(nibName: nib, bundle: nil)
+        let selectedIndex = indexPath.row
+        userPostsCollection.collectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: [], animated:false)
+        userPostsCollection.set(posts: posts)
+        navigationController?.pushViewController(userPostsCollection, animated: true)
     }
     
 }
