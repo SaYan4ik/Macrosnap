@@ -214,7 +214,6 @@ extension PostsCollectionController: UICollectionViewDelegate {
         let nib = String(describing: UserPostsCollectionController.self)
         let userPostsCollection = UserPostsCollectionController(nibName: nib, bundle: nil)
         userPostsCollection.set(posts: posts, index: indexPath.row)
-//        userPostsCollection.collectionView.scrollToItem(at: IndexPath(row: indexPath.row, section: 0), at: [], animated: false)
         navigationController?.pushViewController(userPostsCollection, animated: true)
     }
     

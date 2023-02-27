@@ -18,6 +18,7 @@ class UserPostsCollectionController: UIViewController {
         setupCollectionView()
         registrationCell()
         collectionViewScrollToItem()
+        chekLike()
     }
 
     private func setupCollectionView() {
@@ -41,6 +42,18 @@ class UserPostsCollectionController: UIViewController {
         collectionView.scrollToItem(at: IndexPath(item: currentSelectedIndex, section: 0), at: .centeredHorizontally, animated: false)
     }
     
+    private func chekLike() {
+        posts.forEach { post in
+            FirebaseSingolton.shared.checkLikeByUser(post: post) { didLike in
+                if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                    self.posts[index].likeByCurrenUser = didLike
+                    self.collectionView.reloadData()
+                    print(self.posts[index].likeByCurrenUser )
+                }
+            }
+        }
+    }
+    
 }
 
 extension UserPostsCollectionController: UICollectionViewDataSource {
@@ -57,7 +70,8 @@ extension UserPostsCollectionController: UICollectionViewDataSource {
             postCell.transformToLarge()
         }
         
-        postCell.set(post: posts[indexPath.row], buttonDelegate: self)
+        postCell.set(post: posts[indexPath.row], buttonDelegate: self, likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser)
+//        postCell.likeButton.isSelected = posts[indexPath.row].likeByCurrenUser
         
         return postCell
     }
@@ -123,20 +137,41 @@ extension UserPostsCollectionController: UICollectionViewDelegate {
     
 }
 
-extension UserPostsCollectionController: ButtonDelegate {
+extension UserPostsCollectionController: UserPostCollectionButtonDelegate {
     func present(vc: UIViewController) {
-        
+        self.present(vc, animated: true)
     }
     
     func push(vc: UIViewController) {
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func likeButtonDidTap(_ likeButton: UIButton, on cell: UserPostCollectionCell) {
+        print("Like did tap")
+        
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        let post = posts[indexPath.row]
+        
+        FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
+            if didLike {
+                FirebaseSingolton.shared.disLikePost(post: post)
+                likeButton.isSelected = false
+                likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+//                print("\(likeButton.isSelected)")
+//                print("TESt DID LIKE \(didLike)")
+            } else {
+                FirebaseSingolton.shared.likePost(post: post)
+                likeButton.isSelected = true
+                likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            }
+        }
+        
         
     }
     
-    func likeButtonDidTap(post: Post, button: UIButton) {
-        
+    func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: UserPostCollectionCell) {
+        print("Favourite did tap")
     }
     
-    func favoriteButtonDidTap(post: Post, button: UIButton) {
-        
-    }
+    
 }

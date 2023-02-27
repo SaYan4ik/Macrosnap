@@ -19,7 +19,7 @@ class UserPostCollectionCell: UICollectionViewCell {
     @IBOutlet weak var favouriteButton: UIButton!
     @IBOutlet weak var containerView: UIView!
     
-    private var post: Post? {
+    var post: Post? {
         didSet {
             self.userNameLabel.text = post?.user.username
             
@@ -51,17 +51,32 @@ class UserPostCollectionCell: UICollectionViewCell {
     }
     
     static var id = String(describing: UserPostCollectionCell.self)
-    weak var buttonDelegate: ButtonDelegate?
+    weak var buttonDelegate: UserPostCollectionButtonDelegate?
+    
+    var didLike: Bool?
+    
+    var likeButtonImage: UIImage? {
+        let imageLikeName = didLike ?? false ? "heart.fill" : "heart"
+        return UIImage(systemName: imageLikeName)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
-    func set(post: Post, buttonDelegate: ButtonDelegate) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.likeButton.setImage(likeButtonImage, for: .normal)
+    }
+    
+    func set(post: Post, buttonDelegate: UserPostCollectionButtonDelegate, likeButtonIsSelected: Bool) {
         self.post = post
         self.buttonDelegate = buttonDelegate
         setStyleCell()
+        self.didLike = likeButtonIsSelected
+        self.likeButton.setImage(likeButtonImage, for: .normal)
+//        chekLike(result: likeButtonIsSelected)
+        
     }
     
     private func setStyleCell() {
@@ -69,7 +84,28 @@ class UserPostCollectionCell: UICollectionViewCell {
         self.userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.height / 2
         self.postImageView.layer.cornerRadius = 12
     }
+    
+    @IBAction func likeButtonDidTap(_ sender: UIButton) {
+        buttonDelegate?.likeButtonDidTap(sender, on: self)
+    }
+    
+    @IBAction func commentButtonDidTap(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func favouriteButtonDidTap(_ sender: UIButton) {
+        buttonDelegate?.favoriteButtonDidTap(sender, on: self)
+    }
 
+    func chekLike(result: Bool) {
+        if result {
+            likeButton.isSelected = result
+            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        } else {
+            likeButton.isSelected = result
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
+    }
 }
 
 extension UICollectionViewCell {

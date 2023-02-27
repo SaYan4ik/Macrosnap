@@ -18,6 +18,15 @@ protocol ButtonDelegate: AnyObject {
     func favoriteButtonDidTap(post: Post, button: UIButton)
 }
 
+// MARK: -
+// MARK: - UserPostCollectionButtonDelegate
+protocol UserPostCollectionButtonDelegate: AnyObject {
+    func present(vc: UIViewController)
+    func push(vc: UIViewController)
+    func likeButtonDidTap(_ likeButton: UIButton, on cell: UserPostCollectionCell)
+    func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: UserPostCollectionCell)
+}
+
 //MARK: -
 //MARK: - CommentCellProtocol
 protocol CommentButtonDelegate: AnyObject {
