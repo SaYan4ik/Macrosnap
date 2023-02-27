@@ -11,20 +11,23 @@ import SDWebImage
 class UserPostCollectionCell: UICollectionViewCell {
     
     @IBOutlet weak var userAvatarImageView: UIImageView!
-    @IBOutlet weak var userNameLAbel: UILabel!
+    @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var likeCountLabel: UILabel!
     @IBOutlet weak var commentButtn: UIButton!
     @IBOutlet weak var favouriteButton: UIButton!
+    @IBOutlet weak var containerView: UIView!
     
     private var post: Post? {
         didSet {
+            self.userNameLabel.text = post?.user.username
+            
             guard let userAvatarURL = post?.user.avatarURL else { return }
             guard let userURLRef = URL(string: userAvatarURL) else { return }
             
             let scale = UIScreen.main.scale
-            let thumbnailSize = CGSize(width: 150 * scale, height: 150 * scale)
+            let thumbnailSize = CGSize(width: 400 * scale, height: 300 * scale)
             userAvatarImageView.sd_setImage(
                 with: userURLRef,
                 placeholderImage: nil,
@@ -58,6 +61,27 @@ class UserPostCollectionCell: UICollectionViewCell {
     func set(post: Post, buttonDelegate: ButtonDelegate) {
         self.post = post
         self.buttonDelegate = buttonDelegate
+        setStyleCell()
+    }
+    
+    private func setStyleCell() {
+        self.containerView.layer.cornerRadius = 12
+        self.userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.height / 2
+        self.postImageView.layer.cornerRadius = 12
     }
 
+}
+
+extension UICollectionViewCell {
+    func transformToLarge() {
+        UIView.animate(withDuration: 0.3) {
+            self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }
+    }
+    
+    func transformToStandard() {
+        UIView.animate(withDuration: 0.3) {
+            self.transform = CGAffineTransform.identity
+        }
+    }
 }

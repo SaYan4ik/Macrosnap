@@ -20,7 +20,7 @@ class PostsCollectionViewFlowLayout: UICollectionViewFlowLayout {
         let peekingItemWidth = itemSize.width / 10
         let horizontalInsets = (collectionView.frame.size.width - itemSize.width) / 2
         
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: horizontalInsets, bottom: 0, right: horizontalInsets)
+        collectionView.contentInset = UIEdgeInsets(top: 12, left: horizontalInsets, bottom: 12, right: horizontalInsets)
         minimumLineSpacing = horizontalInsets - peekingItemWidth
     }
 }

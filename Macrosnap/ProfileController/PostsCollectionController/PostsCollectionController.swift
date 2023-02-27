@@ -210,11 +210,11 @@ extension PostsCollectionController: UICollectionViewDelegate {
 //        userPostVC.modalTransitionStyle = .crossDissolve
 //
 //        present(userPostVC, animated: true)
+        
         let nib = String(describing: UserPostsCollectionController.self)
         let userPostsCollection = UserPostsCollectionController(nibName: nib, bundle: nil)
-        let selectedIndex = indexPath.row
-        userPostsCollection.collectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: [], animated:false)
-        userPostsCollection.set(posts: posts)
+        userPostsCollection.set(posts: posts, index: indexPath.row)
+//        userPostsCollection.collectionView.scrollToItem(at: IndexPath(row: indexPath.row, section: 0), at: [], animated: false)
         navigationController?.pushViewController(userPostsCollection, animated: true)
     }
     

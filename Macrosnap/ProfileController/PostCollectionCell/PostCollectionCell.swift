@@ -21,7 +21,7 @@ class PostCollectionCell: UICollectionViewCell {
                 let scale = UIScreen.main.scale
                 let thumbnailSize = CGSize(width: 200 * scale, height: 200 * scale)
 
-                postImage.sd_setImage(with: url, placeholderImage: nil, options: [.progressiveLoad, .continueInBackground, .refreshCached, .waitStoreCache, .scaleDownLargeImages], context: [ .imageThumbnailPixelSize: thumbnailSize])
+                postImage.sd_setImage(with: url, placeholderImage: nil, options: [.progressiveLoad, .continueInBackground, .refreshCached, .scaleDownLargeImages], context: [ .imageThumbnailPixelSize: thumbnailSize])
                 
             }
         }
