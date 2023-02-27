@@ -146,7 +146,7 @@ extension UserPostsCollectionController: UserPostCollectionButtonDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func likeButtonDidTap(_ likeButton: UIButton, on cell: UserPostCollectionCell) {
+    func likeButtonDidTap(_ likeButton: UIButton, likeCount: UILabel, on cell: UserPostCollectionCell) {
         print("Like did tap")
         
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
@@ -157,12 +157,16 @@ extension UserPostsCollectionController: UserPostCollectionButtonDelegate {
                 FirebaseSingolton.shared.disLikePost(post: post)
                 likeButton.isSelected = false
                 likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-//                print("\(likeButton.isSelected)")
-//                print("TESt DID LIKE \(didLike)")
+                self.posts[indexPath.row].like = post.like - 1
+                likeCount.text = "\(post.like)"
+                
             } else {
+                
                 FirebaseSingolton.shared.likePost(post: post)
                 likeButton.isSelected = true
                 likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                self.posts[indexPath.row].like = post.like + 1
+                likeCount.text = "\(post.like)"
             }
         }
         

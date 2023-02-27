@@ -23,7 +23,7 @@ protocol ButtonDelegate: AnyObject {
 protocol UserPostCollectionButtonDelegate: AnyObject {
     func present(vc: UIViewController)
     func push(vc: UIViewController)
-    func likeButtonDidTap(_ likeButton: UIButton, on cell: UserPostCollectionCell)
+    func likeButtonDidTap(_ likeButton: UIButton, likeCount: UILabel, on cell: UserPostCollectionCell)
     func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: UserPostCollectionCell)
 }
 

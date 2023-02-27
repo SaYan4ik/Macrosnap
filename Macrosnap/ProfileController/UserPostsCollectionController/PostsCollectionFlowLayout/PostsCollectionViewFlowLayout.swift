@@ -8,7 +8,7 @@
 import UIKit
 
 class PostsCollectionViewFlowLayout: UICollectionViewFlowLayout {
-    private let itemHeight = 400
+    private let itemHeight = 425
     private let itemWidth = 300
     
     override func prepare() {

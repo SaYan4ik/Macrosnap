@@ -45,8 +45,6 @@ class UserPostCollectionCell: UICollectionViewCell {
                 context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
             )
             
-            self.likeCountLabel.text = "\(post?.like ?? 0)"
-            
         }
     }
     
@@ -60,6 +58,20 @@ class UserPostCollectionCell: UICollectionViewCell {
         return UIImage(systemName: imageLikeName)
     }
     
+    var likes: Int {
+        guard let post else { return 0}
+        return post.like
+    }
+    
+    var likesLabelText: String {
+        guard let post else { return "ERROR: Reload page" }
+        if post.like != 1 {
+            return "\(post.like) likes"
+        }else {
+            return "\(post.like) like"
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -67,6 +79,7 @@ class UserPostCollectionCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.likeButton.setImage(likeButtonImage, for: .normal)
+        self.likeCountLabel.text = likesLabelText
     }
     
     func set(post: Post, buttonDelegate: UserPostCollectionButtonDelegate, likeButtonIsSelected: Bool) {
@@ -75,8 +88,7 @@ class UserPostCollectionCell: UICollectionViewCell {
         setStyleCell()
         self.didLike = likeButtonIsSelected
         self.likeButton.setImage(likeButtonImage, for: .normal)
-//        chekLike(result: likeButtonIsSelected)
-        
+        self.likeCountLabel.text = "\(post.like)"
     }
     
     private func setStyleCell() {
@@ -86,7 +98,7 @@ class UserPostCollectionCell: UICollectionViewCell {
     }
     
     @IBAction func likeButtonDidTap(_ sender: UIButton) {
-        buttonDelegate?.likeButtonDidTap(sender, on: self)
+        buttonDelegate?.likeButtonDidTap(sender, likeCount: likeCountLabel, on: self)
     }
     
     @IBAction func commentButtonDidTap(_ sender: UIButton) {
