@@ -76,6 +76,7 @@
 		A2DC83FA29265142005DD92B /* PostsCollectionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DC83F829265142005DD92B /* PostsCollectionController.xib */; };
 		A2DC83FD29265588005DD92B /* PostCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DC83FB29265588005DD92B /* PostCollectionCell.swift */; };
 		A2DC83FE29265588005DD92B /* PostCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DC83FC29265588005DD92B /* PostCollectionCell.xib */; };
+		A2DFBD9729ADE62400D4ED75 /* CellTransform+Exnetsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DFBD9629ADE62400D4ED75 /* CellTransform+Exnetsion.swift */; };
 		A2F0C33A294B5347004A6375 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F0C339294B5347004A6375 /* CommentModel.swift */; };
 		CCE2588F8196C375CA2E602F /* Pods_Macrosnap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE6A7A7793FC02AED4D0157F /* Pods_Macrosnap.framework */; };
 /* End PBXBuildFile section */
@@ -153,6 +154,7 @@
 		A2DC83F829265142005DD92B /* PostsCollectionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostsCollectionController.xib; sourceTree = "<group>"; };
 		A2DC83FB29265588005DD92B /* PostCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionCell.swift; sourceTree = "<group>"; };
 		A2DC83FC29265588005DD92B /* PostCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCollectionCell.xib; sourceTree = "<group>"; };
+		A2DFBD9629ADE62400D4ED75 /* CellTransform+Exnetsion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CellTransform+Exnetsion.swift"; sourceTree = "<group>"; };
 		A2F0C339294B5347004A6375 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
 		BE6A7A7793FC02AED4D0157F /* Pods_Macrosnap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Macrosnap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCF0E63BAC44ED0E31FB7D29 /* Pods-Macrosnap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Macrosnap.release.xcconfig"; path = "Target Support Files/Pods-Macrosnap/Pods-Macrosnap.release.xcconfig"; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 				A2838758292241350042A8BB /* ShowAlertExtension.swift */,
 				A2B6FF01295D7F3F0008F773 /* DateExtension.swift */,
 				A27727E329A3D8CB00F78254 /* ExtensionSaveIndex.swift */,
+				A2DFBD9629ADE62400D4ED75 /* CellTransform+Exnetsion.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -750,6 +753,7 @@
 				A236E149292011F200B54E2F /* Environment.swift in Sources */,
 				A236E1452920109600B54E2F /* TabBarController.swift in Sources */,
 				A2A99C4A293619C6008D1131 /* SearchController.swift in Sources */,
+				A2DFBD9729ADE62400D4ED75 /* CellTransform+Exnetsion.swift in Sources */,
 				A2D3354A298BACA400F24E0D /* Message.swift in Sources */,
 				A21EB55329AA800F00CA3AE5 /* PostsCollectionViewFlowLayout.swift in Sources */,
 				A27727E429A3D8CB00F78254 /* ExtensionSaveIndex.swift in Sources */,

@@ -60,19 +60,13 @@ class UserPostCollectionCell: UICollectionViewCell {
     
     private var likesLabelText: String {
         guard let post else { return "ERROR: Reload page" }
-        if post.like != 1 {
-            return "\(post.like) likes"
-        }else {
-            return "\(post.like) like"
-        }
+        return "\(post.like)"
     }
     
     private var favouriteButtonImage: UIImage? {
         let imageFavouriteName = didFav ?? false ? "star.fill" : "star"
         return UIImage(systemName: imageFavouriteName)
     }
-    
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -83,6 +77,30 @@ class UserPostCollectionCell: UICollectionViewCell {
         self.likeButton.setImage(likeButtonImage, for: .normal)
         self.likeCountLabel.text = likesLabelText
         self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
+    }
+
+    private func setStyleCell() {
+        self.containerView.layer.cornerRadius = 12
+        self.userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.height / 2
+        self.postImageView.layer.cornerRadius = 12
+    }
+    
+    @IBAction func likeButtonDidTap(_ sender: UIButton) {
+        buttonDelegate?.likeButtonDidTap(sender, likeCount: likeCountLabel, on: self)
+        animateShapeButton(button: sender)
+    }
+    
+    @IBAction func commentButtonDidTap(_ sender: UIButton) {
+        let commentNib = String(describing: CommentsController.id)
+        let commentVC = CommentsController(nibName: commentNib, bundle: nil)
+        commentVC.post = post
+        buttonDelegate?.present(vc: commentVC)
+        print("Comment did tap")
+    }
+    
+    @IBAction func favouriteButtonDidTap(_ sender: UIButton) {
+        buttonDelegate?.favoriteButtonDidTap(sender, on: self)
+        animateShapeButton(button: sender)
     }
     
     func set(post: Post, buttonDelegate: UserPostCollectionButtonDelegate, likeButtonIsSelected: Bool, favButtonIsSelected: Bool) {
@@ -96,45 +114,17 @@ class UserPostCollectionCell: UICollectionViewCell {
         self.likeCountLabel.text = "\(post.like)"
     }
     
-    private func setStyleCell() {
-        self.containerView.layer.cornerRadius = 12
-        self.userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.height / 2
-        self.postImageView.layer.cornerRadius = 12
-    }
     
-    @IBAction func likeButtonDidTap(_ sender: UIButton) {
-        buttonDelegate?.likeButtonDidTap(sender, likeCount: likeCountLabel, on: self)
-    }
-    
-    @IBAction func commentButtonDidTap(_ sender: UIButton) {
-        
-    }
-    
-    @IBAction func favouriteButtonDidTap(_ sender: UIButton) {
-        buttonDelegate?.favoriteButtonDidTap(sender, on: self)
-    }
-
-    func chekLike(result: Bool) {
-        if result {
-            likeButton.isSelected = result
-            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .selected)
-        } else {
-            likeButton.isSelected = result
-            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        }
+    private func animateShapeButton(button: UIButton) {
+        UIView.animate(withDuration: 0.5,
+                       animations: {
+            button.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        },
+                       completion: { _ in
+            UIView.animate(withDuration: 0.5) {
+                button.transform = CGAffineTransform.identity
+            }
+        })
     }
 }
 
-extension UICollectionViewCell {
-    func transformToLarge() {
-        UIView.animate(withDuration: 0.3) {
-            self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-        }
-    }
-    
-    func transformToStandard() {
-        UIView.animate(withDuration: 0.3) {
-            self.transform = CGAffineTransform.identity
-        }
-    }
-}

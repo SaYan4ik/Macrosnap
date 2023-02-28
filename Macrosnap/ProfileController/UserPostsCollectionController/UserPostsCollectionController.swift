@@ -18,6 +18,7 @@ class UserPostsCollectionController: UIViewController {
         setupCollectionView()
         registrationCell()
         collectionViewScrollToItem()
+        setupNavBar()
         chekLike()
         checkFav()
     }
@@ -66,11 +67,22 @@ class UserPostsCollectionController: UIViewController {
         }
     }
     
+    private func setupNavBar() {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.tintColor = .white
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+    }
+    
+    @IBAction func backAction(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 extension UserPostsCollectionController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return posts.count
     }
     
@@ -83,7 +95,6 @@ extension UserPostsCollectionController: UICollectionViewDataSource {
         }
         
         postCell.set(post: posts[indexPath.row], buttonDelegate: self, likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser, favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser)
-//        postCell.likeButton.isSelected = posts[indexPath.row].likeByCurrenUser
         
         return postCell
     }
@@ -182,10 +193,10 @@ extension UserPostsCollectionController: UserPostCollectionButtonDelegate {
             }
         }
         
-        
     }
     
     func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: UserPostCollectionCell) {
+        print("Favourite did tap")
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         let post = posts[indexPath.row]
         
@@ -200,9 +211,5 @@ extension UserPostsCollectionController: UserPostCollectionButtonDelegate {
                 favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             }
         }
-        
-        print("Favourite did tap")
     }
-    
-    
 }

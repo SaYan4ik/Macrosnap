@@ -53,7 +53,6 @@ class SettingController: UIViewController {
     }
     
     @IBAction func backAction(_ sender: Any) {
-        
         navigationController?.popViewController(animated: true)
     }
     
