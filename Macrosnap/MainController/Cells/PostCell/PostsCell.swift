@@ -24,15 +24,22 @@ class PostsCell: UITableViewCell {
             
             self.userNameLabel.text = post?.user.username
             
+            let scale = UIScreen.main.scale
+            let thumbnailSize = CGSize(width: 400 * scale, height: 300 * scale)
+            
             guard let userUrl = post?.user.avatarURL else { return }
             guard let userUrlRef = URL(string: userUrl) else { return }
-            userProfileimage.sd_setImage(with: userUrlRef, completed: nil)
+            
+            userProfileimage.sd_setImage(
+                with: userUrlRef,
+                placeholderImage: nil,
+                options: [.progressiveLoad, .continueInBackground, .refreshCached, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
+                context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
+            )
             
             guard let postUrl = post?.postId else { return }
             guard let postUrlRef = URL(string: postUrl) else { return }
             
-            let scale = UIScreen.main.scale
-            let thumbnailSize = CGSize(width: 150 * scale, height: 150 * scale)
             userPostImage.sd_setImage(
                 with: postUrlRef,
                 placeholderImage: nil,
@@ -40,24 +47,42 @@ class PostsCell: UITableViewCell {
                 context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
             )
             
-            self.likeCountLabel.text = "\(post?.like ?? 0)"
-            chekLike()
-            chekFavourite()
-            
         }
     }
 
     static var id = String(describing: PostsCell.self)
+    private var didLike: Bool?
+    private var didFav: Bool?
+    
+    private var likeButtonImage: UIImage? {
+        let imageLikeName = didLike ?? false ? "heart.fill" : "heart"
+        return UIImage(systemName: imageLikeName)
+    }
+    private var likesLabelText: String {
+        guard let post else { return "ERROR: Reload page" }
+        return "\(post.like)"
+    }
+    
+    private var favouriteButtonImage: UIImage? {
+        let imageFavouriteName = didFav ?? false ? "star.fill" : "star"
+        return UIImage(systemName: imageFavouriteName)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.likeButton.setImage(likeButtonImage, for: .normal)
+        self.likeCountLabel.text = likesLabelText
+        self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
+    }
+    
     @IBAction func likeButtonDidTap(_ sender: UIButton) {
-        guard let post else { return }
-        buttonDelegate?.likeButtonDidTap(post: post, button: likeButton)
-          animateShapeButton(button: likeButton)
+        buttonDelegate?.likeButtonDidTap(sender, likeCount: likeCountLabel, on: self)
+        animateShapeButton(button: sender)
         print("Like did tap")
     }
     
@@ -71,10 +96,8 @@ class PostsCell: UITableViewCell {
     
     
     @IBAction func favoriteButtonDidTap(_ sender: UIButton) {
-        guard let post else { return }
-        buttonDelegate?.favoriteButtonDidTap(post: post, button: favouriteButton)
-        animateShapeButton(button: favouriteButton)
-        print("Favorite did tap")
+        buttonDelegate?.favoriteButtonDidTap(sender, on: self)
+        animateShapeButton(button: sender)
     }
     
     private func animateShapeButton(button: UIButton) {
@@ -94,9 +117,16 @@ class PostsCell: UITableViewCell {
 // MARK: - PostsConfigure
 
 extension PostsCell {
-    func set(delegate: ButtonDelegate?, post: Post) {
+    func set(delegate: ButtonDelegate?, post: Post, likeButtonIsSelected: Bool, favButtonIsSelected: Bool) {
         self.post = post
         self.buttonDelegate = delegate
+        self.didLike = likeButtonIsSelected
+        self.didFav = favButtonIsSelected
+//        print("TEST TEST TEST Like \(likeButtonIsSelected)")
+//        print("TEST TEST TEST Fav \(favButtonIsSelected)")
+        self.likeButton.setImage(likeButtonImage, for: .normal)
+        self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
+        self.likeCountLabel.text = "\(post.like)"
         setStyle()
     }
     
@@ -104,34 +134,6 @@ extension PostsCell {
         userProfileimage.layer.cornerRadius = userProfileimage.frame.height / 2
         self.container.layer.cornerRadius = 12
         self.userPostImage.layer.cornerRadius = 12
-    }
-    
-    private func chekLike() {
-        guard let post else { return }
-        
-        FirebaseSingolton.shared.checkLikeByUser(post: post) { postExist in
-            if postExist {
-                self.likeButton.isSelected = true
-                self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            } else {
-                self.likeButton.isSelected = false
-                self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-            }
-        }
-    }
-    
-    private func chekFavourite() {
-        guard let post else { return }
-        
-        FirebaseSingolton.shared.checkFavByUser(post: post) { postFavExist in
-            if postFavExist {
-                self.favouriteButton.isSelected = true
-                self.favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            } else {
-                self.favouriteButton.isSelected = false
-                self.favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-            }
-        }
     }
     
 }

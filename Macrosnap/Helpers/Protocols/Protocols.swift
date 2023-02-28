@@ -14,8 +14,8 @@ import UIKit
 protocol ButtonDelegate: AnyObject {
     func present(vc: UIViewController)
     func push(vc: UIViewController)
-    func likeButtonDidTap(post: Post, button: UIButton)
-    func favoriteButtonDidTap(post: Post, button: UIButton)
+    func likeButtonDidTap(_ likeButton: UIButton, likeCount: UILabel, on cell: PostsCell)
+    func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: PostsCell)
 }
 
 // MARK: -

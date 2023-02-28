@@ -39,11 +39,23 @@ class UserPostsCollectionController: UIViewController {
         self.posts = posts
         self.currentSelectedIndex = index
         self.postsType = type
+        setTitle()
     }
 
     private func collectionViewScrollToItem() {
         collectionView.layoutIfNeeded()
         collectionView.scrollToItem(at: IndexPath(item: currentSelectedIndex, section: 0), at: .centeredHorizontally, animated: false)
+    }
+    
+    private func setTitle() {
+        switch postsType {
+            case .digitalPosts:
+                self.title = "Digitals posts"
+            case .filmPosts:
+                self.title = "Films posts"
+            case .favouritePosts:
+                self.title = "Favourite posts"
+        }
     }
     
     private func chekLike() {
@@ -61,9 +73,8 @@ class UserPostsCollectionController: UIViewController {
         posts.forEach { post in
             FirebaseSingolton.shared.checkFavByUser(post: post) { didFavourite in
                 if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
-                    self.posts[index].favouriteByCurenUser = didFavourite
                     self.collectionView.reloadData()
-                    print(self.posts[index].favouriteByCurenUser )
+                    self.posts[index].favouriteByCurenUser = didFavourite
                 }
             }
         }

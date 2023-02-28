@@ -15,7 +15,12 @@ class PostsTableController: UIViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     private var type: PostType = .digitalPhoto
-    private var posts = [Post]()
+    private var posts = [Post]() {
+        didSet {
+            chekLike()
+            checkFav()
+        }
+    }
     private var lastDocumentSnapshot: DocumentSnapshot?
     
     override func viewDidLoad() {
@@ -23,10 +28,8 @@ class PostsTableController: UIViewController {
         configure()
         tableViewRefresher()
         getAllPosts()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        chekLike()
+        checkFav()
     }
     
     func set(type: PostType) {
@@ -84,6 +87,7 @@ class PostsTableController: UIViewController {
                         
                     case .digitalPhoto:
                         FirebaseSingolton.shared.getPostsWithUserUID(user: user) { followUserPosts in
+                            
                             self.posts.append(contentsOf: followUserPosts)
                             
                             self.tableView.reloadData()
@@ -102,6 +106,44 @@ class PostsTableController: UIViewController {
             }
         }
     }
+    
+    private func checkSinglePost(post: Post) {
+        FirebaseSingolton.shared.checkLikeByUser(post: post) { didLike in
+            if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                self.posts[index].likeByCurrenUser = didLike
+            }
+        }
+    }
+    
+    private func chekLike() {
+        posts.forEach { post in
+            FirebaseSingolton.shared.checkLikeByUser(post: post) { didLike in
+                if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                    let indexPath = IndexPath(row: index, section:0)
+                    if didLike {
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
+                        self.posts[index].likeByCurrenUser = didLike
+                    }
+                }
+            }
+        }
+    }
+    
+    private func checkFav() {
+        posts.forEach { post in
+            FirebaseSingolton.shared.checkFavByUser(post: post) { didFavourite in
+                if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                    let indexPath = IndexPath(row: index, section:0)
+                    if didFavourite {
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
+                        self.posts[index].favouriteByCurenUser = didFavourite
+                    }
+                }
+            }
+        }
+    }
+    
+    
 }
 
 // MARK: -
@@ -144,7 +186,7 @@ extension PostsTableController: UITableViewDataSource {
         guard let postCell = cell as? PostsCell else { return cell }
         
         if !posts.isEmpty {
-            postCell.set(delegate: self, post: posts[indexPath.row])
+            postCell.set(delegate: self, post: posts[indexPath.row], likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser, favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser)
         }
         
         return postCell
@@ -155,6 +197,71 @@ extension PostsTableController: UITableViewDataSource {
 // MARK: -
 // MARK: - UITableViewDelegate
 extension PostsTableController: ButtonDelegate {
+    func likeButtonDidTap(_ likeButton: UIButton, likeCount: UILabel, on cell: PostsCell) {
+        print("Like did tap")
+        
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let post = posts[indexPath.row]
+        
+        switch type {
+            case .digitalPhoto :
+                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
+                    if didLike {
+                        FirebaseSingolton.shared.disLikePost(post: post)
+                        likeButton.isSelected = false
+                        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                        self.posts[indexPath.row].like = post.like - 1
+                        likeCount.text = "\(post.like)"
+                        
+                    } else {
+                        
+                        FirebaseSingolton.shared.likePost(post: post)
+                        likeButton.isSelected = true
+                        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                        self.posts[indexPath.row].like = post.like + 1
+                        likeCount.text = "\(post.like)"
+                    }
+                }
+                
+            case .filmPhoto:
+                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
+                    if didLike {
+                        FirebaseSingolton.shared.disLikeFilmPost(post: post)
+                        likeButton.isSelected = false
+                        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                        self.posts[indexPath.row].like = post.like - 1
+                        likeCount.text = "\(post.like)"
+                        
+                    } else {
+                        
+                        FirebaseSingolton.shared.likeFilmPost(post: post)
+                        likeButton.isSelected = true
+                        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                        self.posts[indexPath.row].like = post.like + 1
+                        likeCount.text = "\(post.like)"
+                    }
+                }
+        }
+    }
+    
+    func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: PostsCell) {
+        print("Favourite did tap")
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let post = posts[indexPath.row]
+        
+        FirebaseSingolton.shared.checkFavByUser(post: post) { (didFav) in
+            if didFav {
+                FirebaseSingolton.shared.removeFavPost(post: post)
+                favouriteButton.isSelected = false
+                favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)
+            } else {
+                FirebaseSingolton.shared.favouritePost(post: post)
+                favouriteButton.isSelected = true
+                favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            }
+        }
+    }
+    
     func present(vc: UIViewController) {
         self.present(vc, animated: true)
     }
@@ -162,66 +269,6 @@ extension PostsTableController: ButtonDelegate {
     func push(vc: UIViewController) {
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    func likeButtonDidTap(post: Post, button: UIButton) {
-        switch type {
-            case .digitalPhoto:
-                
-                if button.isSelected {
-                    FirebaseSingolton.shared.disLikePost(post: post)
-                    post.like = post.like - 1
-                    button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
 
-                } else {
-                    FirebaseSingolton.shared.likePost(post: post)
-                    post.like = post.like + 1
-                    button.setImage(UIImage(systemName: "heart"), for: .normal)
-                }
-
-                if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
-                    let indexPath = IndexPath(row: row, section:0)
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6 , execute: {
-                        self.tableView.reloadRows(at: [indexPath], with: .none)
-                    })
-                }
-
-            case .filmPhoto:
-                if button.isSelected {
-                    FirebaseSingolton.shared.disLikeFilmPost(post: post)
-                } else {
-                    FirebaseSingolton.shared.likeFilmPost(post: post)
-                }
-
-                FirebaseSingolton.shared.getFilmPostByUID(post: post) { post in
-                    if let row = self.posts.firstIndex(where: { $0.postId == post.postId }) {
-                        self.posts[row] = post
-                        let indexPath = IndexPath(row: row, section: 0)
-
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
-                            self.tableView.reloadRows(at: [indexPath], with: .none)
-                        })
-                    }
-                }
-        }
-        
-    }
-    
-    func favoriteButtonDidTap(post: Post, button: UIButton) {
-        
-        if button.isSelected {
-            FirebaseSingolton.shared.removeFavPost(post: post)
-        } else {
-            FirebaseSingolton.shared.favouritePost(post: post)
-        }
-
-        if let rowPost = self.posts.firstIndex(where: { $0.postId == post.postId }) {
-            let indexPath = IndexPath(row: rowPost, section: 0)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 , execute: {
-                self.tableView.reloadRows(at: [indexPath], with: .none)
-            })
-        }
-    }
 }
 
