@@ -19,6 +19,7 @@ class UserPostsCollectionController: UIViewController {
         registrationCell()
         collectionViewScrollToItem()
         chekLike()
+        checkFav()
     }
 
     private func setupCollectionView() {
@@ -46,9 +47,20 @@ class UserPostsCollectionController: UIViewController {
         posts.forEach { post in
             FirebaseSingolton.shared.checkLikeByUser(post: post) { didLike in
                 if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
-                    self.posts[index].likeByCurrenUser = didLike
                     self.collectionView.reloadData()
-                    print(self.posts[index].likeByCurrenUser )
+                    self.posts[index].likeByCurrenUser = didLike
+                }
+            }
+        }
+    }
+    
+    private func checkFav() {
+        posts.forEach { post in
+            FirebaseSingolton.shared.checkFavByUser(post: post) { didFavourite in
+                if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                    self.posts[index].favouriteByCurenUser = didFavourite
+                    self.collectionView.reloadData()
+                    print(self.posts[index].favouriteByCurenUser )
                 }
             }
         }
@@ -70,7 +82,7 @@ extension UserPostsCollectionController: UICollectionViewDataSource {
             postCell.transformToLarge()
         }
         
-        postCell.set(post: posts[indexPath.row], buttonDelegate: self, likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser)
+        postCell.set(post: posts[indexPath.row], buttonDelegate: self, likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser, favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser)
 //        postCell.likeButton.isSelected = posts[indexPath.row].likeByCurrenUser
         
         return postCell
@@ -174,6 +186,21 @@ extension UserPostsCollectionController: UserPostCollectionButtonDelegate {
     }
     
     func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: UserPostCollectionCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        let post = posts[indexPath.row]
+        
+        FirebaseSingolton.shared.checkFavByUser(post: post) { (didFav) in
+            if didFav {
+                FirebaseSingolton.shared.removeFavPost(post: post)
+                favouriteButton.isSelected = false
+                favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)
+            } else {
+                FirebaseSingolton.shared.favouritePost(post: post)
+                favouriteButton.isSelected = true
+                favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            }
+        }
+        
         print("Favourite did tap")
     }
     

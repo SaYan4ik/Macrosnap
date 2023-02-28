@@ -50,20 +50,15 @@ class UserPostCollectionCell: UICollectionViewCell {
     
     static var id = String(describing: UserPostCollectionCell.self)
     weak var buttonDelegate: UserPostCollectionButtonDelegate?
+    private var didLike: Bool?
+    private var didFav: Bool?
     
-    var didLike: Bool?
-    
-    var likeButtonImage: UIImage? {
+    private var likeButtonImage: UIImage? {
         let imageLikeName = didLike ?? false ? "heart.fill" : "heart"
         return UIImage(systemName: imageLikeName)
     }
     
-    var likes: Int {
-        guard let post else { return 0}
-        return post.like
-    }
-    
-    var likesLabelText: String {
+    private var likesLabelText: String {
         guard let post else { return "ERROR: Reload page" }
         if post.like != 1 {
             return "\(post.like) likes"
@@ -71,6 +66,13 @@ class UserPostCollectionCell: UICollectionViewCell {
             return "\(post.like) like"
         }
     }
+    
+    private var favouriteButtonImage: UIImage? {
+        let imageFavouriteName = didFav ?? false ? "star.fill" : "star"
+        return UIImage(systemName: imageFavouriteName)
+    }
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -80,14 +82,17 @@ class UserPostCollectionCell: UICollectionViewCell {
         super.prepareForReuse()
         self.likeButton.setImage(likeButtonImage, for: .normal)
         self.likeCountLabel.text = likesLabelText
+        self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
     }
     
-    func set(post: Post, buttonDelegate: UserPostCollectionButtonDelegate, likeButtonIsSelected: Bool) {
+    func set(post: Post, buttonDelegate: UserPostCollectionButtonDelegate, likeButtonIsSelected: Bool, favButtonIsSelected: Bool) {
         self.post = post
         self.buttonDelegate = buttonDelegate
         setStyleCell()
         self.didLike = likeButtonIsSelected
+        self.didFav = favButtonIsSelected
         self.likeButton.setImage(likeButtonImage, for: .normal)
+        self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
         self.likeCountLabel.text = "\(post.like)"
     }
     
