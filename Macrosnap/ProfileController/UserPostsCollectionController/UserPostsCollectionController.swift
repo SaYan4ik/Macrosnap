@@ -12,6 +12,7 @@ class UserPostsCollectionController: UIViewController {
     
     private var posts = [Post]()
     private var currentSelectedIndex = 0
+    private var postsType: ProfilePostType = .digitalPosts
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +35,10 @@ class UserPostsCollectionController: UIViewController {
         collectionView.register(nib, forCellWithReuseIdentifier: UserPostCollectionCell.id)
     }
     
-    func set(posts: [Post], index: Int) {
+    func set(posts: [Post], index: Int, type: ProfilePostType) {
         self.posts = posts
         self.currentSelectedIndex = index
+        self.postsType = type
     }
 
     private func collectionViewScrollToItem() {
@@ -175,22 +177,44 @@ extension UserPostsCollectionController: UserPostCollectionButtonDelegate {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         let post = posts[indexPath.row]
         
-        FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
-            if didLike {
-                FirebaseSingolton.shared.disLikePost(post: post)
-                likeButton.isSelected = false
-                likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                self.posts[indexPath.row].like = post.like - 1
-                likeCount.text = "\(post.like)"
+        switch postsType {
+            case .filmPosts:
+                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
+                    if didLike {
+                        FirebaseSingolton.shared.disLikeFilmPost(post: post)
+                        likeButton.isSelected = false
+                        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                        self.posts[indexPath.row].like = post.like - 1
+                        likeCount.text = "\(post.like)"
+                        
+                    } else {
+                        
+                        FirebaseSingolton.shared.likeFilmPost(post: post)
+                        likeButton.isSelected = true
+                        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                        self.posts[indexPath.row].like = post.like + 1
+                        likeCount.text = "\(post.like)"
+                    }
+                }
                 
-            } else {
-                
-                FirebaseSingolton.shared.likePost(post: post)
-                likeButton.isSelected = true
-                likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                self.posts[indexPath.row].like = post.like + 1
-                likeCount.text = "\(post.like)"
-            }
+            default :
+                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
+                    if didLike {
+                        FirebaseSingolton.shared.disLikePost(post: post)
+                        likeButton.isSelected = false
+                        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                        self.posts[indexPath.row].like = post.like - 1
+                        likeCount.text = "\(post.like)"
+                        
+                    } else {
+                        
+                        FirebaseSingolton.shared.likePost(post: post)
+                        likeButton.isSelected = true
+                        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                        self.posts[indexPath.row].like = post.like + 1
+                        likeCount.text = "\(post.like)"
+                    }
+                }
         }
         
     }

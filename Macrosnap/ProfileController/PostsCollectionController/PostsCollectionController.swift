@@ -213,7 +213,7 @@ extension PostsCollectionController: UICollectionViewDelegate {
         
         let nib = String(describing: UserPostsCollectionController.self)
         let userPostsCollection = UserPostsCollectionController(nibName: nib, bundle: nil)
-        userPostsCollection.set(posts: posts, index: indexPath.row)
+        userPostsCollection.set(posts: posts, index: indexPath.row, type: postsType)
         navigationController?.pushViewController(userPostsCollection, animated: true)
     }
     
