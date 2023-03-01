@@ -46,17 +46,15 @@ class PostsCollectionController: UIViewController {
     
     private func getAllPosts() {
         guard let user else { return }
-        pagination(user: user)
-        
-//        switch postsType {
-//            case .digitalPosts:
-//                getAllPostsWithUID(uid: userUID)
-//
-//            case .filmPosts:
-//                getAllFilmPosts(uid: userUID)
-//            case .favouritePosts:
-//                getAllFavouritePosts(uid: userUID)
-//        }
+//        pagination(user: user)
+        switch postsType {
+            case .digitalPosts:
+                getAllPostsWithUID(uid: user.uid)
+            case .filmPosts:
+                getAllFilmPosts(uid: user.uid)
+            case .favouritePosts:
+                getAllFavouritePosts(uid: user.uid)
+        }
     }
     
     private func getAllPostsWithUID(uid: String) {
@@ -64,6 +62,7 @@ class PostsCollectionController: UIViewController {
             FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
                 self.posts = allPosts
                 self.collectionView.reloadData()
+                self.collectionView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -73,6 +72,7 @@ class PostsCollectionController: UIViewController {
             FirebaseSingolton.shared.getFilmPostsWithUserUID(user: user) { filmPosts in
                 self.posts = filmPosts
                 self.collectionView.reloadData()
+                self.collectionView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -82,6 +82,7 @@ class PostsCollectionController: UIViewController {
             FirebaseSingolton.shared.getfavouritePostsWithUser(user: user) { favPosts in
                 self.posts = favPosts
                 self.collectionView.reloadData()
+                self.collectionView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -120,6 +121,8 @@ class PostsCollectionController: UIViewController {
                 print("\(error.localizedDescription)")
                 return
             } else if snapshot.isEmpty {
+                self.collectionView.reloadData()
+                self.collectionView.refreshControl?.endRefreshing()
                 return
             } else {
                 for document in snapshot.documents {

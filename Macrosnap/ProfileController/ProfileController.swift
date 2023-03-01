@@ -27,9 +27,11 @@ class ProfileController: UIViewController {
 
     private var controllers = [UIViewController]()
     private var selectedIndex = 0
-    var posts = [Post]()
+//    var posts = [Post]()
     var user: User?
     var followingUsers = [User]()
+    var digitalPosts: Int = 0
+    var filmPosts: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +44,9 @@ class ProfileController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupButton()
-        getPostsForUser(uid: user?.uid ?? "")
         setupFollowCount()
         setupFollowsCount()
+        getPostsCountForUser()
     }
     
     @IBAction func segmentDidchange(_ sender: Any) {
@@ -189,12 +191,11 @@ extension ProfileController {
         }
     }
     
-    private func getPostsForUser(uid: String) {
-        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
-            FirebaseSingolton.shared.getPostsWithUserUID(user: user) { posts in
-                self.posts = posts
-                self.postsCount.text = "\(posts.count)"
-            }
+    private func getPostsCountForUser() {
+        guard let user else { return }
+        
+        FirebaseSingolton.shared.getAllPostsCount(user: user) { count in
+            self.postsCount.text = "\(count)"
         }
     }
     

@@ -186,7 +186,7 @@ extension PostsTableController: UITableViewDataSource {
         guard let postCell = cell as? PostsCell else { return cell }
         
         if !posts.isEmpty {
-            postCell.set(delegate: self, post: posts[indexPath.row], likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser, favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser)
+            postCell.set(delegate: self, post: posts[indexPath.row], likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser, favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser, type: type)
         }
         
         return postCell
@@ -197,71 +197,6 @@ extension PostsTableController: UITableViewDataSource {
 // MARK: -
 // MARK: - UITableViewDelegate
 extension PostsTableController: ButtonDelegate {
-    func likeButtonDidTap(_ likeButton: UIButton, likeCount: UILabel, on cell: PostsCell) {
-        print("Like did tap")
-        
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let post = posts[indexPath.row]
-        
-        switch type {
-            case .digitalPhoto :
-                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
-                    if didLike {
-                        FirebaseSingolton.shared.disLikePost(post: post)
-                        likeButton.isSelected = false
-                        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                        self.posts[indexPath.row].like = post.like - 1
-                        likeCount.text = "\(post.like)"
-                        
-                    } else {
-                        
-                        FirebaseSingolton.shared.likePost(post: post)
-                        likeButton.isSelected = true
-                        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                        self.posts[indexPath.row].like = post.like + 1
-                        likeCount.text = "\(post.like)"
-                    }
-                }
-                
-            case .filmPhoto:
-                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
-                    if didLike {
-                        FirebaseSingolton.shared.disLikeFilmPost(post: post)
-                        likeButton.isSelected = false
-                        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                        self.posts[indexPath.row].like = post.like - 1
-                        likeCount.text = "\(post.like)"
-                        
-                    } else {
-                        
-                        FirebaseSingolton.shared.likeFilmPost(post: post)
-                        likeButton.isSelected = true
-                        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                        self.posts[indexPath.row].like = post.like + 1
-                        likeCount.text = "\(post.like)"
-                    }
-                }
-        }
-    }
-    
-    func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: PostsCell) {
-        print("Favourite did tap")
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let post = posts[indexPath.row]
-        
-        FirebaseSingolton.shared.checkFavByUser(post: post) { (didFav) in
-            if didFav {
-                FirebaseSingolton.shared.removeFavPost(post: post)
-                favouriteButton.isSelected = false
-                favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-            } else {
-                FirebaseSingolton.shared.favouritePost(post: post)
-                favouriteButton.isSelected = true
-                favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            }
-        }
-    }
-    
     func present(vc: UIViewController) {
         self.present(vc, animated: true)
     }
@@ -269,6 +204,5 @@ extension PostsTableController: ButtonDelegate {
     func push(vc: UIViewController) {
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
 }
 

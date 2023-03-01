@@ -79,7 +79,6 @@ extension FollowersController: UITableViewDelegate {
             case .openProfile:
                 let nib = String(describing: ProfileController.self)
                 let profVC = ProfileController(nibName: nib, bundle: nil)
-                
                 profVC.user = followingUsers[indexPath.row]
                 profVC.setupNavBar()
                 navigationController?.pushViewController(profVC, animated: true)

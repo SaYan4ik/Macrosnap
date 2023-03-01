@@ -44,7 +44,10 @@ class UserPostsCollectionController: UIViewController {
 
     private func collectionViewScrollToItem() {
         collectionView.layoutIfNeeded()
-        collectionView.scrollToItem(at: IndexPath(item: currentSelectedIndex, section: 0), at: .centeredHorizontally, animated: false)
+        collectionView.scrollToItem(
+            at: IndexPath(item: currentSelectedIndex, section: 0),
+            at: .centeredHorizontally, animated: false
+        )
     }
     
     private func setTitle() {
@@ -107,7 +110,13 @@ extension UserPostsCollectionController: UICollectionViewDataSource {
             postCell.transformToLarge()
         }
         
-        postCell.set(post: posts[indexPath.row], buttonDelegate: self, likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser, favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser)
+        postCell.set(
+            post: posts[indexPath.row],
+            buttonDelegate: self,
+            likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser,
+            favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser,
+            postsType: postsType
+        )
         
         return postCell
     }
@@ -180,71 +189,5 @@ extension UserPostsCollectionController: UserPostCollectionButtonDelegate {
     
     func push(vc: UIViewController) {
         self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func likeButtonDidTap(_ likeButton: UIButton, likeCount: UILabel, on cell: UserPostCollectionCell) {
-        print("Like did tap")
-        
-        guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        let post = posts[indexPath.row]
-        
-        switch postsType {
-            case .filmPosts:
-                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
-                    if didLike {
-                        FirebaseSingolton.shared.disLikeFilmPost(post: post)
-                        likeButton.isSelected = false
-                        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                        self.posts[indexPath.row].like = post.like - 1
-                        likeCount.text = "\(post.like)"
-                        
-                    } else {
-                        
-                        FirebaseSingolton.shared.likeFilmPost(post: post)
-                        likeButton.isSelected = true
-                        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                        self.posts[indexPath.row].like = post.like + 1
-                        likeCount.text = "\(post.like)"
-                    }
-                }
-                
-            default :
-                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
-                    if didLike {
-                        FirebaseSingolton.shared.disLikePost(post: post)
-                        likeButton.isSelected = false
-                        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                        self.posts[indexPath.row].like = post.like - 1
-                        likeCount.text = "\(post.like)"
-                        
-                    } else {
-                        
-                        FirebaseSingolton.shared.likePost(post: post)
-                        likeButton.isSelected = true
-                        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                        self.posts[indexPath.row].like = post.like + 1
-                        likeCount.text = "\(post.like)"
-                    }
-                }
-        }
-        
-    }
-    
-    func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: UserPostCollectionCell) {
-        print("Favourite did tap")
-        guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        let post = posts[indexPath.row]
-        
-        FirebaseSingolton.shared.checkFavByUser(post: post) { (didFav) in
-            if didFav {
-                FirebaseSingolton.shared.removeFavPost(post: post)
-                favouriteButton.isSelected = false
-                favouriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-            } else {
-                FirebaseSingolton.shared.favouritePost(post: post)
-                favouriteButton.isSelected = true
-                favouriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            }
-        }
     }
 }

@@ -214,6 +214,19 @@ class FirebaseSingolton {
         }
     }
     
+    func getAllPostsCount(user: User, completion: @escaping (Int) -> ()) {
+        var count: Int = 0
+        getPostsWithUserUID(user: user) { posts in
+            count += posts.count
+            self.getFilmPostsWithUserUID(user: user) { posts in
+                count += posts.count
+                completion(count)
+            }
+        }
+
+
+    }
+    
 // MARK: -
 // MARK: - FilmPosts
     

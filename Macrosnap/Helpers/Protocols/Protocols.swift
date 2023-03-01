@@ -14,8 +14,6 @@ import UIKit
 protocol ButtonDelegate: AnyObject {
     func present(vc: UIViewController)
     func push(vc: UIViewController)
-    func likeButtonDidTap(_ likeButton: UIButton, likeCount: UILabel, on cell: PostsCell)
-    func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: PostsCell)
 }
 
 // MARK: -
@@ -23,8 +21,6 @@ protocol ButtonDelegate: AnyObject {
 protocol UserPostCollectionButtonDelegate: AnyObject {
     func present(vc: UIViewController)
     func push(vc: UIViewController)
-    func likeButtonDidTap(_ likeButton: UIButton, likeCount: UILabel, on cell: UserPostCollectionCell)
-    func favoriteButtonDidTap(_ favouriteButton: UIButton, on cell: UserPostCollectionCell)
 }
 
 //MARK: -

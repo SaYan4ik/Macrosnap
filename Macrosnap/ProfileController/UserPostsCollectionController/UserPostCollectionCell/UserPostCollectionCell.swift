@@ -27,7 +27,7 @@ class UserPostCollectionCell: UICollectionViewCell {
             guard let userURLRef = URL(string: userAvatarURL) else { return }
             
             let scale = UIScreen.main.scale
-            let thumbnailSize = CGSize(width: 400 * scale, height: 300 * scale)
+            let thumbnailSize = CGSize(width: 200 * scale, height: 150 * scale)
             userAvatarImageView.sd_setImage(
                 with: userURLRef,
                 placeholderImage: nil,
@@ -52,6 +52,7 @@ class UserPostCollectionCell: UICollectionViewCell {
     weak var buttonDelegate: UserPostCollectionButtonDelegate?
     private var didLike: Bool?
     private var didFav: Bool?
+    private var postsType: ProfilePostType = .digitalPosts
     
     private var likeButtonImage: UIImage? {
         let imageLikeName = didLike ?? false ? "heart.fill" : "heart"
@@ -83,10 +84,12 @@ class UserPostCollectionCell: UICollectionViewCell {
         self.containerView.layer.cornerRadius = 12
         self.userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.height / 2
         self.postImageView.layer.cornerRadius = 12
+        self.likeButton.setImage(likeButtonImage, for: .normal)
+        self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
     }
     
     @IBAction func likeButtonDidTap(_ sender: UIButton) {
-        buttonDelegate?.likeButtonDidTap(sender, likeCount: likeCountLabel, on: self)
+        likeButtonAction()
         animateShapeButton(button: sender)
     }
     
@@ -99,21 +102,34 @@ class UserPostCollectionCell: UICollectionViewCell {
     }
     
     @IBAction func favouriteButtonDidTap(_ sender: UIButton) {
-        buttonDelegate?.favoriteButtonDidTap(sender, on: self)
+        favouriteActionButton()
         animateShapeButton(button: sender)
     }
     
-    func set(post: Post, buttonDelegate: UserPostCollectionButtonDelegate, likeButtonIsSelected: Bool, favButtonIsSelected: Bool) {
+    func set(post: Post, buttonDelegate: UserPostCollectionButtonDelegate, likeButtonIsSelected: Bool, favButtonIsSelected: Bool, postsType: ProfilePostType) {
         self.post = post
         self.buttonDelegate = buttonDelegate
-        setStyleCell()
         self.didLike = likeButtonIsSelected
         self.didFav = favButtonIsSelected
-        self.likeButton.setImage(likeButtonImage, for: .normal)
-        self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
         self.likeCountLabel.text = "\(post.like)"
+        self.postsType = postsType
+        setStyleCell()
+        setupFavouriteButton()
     }
     
+    private func setupFavouriteButton() {
+        guard let post else { return }
+        if postsType == .favouritePosts {
+            self.likeButton.isHidden = true
+            self.likeCountLabel.text = {
+                if post.like != 1 {
+                    return "\(post.like) likes"
+                }else {
+                    return "\(post.like) like"
+                }
+            }()
+        }
+    }
     
     private func animateShapeButton(button: UIButton) {
         UIView.animate(withDuration: 0.5,
@@ -125,6 +141,71 @@ class UserPostCollectionCell: UICollectionViewCell {
                 button.transform = CGAffineTransform.identity
             }
         })
+    }
+    
+    private func likeButtonAction() {
+        guard let post else { return }
+        post.likeByCurrenUser.toggle()
+        
+        switch postsType {
+            case .digitalPosts :
+                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
+                    if didLike {
+                        FirebaseSingolton.shared.disLikePost(post: post)
+                        self.didLike = false
+                        self.likeButton.setImage(self.likeButtonImage, for: .normal)
+                        post.like = post.like - 1
+                        self.likeCountLabel.text = "\(post.like)"
+                        
+                    } else {
+                        
+                        FirebaseSingolton.shared.likePost(post: post)
+                        self.didLike = true
+                        self.likeButton.setImage(self.likeButtonImage, for: .normal)
+                        post.like = post.like + 1
+                        self.likeCountLabel.text = "\(post.like)"
+                    }
+                }
+                
+            case .filmPosts:
+                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
+                    if didLike {
+                        FirebaseSingolton.shared.disLikeFilmPost(post: post)
+                        self.didLike = false
+                        self.likeButton.setImage(self.likeButtonImage, for: .normal)
+                        post.like = post.like - 1
+                        self.likeCountLabel.text = "\(post.like)"
+                        
+                    } else {
+                        
+                        FirebaseSingolton.shared.likeFilmPost(post: post)
+                        self.didLike = false
+                        self.likeButton.setImage(self.likeButtonImage, for: .normal)
+                        post.like = post.like + 1
+                        self.likeCountLabel.text = "\(post.like)"
+                    }
+                }
+                
+            case .favouritePosts:
+                break
+        }
+    }
+    
+    private func favouriteActionButton() {
+        guard let post else { return }
+        
+        post.favouriteByCurenUser.toggle()
+        FirebaseSingolton.shared.checkFavByUser(post: post) { (didFav) in
+            if didFav {
+                FirebaseSingolton.shared.removeFavPost(post: post)
+                self.didFav = false
+                self.favouriteButton.setImage(self.favouriteButtonImage, for: .normal)
+            } else {
+                FirebaseSingolton.shared.favouritePost(post: post)
+                self.didFav = true
+                self.favouriteButton.setImage(self.favouriteButtonImage, for: .normal)
+            }
+        }
     }
 }
 

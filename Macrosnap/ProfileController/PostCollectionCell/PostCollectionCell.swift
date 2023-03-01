@@ -15,14 +15,18 @@ class PostCollectionCell: UICollectionViewCell {
     
     var post: Post? {
             didSet {
-                guard let imageUrl = post?.postId else { return }
-                guard let url = URL(string: imageUrl) else { return }
+                guard let postURL = post?.postId else { return }
+                guard let postURLRef = URL(string: postURL) else { return }
 
                 let scale = UIScreen.main.scale
-                let thumbnailSize = CGSize(width: 200 * scale, height: 200 * scale)
+                let thumbnailSize = CGSize(width: 200 * scale, height: 150 * scale)
 
-                postImage.sd_setImage(with: url, placeholderImage: nil, options: [.progressiveLoad, .continueInBackground, .refreshCached, .scaleDownLargeImages], context: [ .imageThumbnailPixelSize: thumbnailSize])
-                
+                postImage.sd_setImage(
+                    with: postURLRef,
+                    placeholderImage: nil,
+                    options: [.progressiveLoad, .continueInBackground, .refreshCached, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
+                    context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
+                )
             }
         }
     
