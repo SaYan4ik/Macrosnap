@@ -13,6 +13,7 @@
                 <outlet property="followButton" destination="yqp-of-zXg" id="NQy-Ud-sB4"/>
                 <outlet property="followCountLabel" destination="8Th-4z-aqT" id="BT7-ad-ERb"/>
                 <outlet property="followersCountLabel" destination="hmk-iv-Sdd" id="Fjp-Gd-UJl"/>
+                <outlet property="logOutButton" destination="WEl-NP-Y5i" id="MBx-RC-VWg"/>
                 <outlet property="postsCount" destination="q6J-fd-IgJ" id="VZc-Jv-teX"/>
                 <outlet property="profileView" destination="HTh-oe-NmN" id="r2h-2j-vQq"/>
                 <outlet property="profileimage" destination="BgZ-rX-0jW" id="ZQp-rv-hVs"/>
@@ -46,10 +47,13 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WEl-NP-Y5i">
-                            <rect key="frame" x="305.33333333333331" y="13" width="50.666666666666686" height="34.333333333333336"/>
+                            <rect key="frame" x="306.33333333333331" y="13" width="49.666666666666686" height="34.333333333333336"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="paperplane.fill" catalog="system"/>
+                            <buttonConfiguration key="configuration" style="plain" image="power.circle" catalog="system"/>
+                            <connections>
+                                <action selector="logOutButtonDidTap:" destination="-1" eventType="touchUpInside" id="2cT-aH-dzC"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.24313727020000001" green="0.25098040700000002" blue="0.30196079609999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -249,6 +253,6 @@
     <resources>
         <image name="HoneyBee" width="325" height="260"/>
         <image name="Logo (1)" width="500" height="500"/>
-        <image name="paperplane.fill" catalog="system" width="128" height="119"/>
+        <image name="power.circle" catalog="system" width="128" height="123"/>
     </resources>
 </document>

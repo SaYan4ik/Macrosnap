@@ -20,8 +20,17 @@ class SearchUserCell: UITableViewCell {
             self.usernameLabel.text = user?.username
             
             guard let avatarURL = user?.avatarURL else { return }
-            guard let url = URL(string: avatarURL) else { return }
-            userAvatarImage.sd_setImage(with: url)
+            guard let avatarURLRef = URL(string: avatarURL) else { return }
+            
+            let scale = UIScreen.main.scale
+            let thumbnailSize = CGSize(width: 200 * scale, height: 150 * scale)
+
+            userAvatarImage.sd_setImage(
+                with: avatarURLRef,
+                placeholderImage: nil,
+                options: [.progressiveLoad, .continueInBackground, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
+                context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
+            )
             
         }
     }

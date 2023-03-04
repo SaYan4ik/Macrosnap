@@ -11,7 +11,7 @@ class FollowersController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     private var typeController: FollowersControllerType = .openProfile
-    var followingUsers = [User]()
+    private var followingUsers = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

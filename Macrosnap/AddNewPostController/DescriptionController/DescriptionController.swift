@@ -107,7 +107,7 @@ extension DescriptionController {
     
     private func uploadPost(photo: UIImage?, completion: @escaping (Result<URL, Error>) -> Void) {
         let ref = Storage.storage().reference().child("posts").child(NSUUID().uuidString)
-        guard let imageData = postImageView.image?.jpegData(compressionQuality: 0.6) else { return }
+        guard let imageData = postImageView.image?.jpegData(compressionQuality: 0.3) else { return }
         
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"

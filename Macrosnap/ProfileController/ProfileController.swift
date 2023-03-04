@@ -24,10 +24,10 @@ class ProfileController: UIViewController {
     @IBOutlet weak var followCountLabel: UILabel!
     @IBOutlet weak var followersCountLabel: UILabel!
     @IBOutlet weak var postsCount: UILabel!
-
+    @IBOutlet weak var logOutButton: UIButton!
+    
     private var controllers = [UIViewController]()
     private var selectedIndex = 0
-//    var posts = [Post]()
     var user: User?
     var followingUsers = [User]()
     var digitalPosts: Int = 0
@@ -49,6 +49,18 @@ class ProfileController: UIViewController {
         getPostsCountForUser()
     }
     
+    
+    @IBAction func logOutButtonDidTap(_ sender: Any) {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            Environment.sceneDelegare?.setLoginAsInitial()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+            self.showAlert(title: "Error LogOut", message: "\(signOutError)")
+        }
+    }
+    
     @IBAction func segmentDidchange(_ sender: Any) {
         guard segment.selectedSegmentIndex < 3 else { return }
         self.selectedIndex = segment.selectedSegmentIndex
@@ -59,7 +71,6 @@ class ProfileController: UIViewController {
         guard let user else { return }
         FirebaseSingolton.shared.followDidTap(user: user)
         setupButton()
-        
     }
     
     @IBAction func unfollowButtonDidTap(_ sender: Any) {
@@ -193,7 +204,6 @@ extension ProfileController {
     
     private func getPostsCountForUser() {
         guard let user else { return }
-        
         FirebaseSingolton.shared.getAllPostsCount(user: user) { count in
             self.postsCount.text = "\(count)"
         }

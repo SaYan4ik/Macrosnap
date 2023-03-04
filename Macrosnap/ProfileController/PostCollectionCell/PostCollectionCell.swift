@@ -24,7 +24,7 @@ class PostCollectionCell: UICollectionViewCell {
                 postImage.sd_setImage(
                     with: postURLRef,
                     placeholderImage: nil,
-                    options: [.progressiveLoad, .continueInBackground, .refreshCached, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
+                    options: [.progressiveLoad, .continueInBackground, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
                     context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
                 )
             }

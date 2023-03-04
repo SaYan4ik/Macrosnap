@@ -10,32 +10,46 @@ import UIKit
 class SearchController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+
     
-    var searchBar: UISearchBar = UISearchBar()
+    private lazy var searchBar: UISearchBar = UISearchBar()
     var users = [User]()
     var filteredUsers = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
-        registerCell()
+        setupTableView()
         getAllUsers()
         setupSearchBar()
+        setupRefreshController()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.keyboardDismissMode = .onDrag
+        registerCell()
+    }
+    
+    private func setupRefreshController() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableView?.refreshControl = refreshControl
+    }
+    
+    @objc private func handleRefresh() {
+        getAllUsers()
     }
     
     private func setupSearchBar() {
         searchBar.searchBarStyle = UISearchBar.Style.default
-        searchBar.placeholder = " Search user"
+        searchBar.placeholder = "Search user"
         searchBar.barTintColor = .gray
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .white
         searchBar.sizeToFit()
         searchBar.isTranslucent = false
+        searchBar.autocorrectionType = .no
+        searchBar.autocapitalizationType = .none
         searchBar.backgroundImage = UIImage()
         searchBar.delegate = self
         navigationItem.titleView = searchBar
@@ -47,12 +61,17 @@ class SearchController: UIViewController {
     }
     
     private func getAllUsers() {
+        tableView.refreshControl?.beginRefreshing()
+        
         FirebaseSingolton.shared.getAllUsers { users in
             self.users = users
+            self.filteredUsers = users
+            self.searchBar.text = ""
+            
             self.tableView.reloadData()
+            self.tableView.refreshControl?.endRefreshing()
         }
     }
-    
 }
 
 

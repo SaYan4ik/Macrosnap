@@ -34,17 +34,17 @@ class PostsCell: UITableViewCell {
             userProfileimage.sd_setImage(
                 with: userUrlRef,
                 placeholderImage: nil,
-                options: [.progressiveLoad, .continueInBackground, .refreshCached, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
+                options: [.progressiveLoad, .continueInBackground, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
                 context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
             )
             
             guard let postUrl = post?.postId else { return }
-            guard let postUrlRef = URL(string: postUrl) else { return }
+            guard let postURLRef = URL(string: postUrl) else { return }
             
             userPostImage.sd_setImage(
-                with: postUrlRef,
+                with: postURLRef,
                 placeholderImage: nil,
-                options: [.progressiveLoad, .continueInBackground, .refreshCached, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
+                options: [.progressiveLoad, .continueInBackground, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
                 context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
             )
             
@@ -73,7 +73,6 @@ class PostsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     override func prepareForReuse() {
@@ -81,6 +80,7 @@ class PostsCell: UITableViewCell {
         self.likeButton.setImage(likeButtonImage, for: .normal)
         self.likeCountLabel.text = likesLabelText
         self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
+
     }
     
     @IBAction func likeButtonDidTap(_ sender: UIButton) {
@@ -196,5 +196,5 @@ extension PostsCell {
         self.likeButton.setImage(likeButtonImage, for: .normal)
         self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
     }
-    
+
 }

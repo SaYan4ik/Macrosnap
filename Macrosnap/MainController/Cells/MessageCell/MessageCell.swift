@@ -105,6 +105,5 @@ class MessageCell: UITableViewCell {
         leftMessageAnchor?.isActive = false
         
     }
-    
 }
 

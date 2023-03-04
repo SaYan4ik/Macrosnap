@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class FollowCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!

@@ -41,6 +41,7 @@ class LoginController: UIViewController {
     
     
     @IBAction func rememberPasswordButtonDidTap(_ sender: Any) {
+        
     }
     
     private func addGesture() {
