@@ -77,6 +77,7 @@
 		A2DC83FD29265588005DD92B /* PostCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DC83FB29265588005DD92B /* PostCollectionCell.swift */; };
 		A2DC83FE29265588005DD92B /* PostCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DC83FC29265588005DD92B /* PostCollectionCell.xib */; };
 		A2DFBD9729ADE62400D4ED75 /* CellTransform+Exnetsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DFBD9629ADE62400D4ED75 /* CellTransform+Exnetsion.swift */; };
+		A2DFBDFD29B3535900D4ED75 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DFBDFC29B3535900D4ED75 /* UITextField+Extension.swift */; };
 		A2F0C33A294B5347004A6375 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F0C339294B5347004A6375 /* CommentModel.swift */; };
 		CCE2588F8196C375CA2E602F /* Pods_Macrosnap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE6A7A7793FC02AED4D0157F /* Pods_Macrosnap.framework */; };
 /* End PBXBuildFile section */
@@ -155,6 +156,7 @@
 		A2DC83FB29265588005DD92B /* PostCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionCell.swift; sourceTree = "<group>"; };
 		A2DC83FC29265588005DD92B /* PostCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCollectionCell.xib; sourceTree = "<group>"; };
 		A2DFBD9629ADE62400D4ED75 /* CellTransform+Exnetsion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CellTransform+Exnetsion.swift"; sourceTree = "<group>"; };
+		A2DFBDFC29B3535900D4ED75 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		A2F0C339294B5347004A6375 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
 		BE6A7A7793FC02AED4D0157F /* Pods_Macrosnap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Macrosnap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCF0E63BAC44ED0E31FB7D29 /* Pods-Macrosnap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Macrosnap.release.xcconfig"; path = "Target Support Files/Pods-Macrosnap/Pods-Macrosnap.release.xcconfig"; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 				A2B6FF01295D7F3F0008F773 /* DateExtension.swift */,
 				A27727E329A3D8CB00F78254 /* ExtensionSaveIndex.swift */,
 				A2DFBD9629ADE62400D4ED75 /* CellTransform+Exnetsion.swift */,
+				A2DFBDFC29B3535900D4ED75 /* UITextField+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -721,6 +724,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2DFBDFD29B3535900D4ED75 /* UITextField+Extension.swift in Sources */,
 				A236E14C292013AD00B54E2F /* MainController.swift in Sources */,
 				A257260329810F9400972B14 /* ProfilePostType.swift in Sources */,
 				A283876C292397350042A8BB /* PostModel.swift in Sources */,

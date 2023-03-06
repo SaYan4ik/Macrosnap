@@ -17,13 +17,44 @@ class RegistrationController: UIViewController {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var registrationView: UIView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var registrationButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setStyle()
         addGesture()
+        setupTextField()
     }
-
+    
+    private func setupTextField() {
+        fullNameField.setupTextField()
+        userNameField.setupTextField()
+        emailField.setupTextField()
+        passwordField.setupTextField()
+        
+        userNameField.validateRegEx(type: .name)
+        fullNameField.validateRegEx(type: .name)
+        emailField.validateRegEx(type: .email)
+        passwordField.validateRegEx(type: .password)
+    }
+    
+    private func isValidTextField() {
+        let result = [
+            userNameField.isValid(type: .name),
+            fullNameField.isValid(type: .name),
+            emailField.isValid(type: .email),
+            passwordField.isValid(type: .password)
+        ]
+        
+        let positive = result.filter( {$0} ).count == result.count
+        
+        if positive {
+            registrationButton.isEnabled = true
+        } else {
+            registrationButton.isEnabled = false
+        }
+    }
+    
     @IBAction func addPhotoButtonDidTap(_ sender: Any) {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -47,6 +78,26 @@ class RegistrationController: UIViewController {
             }
         }
     }
+    
+    @IBAction func fieldDidChanged(_ sender: UITextField) {
+        switch sender.tag {
+            case 1001:
+                sender.validateRegEx(type: .name)
+                isValidTextField()
+            case 1002:
+                sender.validateRegEx(type: .name)
+                isValidTextField()
+            case 1003:
+                sender.validateRegEx(type: .email)
+                isValidTextField()
+            case 1004:
+                sender.validateRegEx(type: .password)
+                isValidTextField()
+            default: break
+        }
+    }
+    
+    
     
     func upload(currentUserID: String , photo: UIImage?, completion: @escaping (Result<URL, Error>) -> Void) {
 

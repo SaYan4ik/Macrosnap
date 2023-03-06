@@ -29,9 +29,9 @@ class ProfileController: UIViewController {
     private var controllers = [UIViewController]()
     private var selectedIndex = 0
     var user: User?
-    var followingUsers = [User]()
-    var digitalPosts: Int = 0
-    var filmPosts: Int = 0
+    private var followingUsers = [User]()
+    private var digitalPosts: Int = 0
+    private var filmPosts: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -63,7 +63,8 @@ class SearchController: UIViewController {
     private func getAllUsers() {
         tableView.refreshControl?.beginRefreshing()
         
-        FirebaseSingolton.shared.getAllUsers { users in
+        FirebaseSingolton.shared.getAllUsers {  users in
+            
             self.users = users
             self.filteredUsers = users
             self.searchBar.text = ""
