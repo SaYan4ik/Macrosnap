@@ -12,7 +12,7 @@ class UserPostsCollectionController: UIViewController {
     
     private var posts = [Post]()
     private var currentSelectedIndex = 0
-    private var postsType: ProfilePostType = .digitalPosts
+    private var postType: PostType = .digitalPost
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,10 +35,10 @@ class UserPostsCollectionController: UIViewController {
         collectionView.register(nib, forCellWithReuseIdentifier: UserPostCollectionCell.id)
     }
     
-    func set(posts: [Post], index: Int, type: ProfilePostType) {
+    func set(posts: [Post], index: Int, typePost: PostType) {
         self.posts = posts
         self.currentSelectedIndex = index
-        self.postsType = type
+        self.postType = typePost
         setTitle()
     }
 
@@ -51,12 +51,12 @@ class UserPostsCollectionController: UIViewController {
     }
     
     private func setTitle() {
-        switch postsType {
-            case .digitalPosts:
+        switch postType {
+            case .digitalPost:
                 self.title = "Digitals posts"
-            case .filmPosts:
+            case .filmPost:
                 self.title = "Films posts"
-            case .favouritePosts:
+            case .favouritePost:
                 self.title = "Favourite posts"
         }
     }
@@ -115,7 +115,7 @@ extension UserPostsCollectionController: UICollectionViewDataSource {
             buttonDelegate: self,
             likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser,
             favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser,
-            postsType: postsType
+            postType: postType
         )
         
         return postCell

@@ -126,15 +126,15 @@ extension ProfileController {
         guard let user = user else { return }
         let postCollectionVC = PostsCollectionController(nibName: String(describing: PostsCollectionController.self), bundle: nil)
         postCollectionVC.user = user
-        postCollectionVC.set(typePost: .digitalPosts)
+        postCollectionVC.set(typePost: .digitalPost)
         
         let filmPostsVC = PostsCollectionController(nibName: String(describing: PostsCollectionController.self), bundle: nil)
         filmPostsVC.user = user
-        filmPostsVC.set(typePost: .filmPosts)
+        filmPostsVC.set(typePost: .filmPost)
         
         let favouriteVC = PostsCollectionController(nibName: String(describing: PostsCollectionController.self), bundle: nil)
         favouriteVC.user = user
-        favouriteVC.set(typePost: .favouritePosts)
+        favouriteVC.set(typePost: .favouritePost)
         
         controllers.append(postCollectionVC)
         controllers.append(filmPostsVC)

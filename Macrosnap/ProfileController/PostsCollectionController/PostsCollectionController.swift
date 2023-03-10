@@ -13,9 +13,9 @@ class PostsCollectionController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noPostsView: UIView!
         
-    var posts = [Post]()
+    private var posts = [Post]()
     var user: User?
-    private var postsType: ProfilePostType = .digitalPosts
+    private var postType: PostType = .digitalPost
     private var lastDocumentSnapshot: DocumentSnapshot?
     
     override func viewDidLoad() {
@@ -29,8 +29,8 @@ class PostsCollectionController: UIViewController {
         getAllPosts()
     }
 
-    func set(typePost: ProfilePostType) {
-        self.postsType = typePost
+    func set(typePost: PostType) {
+        self.postType = typePost
     }
     
     private func collectionViewRefresher() {
@@ -40,114 +40,33 @@ class PostsCollectionController: UIViewController {
     }
     
     @objc private func handleRefresh() {
-        posts.removeAll()
         getAllPosts()
     }
     
     private func getAllPosts() {
         guard let user else { return }
-//        pagination(user: user)
-        switch postsType {
-            case .digitalPosts:
-                getAllPostsWithUID(uid: user.uid)
-            case .filmPosts:
-                getAllFilmPosts(uid: user.uid)
-            case .favouritePosts:
-                getAllFavouritePosts(uid: user.uid)
-        }
-    }
-    
-    private func getAllPostsWithUID(uid: String) {
-        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
-            FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
-                self.posts = allPosts
-                self.collectionView.reloadData()
-                self.collectionView.refreshControl?.endRefreshing()
-            }
-        }
-    }
-    
-    private func getAllFilmPosts(uid: String) {
-        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
-            FirebaseSingolton.shared.getFilmPostsWithUserUID(user: user) { filmPosts in
-                self.posts = filmPosts
-                self.collectionView.reloadData()
-                self.collectionView.refreshControl?.endRefreshing()
-            }
-        }
-    }
-    
-    private func getAllFavouritePosts(uid: String) {
-        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
-            FirebaseSingolton.shared.getfavouritePostsWithUser(user: user) { favPosts in
-                self.posts = favPosts
-                self.collectionView.reloadData()
-                self.collectionView.refreshControl?.endRefreshing()
-            }
-        }
-    }
-    
-    private func pagination(user: User) {
-        var query: Query
-        switch postsType {
-            case .digitalPosts:
-                if posts.isEmpty {
-                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").limit(to: 2)
-                } else {
-                    guard let lastDocumentSnapshot else { return }
-                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+
+        posts.removeAll()
+        switch postType {
+            case .favouritePost:
+                FirebaseSingolton.shared.getfavouritePostsWithUser(user: user) { allPosts in
+                    allPosts.forEach { post in
+                        FirebaseSingolton.shared.getPostByUID(post: post) { post in
+                            self.posts.append(post)
+                            self.collectionView.reloadData()
+                            self.collectionView.refreshControl?.endRefreshing()
+                        }
+                    }
                 }
                 
-            case .filmPosts:
-                if posts.isEmpty {
-                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").limit(to: 2)
-                } else {
-                    guard let lastDocumentSnapshot else { return }
-                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+            default:
+                FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
+                    self.posts = allPosts
+                    self.collectionView.reloadData()
+                    self.collectionView.refreshControl?.endRefreshing()
                 }
-                
-            case .favouritePosts:
-                if posts.isEmpty {
-                    query = Firestore.firestore().collection("users").document(user.uid).collection("favouritePosts").limit(to: 2)
-                } else {
-                    guard let lastDocumentSnapshot else { return }
-                    query = Firestore.firestore().collection("users").document(user.uid).collection("favouritePosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
-            }
-        }
-
-        query.getDocuments { snapshot, error in
-            guard let snapshot else { return }
-            if let error = error {
-                print("\(error.localizedDescription)")
-                return
-            } else if snapshot.isEmpty {
-                self.collectionView.reloadData()
-                self.collectionView.refreshControl?.endRefreshing()
-                return
-            } else {
-                for document in snapshot.documents {
-                    let data = document.data()
-
-                    guard let postId = data["postId"] as? String,
-                          let userId = data["userId"] as? String,
-                          let lense = data["lense"] as? String,
-                          let camera = data["camera"] as? String,
-                          let description = data["description"] as? String,
-                          let like = data["like"] as? Int,
-                          let postType = data["postType"] as? String
-                    else { return }
-
-                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
-                    self.posts.append(post)
-                }
-                self.collectionView.reloadData()
-                self.collectionView.refreshControl?.endRefreshing()
-                self.lastDocumentSnapshot = snapshot.documents.last
-            }
         }
     }
-    
-    
 }
 
 // MARK: -
@@ -194,12 +113,12 @@ extension PostsCollectionController: UICollectionViewDataSource {
         return postCell
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if (indexPath.row == posts.count - 1) {
-            guard let user else {return}
-            pagination(user: user)
-        }
-    }
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if (indexPath.row == posts.count - 1) {
+//            guard let user else {return}
+//            pagination(user: user)
+//        }
+//    }
 }
 
 // MARK: -
@@ -209,7 +128,11 @@ extension PostsCollectionController: UICollectionViewDelegate {
         
         let nib = String(describing: UserPostsCollectionController.self)
         let userPostsCollection = UserPostsCollectionController(nibName: nib, bundle: nil)
-        userPostsCollection.set(posts: posts, index: indexPath.row, type: postsType)
+        userPostsCollection.set(
+            posts: posts,
+            index: indexPath.row,
+            typePost: postType
+        )
         navigationController?.pushViewController(userPostsCollection, animated: true)
     }
     
@@ -224,3 +147,65 @@ extension PostsCollectionController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: width)
     }
 }
+
+//    private func pagination(user: User) {
+//        var query: Query
+//        switch postsType {
+//            case .digitalPosts:
+//                if posts.isEmpty {
+//                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").limit(to: 2)
+//                } else {
+//                    guard let lastDocumentSnapshot else { return }
+//                    query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+//                }
+//
+//            case .filmPosts:
+//                if posts.isEmpty {
+//                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").limit(to: 2)
+//                } else {
+//                    guard let lastDocumentSnapshot else { return }
+//                    query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+//                }
+//
+//            case .favouritePosts:
+//                if posts.isEmpty {
+//                    query = Firestore.firestore().collection("users").document(user.uid).collection("favouritePosts").limit(to: 2)
+//                } else {
+//                    guard let lastDocumentSnapshot else { return }
+//                    query = Firestore.firestore().collection("users").document(user.uid).collection("favouritePosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
+//            }
+//        }
+//
+//        query.getDocuments { snapshot, error in
+//            guard let snapshot else { return }
+//            if let error = error {
+//                print("\(error.localizedDescription)")
+//                return
+//            } else if snapshot.isEmpty {
+//                self.collectionView.reloadData()
+//                self.collectionView.refreshControl?.endRefreshing()
+//                return
+//            } else {
+//                for document in snapshot.documents {
+//                    let data = document.data()
+//
+//                    guard let postId = data["postId"] as? String,
+//                          let userId = data["userId"] as? String,
+//                          let lense = data["lense"] as? String,
+//                          let camera = data["camera"] as? String,
+//                          let description = data["description"] as? String,
+//                          let like = data["like"] as? Int,
+//                          let postType = data["postType"] as? String
+//                    else { return }
+//
+//                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
+//                    self.posts.append(post)
+//                }
+//                self.collectionView.reloadData()
+//                self.collectionView.refreshControl?.endRefreshing()
+//                self.lastDocumentSnapshot = snapshot.documents.last
+//            }
+//        }
+//    }
+//
+//

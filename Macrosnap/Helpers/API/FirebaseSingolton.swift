@@ -16,7 +16,6 @@ class FirebaseSingolton {
 
     // MARK: -
     // MARK: - DigitalPosts
-//   Delete func
     func getPostsWithUserUID(user: User, complition: @escaping ([Post]) -> Void) {
         Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").getDocuments { (snapshot, error) in
             if let error = error {
@@ -247,108 +246,10 @@ class FirebaseSingolton {
     }
     
     func getAllPostsCount(user: User, completion: @escaping (Int) -> ()) {
-        var count: Int = 0
         getPostsWithUserUID(user: user) { posts in
-            count += posts.count
-            self.getFilmPostsWithUserUID(user: user) { posts in
-                count += posts.count
-                completion(count)
-            }
-        }
-
-
-    }
-    
-// MARK: -
-// MARK: - FilmPosts
-    
-    func getFilmPostsWithUserUID(user: User, complition: @escaping ([Post]) -> Void) {
-        Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").getDocuments { (snapshot, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                guard let snapshot = snapshot else { return }
-                var allPosts = [Post]()
-                for document in snapshot.documents {
-                    let data = document.data()
-                    guard let postId = data["postId"] as? String,
-                          let userId = data["userId"] as? String,
-                          let lense = data["lense"] as? String,
-                          let camera = data["camera"] as? String,
-                          let description = data["description"] as? String,
-                          let like = data["like"] as? Int,
-                          let postType = data["postType"] as? String
-                    else { return }
-                    
-                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
-                    allPosts.append(post)
-                }
-                complition(allPosts)
-            }
+            completion(posts.count)
         }
     }
-    
-    func getFilmPostByUID(post: Post, complition: @escaping((Post) -> Void)) {
-        let postNameURL = Storage.storage().reference(forURL: post.postId).name
-        
-        Firestore.firestore().collection("filmPosts").document(post.user.uid).collection("userFilmPosts").document(postNameURL).getDocument { (snapshot, error ) in
-            if let error = error {
-                print("Error get post by uid \(error.localizedDescription)")
-            } else {
-                guard let snapshot else { return }
-                guard let data = snapshot.data() else { return }
-                guard let postId = data["postId"] as? String,
-                      let userId = data["userId"] as? String,
-                      let lense = data["lense"] as? String,
-                      let camera = data["camera"] as? String,
-                      let description = data["description"] as? String,
-                      let like = data["like"] as? Int,
-                      let postType = data["postType"] as? String
-                else { return }
-                let post = Post(user: post.user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
-                complition(post)
-            }
-
-        }
-    }
-    
-    func likeFilmPost(post: Post) {
-        guard let userUID = Auth.auth().currentUser?.uid else { return }
-        let postNameURL = Storage.storage().reference(forURL: post.postId).name
-
-        Firestore.firestore().collection("filmPosts").document(post.user.uid).collection("userFilmPosts").document(postNameURL).updateData(["like": post.like + 1])
-        
-        Firestore.firestore().collection("users").document(userUID).collection("usersLike").document(postNameURL).setData([
-            "postId": post.postId,
-            "userId": post.user.uid
-        ])
-    }
-    
-    func disLikeFilmPost(post: Post) {
-        guard let userUID = Auth.auth().currentUser?.uid else { return }
-        let postNameURL = Storage.storage().reference(forURL: post.postId).name
-        
-        Firestore.firestore().collection("filmPosts").document(post.user.uid).collection("userFilmPosts").document(postNameURL).updateData(["like" : post.like - 1])
-        Firestore.firestore().collection("users").document(userUID).collection("usersLike").document("\(postNameURL)").delete { error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    func deleteFilmPost(post: Post, comlition: @escaping ((Bool) -> Void)) {
-        let postNameURL = Storage.storage().reference(forURL: post.postId).name
-        
-        Firestore.firestore().collection("filmPosts").document(post.user.uid).collection("userPosts").document(postNameURL).delete()
-        
-        Storage.storage().reference().child("posts").child(postNameURL).delete { error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-        comlition(true)
-    }
-    
     
 //MARK: -
 //MARK: - User / Users
