@@ -21,7 +21,6 @@ class PostsTableController: UIViewController {
             checkFav()
         }
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +42,7 @@ class PostsTableController: UIViewController {
     }
     
     @objc private func handleRefresh() {
+        self.posts.removeAll()
         getAllPosts()
     }
     
@@ -56,8 +56,7 @@ class PostsTableController: UIViewController {
         let dispatchGroup = DispatchGroup()
         let dispatchQueue = DispatchQueue(label: "com.bestkora.mySerial", attributes: .concurrent)
         var user: User?
-
-
+        
         let userWorkItem = DispatchWorkItem {
             FirebaseSingolton.shared.getUserWithUID(uid: uid) { userResult in
                 user = userResult
@@ -65,50 +64,56 @@ class PostsTableController: UIViewController {
             }
         }
         
-        let getPostsWorkItem = DispatchWorkItem {
-            guard let user else {
-                dispatchGroup.leave()
-                return
-            }
-            
-            FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
-                self.posts.append(contentsOf: allPosts)
-
-            }
-        }
+//        let getPostsWorkItem = DispatchWorkItem {
+//            guard let user else {
+//                dispatchGroup.leave()
+//                return
+//            }
+//
+//            FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
+//                self.posts.append(contentsOf: allPosts)
+//                dispatchGroup.leave()
+//            }
+//        }
         
         dispatchGroup.enter()
         dispatchQueue.async(execute: userWorkItem)
         
         dispatchGroup.notify(queue: .main) {
-            self.posts.removeAll()
             self.tableView.refreshControl?.beginRefreshing()
-            dispatchGroup.enter()
-            dispatchQueue.async(execute: getPostsWorkItem)
-            self.tableView.reloadData()
-            self.tableView.refreshControl?.endRefreshing()
-        }
-    }
-    
-    private func getAllPostsForFollowUsers() {
-        posts.removeAll()
-
-        FirebaseSingolton.shared.getFollowingUsers { followUsers in
-            followUsers.forEach { user in
-                FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
-                    self.posts.append(contentsOf: allPosts)
-                    
-                    self.tableView.reloadData()
-                    self.tableView.refreshControl?.endRefreshing()
-                }
+            guard let user else { return }
+            FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
+                self.posts.append(contentsOf: allPosts)
+                
+                self.tableView.reloadData()
+                self.tableView.refreshControl?.endRefreshing()
             }
         }
     }
     
-    private func checkSinglePost(post: Post) {
-        FirebaseSingolton.shared.checkLikeByUser(post: post) { didLike in
-            if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
-                self.posts[index].likeByCurrenUser = didLike
+    private func getAllPostsForFollowUsers() {
+        let dispatchGroup = DispatchGroup()
+        let dispatchQueue = DispatchQueue(label: "com.bestkora.mySerial", attributes: .concurrent)
+        var followUsers = [User]()
+        
+        let followUsersWorkItem = DispatchWorkItem {
+            FirebaseSingolton.shared.getFollowingUsers { users in
+                followUsers = users
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.enter()
+        dispatchQueue.async(execute: followUsersWorkItem)
+        
+        dispatchGroup.notify(queue: .main) {
+            self.tableView.refreshControl?.beginRefreshing()
+            followUsers.forEach { user in
+                FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
+                    self.posts.append(contentsOf: allPosts)
+                    self.tableView.reloadData()
+                    self.tableView.refreshControl?.endRefreshing()
+                }
             }
         }
     }
@@ -190,7 +195,7 @@ extension PostsTableController: UITableViewDataSource {
             favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser,
             type: postType
         )
-        
+
         return postCell
     }
     
