@@ -25,7 +25,6 @@ class UserPostsCollectionController: UIViewController {
     }
 
     private func setupCollectionView() {
-        collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.collectionViewLayout = PostsCollectionViewFlowLayout()
     }
@@ -175,10 +174,6 @@ extension UserPostsCollectionController: UICollectionViewDataSource {
         previousSelectedCell?.transformToStandard()
         nextSelectedCell?.transformToLarge()
     }
-    
-}
-
-extension UserPostsCollectionController: UICollectionViewDelegate {
     
 }
 
