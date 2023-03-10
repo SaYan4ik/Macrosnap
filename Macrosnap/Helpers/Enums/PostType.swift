@@ -7,7 +7,8 @@
 
 import Foundation
 
-enum PostType {
-    case digitalPhoto
-    case filmPhoto
+enum PostType: String {
+    case digitalPost
+    case filmPost
+    case favouritePost
 }

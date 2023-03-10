@@ -133,10 +133,11 @@ class PostsCollectionController: UIViewController {
                           let lense = data["lense"] as? String,
                           let camera = data["camera"] as? String,
                           let description = data["description"] as? String,
-                          let like = data["like"] as? Int
+                          let like = data["like"] as? Int,
+                          let postType = data["postType"] as? String
                     else { return }
 
-                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
                     self.posts.append(post)
                 }
                 self.collectionView.reloadData()

@@ -18,7 +18,7 @@ class PostsCell: UITableViewCell {
     @IBOutlet weak var container: UIStackView!
     
     weak var buttonDelegate: ButtonDelegate?
-    private var type: PostType = .digitalPhoto
+    private var type: PostType = .digitalPost
     
     var post: Post? {
         didSet {
@@ -118,43 +118,22 @@ class PostsCell: UITableViewCell {
     private func likeButtonAction() {
         guard let post else { return }
         post.likeByCurrenUser.toggle()
-        switch type {
-            case .digitalPhoto:
-                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
-                    if didLike {
-                        FirebaseSingolton.shared.disLikePost(post: post)
-                        self.didLike = false
-                        self.likeButton.setImage(self.likeButtonImage, for: .normal)
-                        post.like = post.like - 1
-                        self.likeCountLabel.text = "\(post.like)"
-                        
-                    } else {
-                        
-                        FirebaseSingolton.shared.likePost(post: post)
-                        self.didLike = true
-                        self.likeButton.setImage(self.likeButtonImage, for: .normal)
-                        post.like = post.like + 1
-                        self.likeCountLabel.text = "\(post.like)"
-                    }
-                }
-            case .filmPhoto:
-                FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
-                    if didLike {
-                        FirebaseSingolton.shared.disLikeFilmPost(post: post)
-                        self.didLike = false
-                        self.likeButton.setImage(self.likeButtonImage, for: .normal)
-                        post.like = post.like + 1
-                        self.likeCountLabel.text = "\(post.like)"
-                        
-                    } else {
-                        
-                        FirebaseSingolton.shared.likeFilmPost(post: post)
-                        self.didLike = true
-                        self.likeButton.setImage(self.likeButtonImage, for: .normal)
-                        post.like = post.like + 1
-                        self.likeCountLabel.text = "\(post.like)"
-                    }
-                }
+        FirebaseSingolton.shared.checkLikeByUser(post: post) { (didLike) in
+            if didLike {
+                FirebaseSingolton.shared.disLikePost(post: post)
+                self.didLike = false
+                self.likeButton.setImage(self.likeButtonImage, for: .normal)
+                post.like = post.like - 1
+                self.likeCountLabel.text = "\(post.like)"
+                
+            } else {
+                
+                FirebaseSingolton.shared.likePost(post: post)
+                self.didLike = true
+                self.likeButton.setImage(self.likeButtonImage, for: .normal)
+                post.like = post.like + 1
+                self.likeCountLabel.text = "\(post.like)"
+            }
         }
     }
     

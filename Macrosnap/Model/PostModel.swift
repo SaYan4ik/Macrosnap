@@ -15,10 +15,11 @@ class Post {
     var camera: String = ""
     var description: String = ""
     var like: Int = 0
+    var postType: String = ""
     var likeByCurrenUser: Bool = false
     var favouriteByCurenUser: Bool = false
     
-    init(user: User, postId: String, userId: String, lense: String, camera: String, description: String, like: Int) {
+    init(user: User, postId: String, userId: String, lense: String, camera: String, description: String, like: Int, postType: String) {
         self.user = user
         self.postId = postId
         self.userId = userId
@@ -26,6 +27,7 @@ class Post {
         self.camera = camera
         self.description = description
         self.like = like
+        self.postType = postType
 
     }
 }

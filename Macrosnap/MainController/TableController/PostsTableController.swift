@@ -14,7 +14,7 @@ class PostsTableController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
-    private var type: PostType = .digitalPhoto
+    private var postType: PostType = .digitalPost
     private var posts = [Post]() {
         didSet {
             chekLike()
@@ -31,8 +31,8 @@ class PostsTableController: UIViewController {
         checkFav()
     }
     
-    func set(type: PostType) {
-        self.type = type
+    func set(postType: PostType) {
+        self.postType = postType
     }
     
     private func tableViewRefresher() {
@@ -56,25 +56,11 @@ class PostsTableController: UIViewController {
 
         tableView.refreshControl?.beginRefreshing()
         FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
-            
-            switch self.type {
-                case .digitalPhoto:
-                    
-                    FirebaseSingolton.shared.getPostsWithUserUID(user: user) { allPosts in
-                        self.posts.append(contentsOf: allPosts)
-                        
-                        self.tableView.reloadData()
-                        self.tableView.refreshControl?.endRefreshing()
-                    }
-                    
-                case .filmPhoto:
-                    
-                    FirebaseSingolton.shared.getFilmPostsWithUserUID(user: user) { allPosts in
-                        self.posts.append(contentsOf: allPosts)
-                        
-                        self.tableView.reloadData()
-                        self.tableView.refreshControl?.endRefreshing()
-                    }
+            FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
+                self.posts.append(contentsOf: allPosts)
+                
+                self.tableView.reloadData()
+                self.tableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -82,25 +68,11 @@ class PostsTableController: UIViewController {
     private func getAllPostsForFollowUsers() {
         FirebaseSingolton.shared.getFollowingUsers { followUsers in
             followUsers.forEach { user in
-                switch self.type {
-                        
-                    case .digitalPhoto:
-                        FirebaseSingolton.shared.getPostsWithUserUID(user: user) { followUserPosts in
-                            
-                            self.posts.append(contentsOf: followUserPosts)
-                            
-                            self.tableView.reloadData()
-                            self.tableView.refreshControl?.endRefreshing()
-                        }
-                        
-                    case .filmPhoto:
-                        
-                        FirebaseSingolton.shared.getFilmPostsWithUserUID(user: user) { allPosts in
-                            self.posts.append(contentsOf: allPosts)
-                            
-                            self.tableView.reloadData()
-                            self.tableView.refreshControl?.endRefreshing()
-                        }
+                FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
+                    self.posts.append(contentsOf: allPosts)
+                    
+                    self.tableView.reloadData()
+                    self.tableView.refreshControl?.endRefreshing()
                 }
             }
         }
@@ -190,7 +162,7 @@ extension PostsTableController: UITableViewDataSource {
                 post: posts[indexPath.row],
                 likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser,
                 favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser,
-                type: type
+                type: postType
             )
         }
         

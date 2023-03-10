@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ProfilePostType {
+enum ProfilePostType: String {
     case digitalPosts
     case filmPosts
     case favouritePosts

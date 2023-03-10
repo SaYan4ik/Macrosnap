@@ -16,6 +16,7 @@ class FirebaseSingolton {
 
     // MARK: -
     // MARK: - DigitalPosts
+//   Delete func
     func getPostsWithUserUID(user: User, complition: @escaping ([Post]) -> Void) {
         Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").getDocuments { (snapshot, error) in
             if let error = error {
@@ -30,16 +31,44 @@ class FirebaseSingolton {
                           let lense = data["lense"] as? String,
                           let camera = data["camera"] as? String,
                           let description = data["description"] as? String,
-                          let like = data["like"] as? Int
+                          let like = data["like"] as? Int,
+                          let postType = data["postType"] as? String
                     else { return }
                     
-                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
                     allPosts.append(post)
                 }
                 complition(allPosts)
             }
         }
     }
+    
+    func getPostsByTypeWithUserUID(user: User, postType: PostType, complition: @escaping ([Post]) -> Void) {
+        Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").whereField("postType", isEqualTo: postType.rawValue).getDocuments { (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                guard let snapshot = snapshot else { return }
+                var allPosts = [Post]()
+                for document in snapshot.documents {
+                    let data = document.data()
+                    guard let postId = data["postId"] as? String,
+                          let userId = data["userId"] as? String,
+                          let lense = data["lense"] as? String,
+                          let camera = data["camera"] as? String,
+                          let description = data["description"] as? String,
+                          let like = data["like"] as? Int,
+                          let postType = data["postType"] as? String
+                    else { return }
+                    
+                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
+                    allPosts.append(post)
+                }
+                complition(allPosts)
+            }
+        }
+    }
+    
     
     func getPostByUID(post: Post, complition: @escaping((Post) -> Void)) {
         let postNameURL = Storage.storage().reference(forURL: post.postId).name
@@ -55,9 +84,10 @@ class FirebaseSingolton {
                       let lense = data["lense"] as? String,
                       let camera = data["camera"] as? String,
                       let description = data["description"] as? String,
-                      let like = data["like"] as? Int
+                      let like = data["like"] as? Int,
+                      let postType = data["postType"] as? String
                 else { return }
-                let post = Post(user: post.user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                let post = Post(user: post.user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
                 print("Post was upload")
                 complition(post)
             }
@@ -127,7 +157,8 @@ class FirebaseSingolton {
             "lense": post.lense,
             "camera": post.camera,
             "description": post.description,
-            "like": post.like
+            "like": post.like,
+            "postType": post.postType
         ])
     }
     
@@ -170,10 +201,11 @@ class FirebaseSingolton {
                           let lense = data["lense"] as? String,
                           let camera = data["camera"] as? String,
                           let description = data["description"] as? String,
-                          let like = data["like"] as? Int
+                          let like = data["like"] as? Int,
+                          let postType = data["postType"] as? String
                     else { return }
                     
-                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
                     allPosts.append(post)
                 }
                 complition(allPosts)
@@ -244,10 +276,11 @@ class FirebaseSingolton {
                           let lense = data["lense"] as? String,
                           let camera = data["camera"] as? String,
                           let description = data["description"] as? String,
-                          let like = data["like"] as? Int
+                          let like = data["like"] as? Int,
+                          let postType = data["postType"] as? String
                     else { return }
                     
-                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
                     allPosts.append(post)
                 }
                 complition(allPosts)
@@ -269,9 +302,10 @@ class FirebaseSingolton {
                       let lense = data["lense"] as? String,
                       let camera = data["camera"] as? String,
                       let description = data["description"] as? String,
-                      let like = data["like"] as? Int
+                      let like = data["like"] as? Int,
+                      let postType = data["postType"] as? String
                 else { return }
-                let post = Post(user: post.user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                let post = Post(user: post.user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
                 complition(post)
             }
 
@@ -536,11 +570,11 @@ class FirebaseSingolton {
 // MARK: -
 // MARK: - Pagination
     func pagination(user: User, posts: [Post], type: PostType, complition: @escaping (([Post]) -> Void)) {
-        var query: Query
+        var query: Query?
         var lastDocumentSnapshot: DocumentSnapshot?
         
         switch type {
-            case .digitalPhoto:
+            case .digitalPost:
                 if posts.isEmpty {
                     query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").limit(to: 2)
                 } else {
@@ -548,15 +582,17 @@ class FirebaseSingolton {
                     query = Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
                 }
                 
-            case .filmPhoto:
+            case .filmPost:
                 if posts.isEmpty {
                     query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").limit(to: 2)
                 } else {
                     guard let lastDocumentSnapshot else { return }
                     query = Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").start(afterDocument: lastDocumentSnapshot).limit(to: 2)
                 }
+            case .favouritePost:
+                break
         }
-
+        guard let query else { return }
         query.getDocuments { snapshot, error in
             guard let snapshot else { return }
             if let error = error {
@@ -573,10 +609,11 @@ class FirebaseSingolton {
                           let lense = data["lense"] as? String,
                           let camera = data["camera"] as? String,
                           let description = data["description"] as? String,
-                          let like = data["like"] as? Int
+                          let like = data["like"] as? Int,
+                          let postType = data["postType"] as? String
                     else { return }
 
-                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like)
+                    let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
                     allPosts.append(post)
                 }
                 complition(allPosts)

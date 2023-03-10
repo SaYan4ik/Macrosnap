@@ -21,6 +21,7 @@ class DescriptionController: UIViewController {
     @IBOutlet weak var filmPhotoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     
+    private var postType: PostType = .digitalPost
     var imageForAdd: UIImage?
     
     override func viewDidLoad() {
@@ -56,10 +57,14 @@ class DescriptionController: UIViewController {
     
     @IBAction func digitalPhotoDidTap(_ sender: Any) {
         setSelectionButton(button: digitalPhotoButton)
+        self.postType = .digitalPost
+        print(postType.rawValue)
     }
     
     @IBAction func filmPhotoDidTap(_ sender: Any) {
         setSelectionButton(button: filmPhotoButton)
+        self.postType = .filmPost
+        print(postType.rawValue)
     }
     
     private func setupNavBar() {
@@ -85,32 +90,18 @@ class DescriptionController: UIViewController {
 }
 
 extension DescriptionController {
-    
     private func savePost() {
         guard let camera = cameraField.text,
               let lense = lenseField.text,
               let description = descriptionTextView.text
         else { return }
         
-        if digitalPhotoButton.isSelected {
-            addNewPostDocement(camera: camera, lense: lense, description: description) { [weak self] success in
-                guard let self else { return }
-                if (success) {
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    self.showAlert(title: "Error", message: "Post did't upload.")
-                }
-            }
-        }
-        
-        if filmPhotoButton.isSelected {
-            addNewFilmPhoto(camera: camera, lense: lense, description: description) { [weak self] success in
-                guard let self else { return }
-                if (success) {
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    self.showAlert(title: "Error", message: "Post did't upload.")
-                }
+        addNewPostDocement(camera: camera, lense: lense, description: description) { [weak self] success in
+            guard let self else { return }
+            if (success) {
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                self.showAlert(title: "Error", message: "Post did't upload.")
             }
         }
     }
@@ -156,33 +147,8 @@ extension DescriptionController {
                         "lense": lense,
                         "camera": camera,
                         "description": description,
-                        "like": 0
-                    ])
-                case .failure(let error):
-                    print("\(String(describing: error.localizedDescription))")
-                    completionBlock(false)
-            }
-        }
-    }
-    
-    private func addNewFilmPhoto(camera: String, lense: String, description: String, completionBlock: @escaping (_ success: Bool) -> Void) {
-        guard let user = Auth.auth().currentUser else {
-            completionBlock(false)
-            return
-        }
-        
-        self.uploadPost(photo: self.postImageView.image) { (myResult) in
-            switch myResult {
-                    
-                case .success(let url):
-                    let postNameURL = Storage.storage().reference(forURL: url.absoluteString).name
-                    Firestore.firestore().collection("filmPosts").document(user.uid).collection("userFilmPosts").document("\(postNameURL)").setData([
-                        "postId": url.absoluteString,
-                        "userId": user.uid,
-                        "lense": lense,
-                        "camera": camera,
-                        "description": description,
-                        "like": 0
+                        "like": 0,
+                        "postType": self.postType.rawValue
                     ])
                 case .failure(let error):
                     print("\(String(describing: error.localizedDescription))")

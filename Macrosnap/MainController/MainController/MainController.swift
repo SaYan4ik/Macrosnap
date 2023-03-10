@@ -53,8 +53,8 @@ extension MainController {
         let postVC = PostsTableController(nibName: String(describing: PostsTableController.self), bundle: nil)
         let filmPostVC = PostsTableController(nibName: String(describing: PostsTableController.self), bundle: nil)
         
-        postVC.set(type: .digitalPhoto)
-        filmPostVC.set(type: .filmPhoto)
+        postVC.set(postType: .digitalPost)
+        filmPostVC.set(postType: .filmPost)
         
         controllers.append(postVC)
         controllers.append(filmPostVC)
