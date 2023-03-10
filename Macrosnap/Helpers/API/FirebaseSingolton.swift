@@ -507,7 +507,6 @@ class FirebaseSingolton {
 //MARK: - Chat
     
     func getLastMessage(chat: Chat, complition: @escaping ((Message) -> Void) ) {
-        
         Firestore.firestore().collection("chats").document(chat.chatUID).collection("messages").order(by: "created", descending: true).limit(to: 1).getDocuments { ( messageSnapshot, error )  in
             
             if let error = error {

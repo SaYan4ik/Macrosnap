@@ -38,7 +38,6 @@ class ProfileController: UIViewController {
         setStyle()
         configureUser()
         configureController()
-        insertController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,10 +139,11 @@ extension ProfileController {
         controllers.append(postCollectionVC)
         controllers.append(filmPostsVC)
         controllers.append(favouriteVC)
+        insertController()
     }
 
     func insertController() {
-        let controller = controllers[selectedIndex]
+        guard let controller = controllers[safe: selectedIndex] else { return }
         self.addChild(controller)
         controller.view.frame = self.contentView.bounds
         self.contentView.addSubview(controller.view)

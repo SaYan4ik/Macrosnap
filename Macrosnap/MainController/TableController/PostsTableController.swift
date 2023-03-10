@@ -21,7 +21,6 @@ class PostsTableController: UIViewController {
             checkFav()
         }
     }
-    private var lastDocumentSnapshot: DocumentSnapshot?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -186,7 +185,13 @@ extension PostsTableController: UITableViewDataSource {
         guard let postCell = cell as? PostsCell else { return cell }
         
         if !posts.isEmpty {
-            postCell.set(delegate: self, post: posts[indexPath.row], likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser, favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser, type: type)
+            postCell.set(
+                delegate: self,
+                post: posts[indexPath.row],
+                likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser,
+                favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser,
+                type: type
+            )
         }
         
         return postCell

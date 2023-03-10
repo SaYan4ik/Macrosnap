@@ -40,6 +40,7 @@ class AddNewPostController: UIViewController {
         descriptionPostVC.imageForAdd = ImageForAdd.image
         navigationController?.pushViewController(descriptionPostVC, animated: true)
     }
+    
 }
 
 // MARK: -

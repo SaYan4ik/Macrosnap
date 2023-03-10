@@ -8,13 +8,11 @@
 import UIKit
 
 class SearchController: UIViewController {
-    
     @IBOutlet weak var tableView: UITableView!
 
-    
     private lazy var searchBar: UISearchBar = UISearchBar()
-    var users = [User]()
-    var filteredUsers = [User]()
+    private var users = [User]()
+    private var filteredUsers = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +61,8 @@ class SearchController: UIViewController {
     private func getAllUsers() {
         tableView.refreshControl?.beginRefreshing()
         
-        FirebaseSingolton.shared.getAllUsers {  users in
+        FirebaseSingolton.shared.getAllUsers { [weak self] users in
+            guard let self else { return }
             
             self.users = users
             self.filteredUsers = users
@@ -72,6 +71,15 @@ class SearchController: UIViewController {
             self.tableView.reloadData()
             self.tableView.refreshControl?.endRefreshing()
         }
+    }
+    
+    private func addGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 

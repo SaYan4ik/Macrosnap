@@ -30,6 +30,7 @@ class DescriptionController: UIViewController {
         adjustUITextViewHeight(arg: descriptionTextView)
         setStyle()
         setupNavBar()
+        addGesture()
     }
     
     private func adjustUITextViewHeight(arg : UITextView) {
@@ -71,6 +72,15 @@ class DescriptionController: UIViewController {
     
     @IBAction func backAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func addGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
