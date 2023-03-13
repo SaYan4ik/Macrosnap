@@ -27,6 +27,11 @@ class RegistrationController: UIViewController {
     }
     
     private func setupTextField() {
+        fullNameField.backgroundColor = .white
+        userNameField.backgroundColor = .white
+        emailField.backgroundColor = .white
+        passwordField.backgroundColor = .white
+        
         fullNameField.setupTextField()
         userNameField.setupTextField()
         emailField.setupTextField()

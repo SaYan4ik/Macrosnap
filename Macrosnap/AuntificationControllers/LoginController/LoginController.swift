@@ -35,13 +35,20 @@ class LoginController: UIViewController {
     }
     
     @IBAction func registrationButtonDidTap(_ sender: Any) {
-        let regVC = RegistrationController(nibName: String(describing: RegistrationController.self), bundle: nil)
+        let regVC = RegistrationController(
+            nibName: String(describing: RegistrationController.self),
+            bundle: nil
+        )
         navigationController?.pushViewController(regVC, animated: true)
     }
     
     
     @IBAction func rememberPasswordButtonDidTap(_ sender: Any) {
-        
+        let resetVC = ResetPasswordController(
+            nibName: String(describing: ResetPasswordController.self),
+            bundle: nil
+        )
+        present(resetVC, animated: true)
     }
     
     private func addGesture() {

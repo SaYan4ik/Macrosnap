@@ -23,7 +23,7 @@ extension UITextField {
         self.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor
         self.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 10))
         self.leftViewMode = .always
-        self.textColor = .lightGray
+        self.textColor = .black
         self.attributedPlaceholder = NSAttributedString(string: self.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.darkGray])
     }
     
@@ -99,7 +99,7 @@ extension UITextField {
 enum ValidationType: String {
     case phone = "(\\+375|375)(29|25|44|33)(\\d{3})(\\d{2})(\\d{2})"
     case email = "[A-z0-9_.+-]+@[A-z0-9-]+(\\.[A-z0-9-]{2,})"
-    case name = "[\\S]{2,16}"
+    case name = "[\\S]{2,32}"
     case password = "[\\S]{6,25}"
     case none = "[\\S]"
     case address = "[A-z 0-9]+, [A-z 0-9]+, (кв|квартира) +[0-9]"

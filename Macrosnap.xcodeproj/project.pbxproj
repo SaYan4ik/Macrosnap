@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A204EF0029BF25F8002D8743 /* ResetPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A204EEFE29BF25F8002D8743 /* ResetPasswordController.swift */; };
+		A204EF0129BF25F8002D8743 /* ResetPasswordController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A204EEFF29BF25F8002D8743 /* ResetPasswordController.xib */; };
 		A21EB54929AA7BF800CA3AE5 /* UserPostsCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EB54729AA7BF800CA3AE5 /* UserPostsCollectionController.swift */; };
 		A21EB54A29AA7BF800CA3AE5 /* UserPostsCollectionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A21EB54829AA7BF800CA3AE5 /* UserPostsCollectionController.xib */; };
 		A21EB54E29AA7C8800CA3AE5 /* UserPostCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21EB54C29AA7C8800CA3AE5 /* UserPostCollectionCell.swift */; };
@@ -82,6 +84,8 @@
 
 /* Begin PBXFileReference section */
 		490A578F43732043961A7569 /* Pods-Macrosnap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Macrosnap.debug.xcconfig"; path = "Target Support Files/Pods-Macrosnap/Pods-Macrosnap.debug.xcconfig"; sourceTree = "<group>"; };
+		A204EEFE29BF25F8002D8743 /* ResetPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordController.swift; sourceTree = "<group>"; };
+		A204EEFF29BF25F8002D8743 /* ResetPasswordController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResetPasswordController.xib; sourceTree = "<group>"; };
 		A21EB54729AA7BF800CA3AE5 /* UserPostsCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsCollectionController.swift; sourceTree = "<group>"; };
 		A21EB54829AA7BF800CA3AE5 /* UserPostsCollectionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserPostsCollectionController.xib; sourceTree = "<group>"; };
 		A21EB54C29AA7C8800CA3AE5 /* UserPostCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostCollectionCell.swift; sourceTree = "<group>"; };
@@ -179,6 +183,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		A204EEFD29BF25E1002D8743 /* ResetPasswordController */ = {
+			isa = PBXGroup;
+			children = (
+				A204EEFE29BF25F8002D8743 /* ResetPasswordController.swift */,
+				A204EEFF29BF25F8002D8743 /* ResetPasswordController.xib */,
+			);
+			path = ResetPasswordController;
+			sourceTree = "<group>";
+		};
 		A21EB54629AA7BCF00CA3AE5 /* UserPostsCollectionController */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +265,7 @@
 		A236E138292007B800B54E2F /* AuntificationControllers */ = {
 			isa = PBXGroup;
 			children = (
+				A204EEFD29BF25E1002D8743 /* ResetPasswordController */,
 				A236E139292007EA00B54E2F /* LoginController */,
 				A236E13A292007F000B54E2F /* RegistrationController */,
 			);
@@ -650,6 +664,7 @@
 				A2A99C4B293619C6008D1131 /* SearchController.xib in Resources */,
 				A21EB54A29AA7BF800CA3AE5 /* UserPostsCollectionController.xib in Resources */,
 				A21EB54F29AA7C8800CA3AE5 /* UserPostCollectionCell.xib in Resources */,
+				A204EF0129BF25F8002D8743 /* ResetPasswordController.xib in Resources */,
 				A2A99C55293633B0008D1131 /* SearchUserCell.xib in Resources */,
 				A236E12E2920072F00B54E2F /* Assets.xcassets in Resources */,
 				A2D33559298BD6D900F24E0D /* ChatWithUserController.xib in Resources */,
@@ -747,6 +762,7 @@
 				A27727E429A3D8CB00F78254 /* ExtensionSaveIndex.swift in Sources */,
 				A2D33552298BBEB100F24E0D /* ChatsCell.swift in Sources */,
 				A2BA0467299E590D00B9805E /* MessageCell.swift in Sources */,
+				A204EF0029BF25F8002D8743 /* ResetPasswordController.swift in Sources */,
 				A257260129810E4700972B14 /* PostType.swift in Sources */,
 				A236E1412920085800B54E2F /* RegistrationController.swift in Sources */,
 				A236E1272920072E00B54E2F /* SceneDelegate.swift in Sources */,
