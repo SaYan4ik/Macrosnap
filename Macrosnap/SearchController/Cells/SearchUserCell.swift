@@ -34,7 +34,7 @@ class SearchUserCell: UITableViewCell {
             
         }
     }
-    
+        
     
     override func awakeFromNib() {
         super.awakeFromNib()

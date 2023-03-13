@@ -48,22 +48,26 @@ class PostsTableController: UIViewController {
     
     private func getAllPosts() {
         getAllPostsForUser()
+//        getAllPostsForUser {
+//            self.tableView.reloadData()
+//            self.tableView.refreshControl?.endRefreshing()
+//        }
         getAllPostsForFollowUsers()
     }
     
-    private func getAllPostsForUser() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let dispatchGroup = DispatchGroup()
-        let dispatchQueue = DispatchQueue(label: "com.bestkora.mySerial", attributes: .concurrent)
-        var user: User?
-        
-        let userWorkItem = DispatchWorkItem {
-            FirebaseSingolton.shared.getUserWithUID(uid: uid) { userResult in
-                user = userResult
-                dispatchGroup.leave()
-            }
-        }
-        
+//    private func getAllPostsForUser(complition: @escaping () -> Void) {
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        let dispatchGroup = DispatchGroup()
+//        let concurrentQueue = DispatchQueue(label: "com.bestkora.mySerial", attributes: .concurrent)
+//        var user: User?
+//
+//        let userWorkItem = DispatchWorkItem {
+//            FirebaseSingolton.shared.getUserWithUID(uid: uid) { userResult in
+//                user = userResult
+//                dispatchGroup.leave()
+//            }
+//        }
+//
 //        let getPostsWorkItem = DispatchWorkItem {
 //            guard let user else {
 //                dispatchGroup.leave()
@@ -75,16 +79,42 @@ class PostsTableController: UIViewController {
 //                dispatchGroup.leave()
 //            }
 //        }
-        
+//
+//        dispatchGroup.enter()
+//        concurrentQueue.async(execute: userWorkItem)
+//
+//        dispatchGroup.notify(queue: .main) {
+//            self.tableView.refreshControl?.beginRefreshing()
+//            dispatchGroup.enter()
+//
+//            concurrentQueue.async(execute: getPostsWorkItem)
+//            complition()
+//        }
+//    }
+    
+    private func getAllPostsForUser() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let dispatchGroup = DispatchGroup()
+        let dispatchQueue = DispatchQueue(label: "com.bestkora.mySerial", attributes: .concurrent)
+        var user: User?
+
+        let userWorkItem = DispatchWorkItem {
+            FirebaseSingolton.shared.getUserWithUID(uid: uid) { userResult in
+                user = userResult
+                dispatchGroup.leave()
+            }
+        }
+
+
         dispatchGroup.enter()
         dispatchQueue.async(execute: userWorkItem)
-        
+
         dispatchGroup.notify(queue: .main) {
             self.tableView.refreshControl?.beginRefreshing()
             guard let user else { return }
             FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
                 self.posts.append(contentsOf: allPosts)
-                
+
                 self.tableView.reloadData()
                 self.tableView.refreshControl?.endRefreshing()
             }
@@ -188,14 +218,16 @@ extension PostsTableController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostsCell.id, for: indexPath)
         guard let postCell = cell as? PostsCell else { return cell }
         
-        postCell.set(
-            delegate: self,
-            post: posts[indexPath.row],
-            likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser,
-            favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser,
-            type: postType
-        )
-
+        if !posts.isEmpty {
+            postCell.set(
+                delegate: self,
+                post: posts[indexPath.row],
+                likeButtonIsSelected: posts[indexPath.row].likeByCurrenUser,
+                favButtonIsSelected: posts[indexPath.row].favouriteByCurenUser,
+                type: postType
+            )
+        }
+        
         return postCell
     }
     

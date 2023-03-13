@@ -16,7 +16,6 @@ class PostsCollectionController: UIViewController {
     private var posts = [Post]()
     var user: User?
     private var postType: PostType = .digitalPost
-    private var lastDocumentSnapshot: DocumentSnapshot?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +48,8 @@ class PostsCollectionController: UIViewController {
         posts.removeAll()
         switch postType {
             case .favouritePost:
-                FirebaseSingolton.shared.getfavouritePostsWithUser(user: user) { allPosts in
+                FirebaseSingolton.shared.getfavouritePostsWithUser(user: user) { [weak self] allPosts in
+                    guard let self else { return }
                     allPosts.forEach { post in
                         FirebaseSingolton.shared.getPostByUID(post: post) { post in
                             self.posts.append(post)
@@ -60,13 +60,15 @@ class PostsCollectionController: UIViewController {
                 }
                 
             default:
-                FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
+                FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { [weak self] allPosts in
+                    guard let self else { return }
                     self.posts = allPosts
                     self.collectionView.reloadData()
                     self.collectionView.refreshControl?.endRefreshing()
                 }
         }
     }
+
 }
 
 // MARK: -

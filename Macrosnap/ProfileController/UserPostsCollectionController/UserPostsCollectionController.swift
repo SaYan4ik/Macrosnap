@@ -26,6 +26,7 @@ class UserPostsCollectionController: UIViewController {
 
     private func setupCollectionView() {
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.collectionViewLayout = PostsCollectionViewFlowLayout()
     }
     
@@ -93,6 +94,10 @@ class UserPostsCollectionController: UIViewController {
     @IBAction func backAction(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
+    
+}
+
+extension UserPostsCollectionController: UICollectionViewDelegate {
     
 }
 

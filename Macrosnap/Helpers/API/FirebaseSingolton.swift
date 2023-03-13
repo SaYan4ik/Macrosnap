@@ -70,8 +70,7 @@ class FirebaseSingolton {
     
     
     func getPostByUID(post: Post, complition: @escaping((Post) -> Void)) {
-        let postNameURL = Storage.storage().reference(forURL: post.postId).name
-        
+        let postNameURL = Storage.storage().reference(forURL: post.postId).name        
         Firestore.firestore().collection("posts").document(post.userId).collection("userPosts").document(postNameURL).getDocument { (snapshot, error ) in
             if let error = error {
                 print("Error get post by uid \(error.localizedDescription)")
@@ -87,10 +86,8 @@ class FirebaseSingolton {
                       let postType = data["postType"] as? String
                 else { return }
                 let post = Post(user: post.user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
-                print("Post was upload")
                 complition(post)
             }
-
         }
     }
 

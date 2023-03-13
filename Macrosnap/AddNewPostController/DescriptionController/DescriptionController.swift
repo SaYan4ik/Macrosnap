@@ -137,7 +137,8 @@ extension DescriptionController {
             return
         }
     
-        self.uploadPost(photo: self.postImageView.image) { (myResult) in
+        self.uploadPost(photo: self.postImageView.image) { [weak self] (myResult) in
+            guard let self else { return }
             switch myResult {
                     
                 case .success(let url):
