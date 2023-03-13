@@ -27,6 +27,7 @@ class CommentsController: UIViewController {
         setDescription()
         tableView.dataSource = self
         registerCell()
+        addGesture()
         tableView.layer.cornerRadius = 12
     }
     
@@ -53,6 +54,15 @@ class CommentsController: UIViewController {
     private func registerCell() {
         let nibComment = UINib(nibName: CommentCell.id, bundle: nil)
         tableView.register(nibComment, forCellReuseIdentifier: CommentCell.id)
+    }
+    
+    private func addGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
 }

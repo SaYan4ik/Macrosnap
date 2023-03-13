@@ -76,6 +76,7 @@ class SettingController: UIViewController {
     @objc private func tapImage(tapGestureRecognizer: UITapGestureRecognizer) {
         let picker = UIImagePickerController()
         picker.delegate = self
+        picker.allowsEditing = true
         picker.sourceType = .photoLibrary
         present(picker, animated: true)
     }
@@ -89,7 +90,7 @@ class SettingController: UIViewController {
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
         
-        ref.putData(imageData, metadata: metadata) { (metadata, error) in
+        ref.putData(imageData, metadata: metadata) {(metadata, error) in
             guard let _ = metadata else {
                 guard let error = error else { return }
                 completion(.failure(error))

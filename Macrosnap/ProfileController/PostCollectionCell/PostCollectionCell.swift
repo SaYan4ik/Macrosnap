@@ -24,15 +24,22 @@ class PostCollectionCell: UICollectionViewCell {
                 postImage.sd_setImage(
                     with: postURLRef,
                     placeholderImage: nil,
-                    options: [.progressiveLoad, .continueInBackground, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
-                    context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
+                    options: [
+                        .progressiveLoad,
+                        .continueInBackground,
+                        .preloadAllFrames,
+                        .waitStoreCache,
+                        .scaleDownLargeImages
+                    ],
+                    context: [
+                        .imageThumbnailPixelSize: thumbnailSize,
+                        .imageScaleFactor : 3
+                    ]
                 )
             }
         }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
     }
-    
 }

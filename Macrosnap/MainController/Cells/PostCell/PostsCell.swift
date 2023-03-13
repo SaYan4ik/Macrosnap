@@ -158,7 +158,13 @@ class PostsCell: UITableViewCell {
 // MARK: - PostsConfigure
 
 extension PostsCell {
-    func set(delegate: ButtonDelegate?, post: Post, likeButtonIsSelected: Bool, favButtonIsSelected: Bool, type: PostType) {
+    func set(
+        delegate: ButtonDelegate?,
+        post: Post,
+        likeButtonIsSelected: Bool,
+        favButtonIsSelected: Bool,
+        type: PostType
+    ) {
         self.post = post
         self.buttonDelegate = delegate
         self.didLike = likeButtonIsSelected

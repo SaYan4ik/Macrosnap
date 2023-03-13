@@ -52,7 +52,6 @@ class DescriptionController: UIViewController {
             showAlert(title: "Choose type of photo", message: "Didn't choose style of photo")
         } else {
             savePost()
-            navigationController?.popToRootViewController(animated: true)
         }
     }
     
@@ -88,6 +87,7 @@ class DescriptionController: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+
 }
 
 extension DescriptionController {

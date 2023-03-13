@@ -34,7 +34,11 @@ class PostsCollectionController: UIViewController {
     
     private func collectionViewRefresher() {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        refreshControl.addTarget(
+            self,
+            action: #selector(handleRefresh),
+            for: .valueChanged
+        )
         collectionView?.refreshControl = refreshControl
     }
     

@@ -31,8 +31,17 @@ class UserPostCollectionCell: UICollectionViewCell {
             userAvatarImageView.sd_setImage(
                 with: userURLRef,
                 placeholderImage: nil,
-                options: [.progressiveLoad, .continueInBackground, .refreshCached, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
-                context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
+                options: [
+                    .progressiveLoad,
+                    .continueInBackground,
+                    .refreshCached,
+                    .preloadAllFrames,
+                    .waitStoreCache,
+                    .scaleDownLargeImages],
+                context: [
+                    .imageThumbnailPixelSize: thumbnailSize,
+                    .imageScaleFactor : 3
+                ]
             )
             
             guard let postURL = post?.postId else { return }
@@ -80,13 +89,7 @@ class UserPostCollectionCell: UICollectionViewCell {
         self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
     }
 
-    private func setStyleCell() {
-        self.containerView.layer.cornerRadius = 12
-        self.userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.height / 2
-        self.postImageView.layer.cornerRadius = 12
-        self.likeButton.setImage(likeButtonImage, for: .normal)
-        self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
-    }
+   
     
     @IBAction func likeButtonDidTap(_ sender: UIButton) {
         likeButtonAction()
@@ -106,7 +109,13 @@ class UserPostCollectionCell: UICollectionViewCell {
         animateShapeButton(button: sender)
     }
     
-    func set(post: Post, buttonDelegate: UserPostCollectionButtonDelegate, likeButtonIsSelected: Bool, favButtonIsSelected: Bool, postType: PostType) {
+    func set(
+        post: Post,
+        buttonDelegate: UserPostCollectionButtonDelegate,
+        likeButtonIsSelected: Bool,
+        favButtonIsSelected: Bool,
+        postType: PostType
+    ) {
         self.post = post
         self.buttonDelegate = buttonDelegate
         self.didLike = likeButtonIsSelected
@@ -114,6 +123,14 @@ class UserPostCollectionCell: UICollectionViewCell {
         self.likeCountLabel.text = "\(post.like)"
         self.postType = postType
         setStyleCell()
+    }
+    
+    private func setStyleCell() {
+        self.containerView.layer.cornerRadius = 12
+        self.userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.height / 2
+        self.postImageView.layer.cornerRadius = 12
+        self.likeButton.setImage(likeButtonImage, for: .normal)
+        self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
     }
     
     private func animateShapeButton(button: UIButton) {

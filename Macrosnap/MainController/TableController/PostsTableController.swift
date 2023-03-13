@@ -48,75 +48,42 @@ class PostsTableController: UIViewController {
     
     private func getAllPosts() {
         getAllPostsForUser()
-//        getAllPostsForUser {
-//            self.tableView.reloadData()
-//            self.tableView.refreshControl?.endRefreshing()
-//        }
-        getAllPostsForFollowUsers()
+        getAllFollowUserPosts()
     }
-    
-//    private func getAllPostsForUser(complition: @escaping () -> Void) {
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        let dispatchGroup = DispatchGroup()
-//        let concurrentQueue = DispatchQueue(label: "com.bestkora.mySerial", attributes: .concurrent)
-//        var user: User?
-//
-//        let userWorkItem = DispatchWorkItem {
-//            FirebaseSingolton.shared.getUserWithUID(uid: uid) { userResult in
-//                user = userResult
-//                dispatchGroup.leave()
-//            }
-//        }
-//
-//        let getPostsWorkItem = DispatchWorkItem {
-//            guard let user else {
-//                dispatchGroup.leave()
-//                return
-//            }
-//
-//            FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
-//                self.posts.append(contentsOf: allPosts)
-//                dispatchGroup.leave()
-//            }
-//        }
-//
-//        dispatchGroup.enter()
-//        concurrentQueue.async(execute: userWorkItem)
-//
-//        dispatchGroup.notify(queue: .main) {
-//            self.tableView.refreshControl?.beginRefreshing()
-//            dispatchGroup.enter()
-//
-//            concurrentQueue.async(execute: getPostsWorkItem)
-//            complition()
-//        }
-//    }
     
     private func getAllPostsForUser() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let dispatchGroup = DispatchGroup()
-        let dispatchQueue = DispatchQueue(label: "com.bestkora.mySerial", attributes: .concurrent)
-        var user: User?
-
-        let userWorkItem = DispatchWorkItem {
-            FirebaseSingolton.shared.getUserWithUID(uid: uid) { userResult in
-                user = userResult
-                dispatchGroup.leave()
+        
+        tableView.refreshControl?.beginRefreshing()
+        FirebaseSingolton.shared.getUserWithUID(uid: uid) { user in
+            FirebaseSingolton.shared.getPostsByTypeWithUserUID(
+                user: user,
+                postType: self.postType
+            ) { allPosts in
+                self.posts.append(contentsOf: allPosts)
+                
+                self.tableView.reloadData()
+                self.tableView.refreshControl?.endRefreshing()
             }
         }
 
+        
+    }
+    
+    private func getAllFollowUserPosts() {
+        tableView.refreshControl?.beginRefreshing()
 
-        dispatchGroup.enter()
-        dispatchQueue.async(execute: userWorkItem)
+        FirebaseSingolton.shared.getFollowingUsers { followUsers in
+            followUsers.forEach { user in
+                FirebaseSingolton.shared.getPostsByTypeWithUserUID(
+                    user: user,
+                    postType: self.postType
+                ) { allPosts in
+                    self.posts.append(contentsOf: allPosts)
 
-        dispatchGroup.notify(queue: .main) {
-            self.tableView.refreshControl?.beginRefreshing()
-            guard let user else { return }
-            FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
-                self.posts.append(contentsOf: allPosts)
-
-                self.tableView.reloadData()
-                self.tableView.refreshControl?.endRefreshing()
+                    self.tableView.reloadData()
+                    self.tableView.refreshControl?.endRefreshing()
+                }
             }
         }
     }
@@ -154,8 +121,8 @@ class PostsTableController: UIViewController {
                 if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
                     let indexPath = IndexPath(row: index, section:0)
                     if didLike {
-                        self.tableView.reloadRows(at: [indexPath], with: .none)
                         self.posts[index].likeByCurrenUser = didLike
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
                     }
                 }
             }
@@ -168,8 +135,8 @@ class PostsTableController: UIViewController {
                 if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
                     let indexPath = IndexPath(row: index, section:0)
                     if didFavourite {
-                        self.tableView.reloadRows(at: [indexPath], with: .none)
                         self.posts[index].favouriteByCurenUser = didFavourite
+                        self.tableView.reloadRows(at: [indexPath], with: .none)
                     }
                 }
             }

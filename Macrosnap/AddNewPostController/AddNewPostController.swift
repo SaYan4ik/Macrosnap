@@ -12,15 +12,10 @@ import FirebaseAuth
 
 class AddNewPostController: UIViewController {
     @IBOutlet weak var titleView: UIView!
-    @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var imageView: UIView!
     @IBOutlet weak var descriptionView: UIView!
     @IBOutlet weak var ImageForAdd: UIImageView!
-    @IBOutlet weak var cameraField: UITextField!
-    @IBOutlet weak var lenseField: UITextField!
-    @IBOutlet weak var descriptionField: UITextField!
-    @IBOutlet weak var digitalPhotoTypeButton: UIButton!
-    @IBOutlet weak var filmPhotoTypeButton: UIButton!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,12 +41,9 @@ class AddNewPostController: UIViewController {
 // MARK: -
 // MARK: - SetStyle
 extension AddNewPostController {
-    
     private func setStyle() {
         titleView.layer.cornerRadius = 12
-        buttonView.layer.cornerRadius = 12
         imageView.layer.cornerRadius = 12
-        descriptionView.layer.cornerRadius = 12
     }
 }
 

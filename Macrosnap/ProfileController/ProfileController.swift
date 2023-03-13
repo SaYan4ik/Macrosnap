@@ -82,7 +82,8 @@ class ProfileController: UIViewController {
         let settingNib = String(describing: SettingController.self)
         let settingVC = SettingController(nibName: settingNib, bundle: nil)
         settingVC.user = user
-        settingVC.updateAvatarBlock = { newImage in
+        settingVC.updateAvatarBlock = { [weak self] newImage in
+            guard let self else { return }
             self.profileimage.image = newImage
             print(newImage)
         }
@@ -124,15 +125,24 @@ extension ProfileController {
 extension ProfileController {
     func configureController() {
         guard let user = user else { return }
-        let postCollectionVC = PostsCollectionController(nibName: String(describing: PostsCollectionController.self), bundle: nil)
+        let postCollectionVC = PostsCollectionController(
+            nibName: String(describing: PostsCollectionController.self),
+            bundle: nil
+        )
         postCollectionVC.user = user
         postCollectionVC.set(typePost: .digitalPost)
         
-        let filmPostsVC = PostsCollectionController(nibName: String(describing: PostsCollectionController.self), bundle: nil)
+        let filmPostsVC = PostsCollectionController(
+            nibName: String(describing: PostsCollectionController.self),
+            bundle: nil
+        )
         filmPostsVC.user = user
         filmPostsVC.set(typePost: .filmPost)
         
-        let favouriteVC = PostsCollectionController(nibName: String(describing: PostsCollectionController.self), bundle: nil)
+        let favouriteVC = PostsCollectionController(
+            nibName: String(describing: PostsCollectionController.self),
+            bundle: nil
+        )
         favouriteVC.user = user
         favouriteVC.set(typePost: .favouritePost)
         
