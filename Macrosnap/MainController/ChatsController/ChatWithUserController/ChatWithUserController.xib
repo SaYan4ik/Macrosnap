@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatWithUserController" customModule="Macrosnap" customModuleProvider="target">
             <connections>
+                <outlet property="bottomTextFieldConstrain" destination="Y7f-pX-XJ6" id="wGH-pp-7vQ"/>
                 <outlet property="mesageField" destination="dcU-7E-SXf" id="keY-dJ-GbO"/>
                 <outlet property="tableView" destination="Tap-Gw-5cg" id="PXT-P6-cfb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

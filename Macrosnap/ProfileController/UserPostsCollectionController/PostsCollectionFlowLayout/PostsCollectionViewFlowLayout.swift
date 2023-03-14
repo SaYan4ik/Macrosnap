@@ -15,12 +15,21 @@ class PostsCollectionViewFlowLayout: UICollectionViewFlowLayout {
         guard let collectionView = collectionView else { return }
         
         scrollDirection = .horizontal
-        itemSize = CGSize(width: itemWidth, height: itemHeight)
+        itemSize = CGSize(
+            width: itemWidth,
+            height: itemHeight
+        )
         
         let peekingItemWidth = itemSize.width / 10
         let horizontalInsets = (collectionView.frame.size.width - itemSize.width) / 2
         
-        collectionView.contentInset = UIEdgeInsets(top: 12, left: horizontalInsets, bottom: 12, right: horizontalInsets)
+        collectionView.contentInset = UIEdgeInsets(
+            top: 12,
+            left: horizontalInsets,
+            bottom: 12,
+            right: horizontalInsets
+        )
+        
         minimumLineSpacing = horizontalInsets - peekingItemWidth
     }
 }

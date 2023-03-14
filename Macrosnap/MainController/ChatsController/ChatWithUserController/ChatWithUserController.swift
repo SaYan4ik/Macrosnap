@@ -13,25 +13,51 @@ import FirebaseFirestore
 class ChatWithUserController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var mesageField: UITextField!
-    
+    @IBOutlet weak var bottomTextFieldConstrain: NSLayoutConstraint!
+        
     var chatUserUID: String = ""
     var chat: Chat?
     var user: User?
     private var docReference: DocumentReference?
     private var messages = [Message]()
+    private var messagesIndexPath = IndexPath(row: 0, section: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loadChat()
         self.getUser()
-        setupNavBar()
+        self.setupNavBar()
         self.setupTableView()
+        self.addGesture()
+        self.setupKeyBoardWhenEditing()
     }
     
     private func setupTableView() {
         self.tableView.dataSource = self
         self.registerCell()
     }
+    
+    private func scrollToBottom(){
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+    
+    private func setupKeyBoardWhenEditing() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
+    
 
     private func registerCell() {
         tableView.register(MessageCell.self, forCellReuseIdentifier: String(describing: MessageCell.self))
@@ -53,6 +79,47 @@ class ChatWithUserController: UIViewController {
     @IBAction func sendMessageButtonDidTap(_ sender: Any) {
         guard let user else { return }
         saveMessage(user: user)
+    }
+    
+    private func addGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    private func moveViewWithKeyboard(notification: NSNotification, viewBottomConstraint: NSLayoutConstraint, keyboardWillShow: Bool) {
+
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        let keyboardHeight = keyboardSize.height
+        guard let keyboardDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
+        guard let keyboardCurve = UIView.AnimationCurve(rawValue: notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as? Int ?? 0) else { return }
+        
+        if keyboardWillShow {
+            let safeAreaExists = (self.view?.window?.safeAreaInsets.bottom != 0)
+            let bottomConstant: CGFloat = 16
+            viewBottomConstraint.constant = keyboardHeight + (safeAreaExists ? 0 : bottomConstant)
+        } else {
+            viewBottomConstraint.constant = 16
+        }
+        
+        let animator = UIViewPropertyAnimator(duration: keyboardDuration, curve: keyboardCurve) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+        
+        animator.startAnimation()
+    }
+    
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+        if mesageField.isEditing {
+            moveViewWithKeyboard(notification: notification, viewBottomConstraint: self.bottomTextFieldConstrain, keyboardWillShow: true)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: NSNotification) {
+        moveViewWithKeyboard(notification: notification, viewBottomConstraint: self.bottomTextFieldConstrain, keyboardWillShow: false)
     }
     
     private func createChat() {
@@ -147,6 +214,7 @@ class ChatWithUserController: UIViewController {
                                         self.messages.append(msg)
                                     }
                                     self.tableView.reloadData()
+                                    self.scrollToBottom()
                                 }
                             })
                             return

@@ -50,8 +50,18 @@ class UserPostCollectionCell: UICollectionViewCell {
             postImageView.sd_setImage(
                 with: postURLRef,
                 placeholderImage: nil,
-                options: [.progressiveLoad, .continueInBackground, .refreshCached, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
-                context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
+                options: [
+                    .progressiveLoad,
+                    .continueInBackground,
+                    .refreshCached,
+                    .preloadAllFrames,
+                    .waitStoreCache,
+                    .scaleDownLargeImages
+                ],
+                context: [
+                    .imageThumbnailPixelSize: thumbnailSize,
+                    .imageScaleFactor : 3
+                ]
             )
             
         }
