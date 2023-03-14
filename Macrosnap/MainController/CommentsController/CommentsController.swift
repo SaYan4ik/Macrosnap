@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class CommentsController: UIViewController {
     @IBOutlet weak var descriptionView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -16,6 +17,8 @@ class CommentsController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var noCommentsView: UIView!
+    
+    @IBOutlet weak var textFieldBottomCinstraint: NSLayoutConstraint!
     
     var post: Post?
     var comments = [Comment]()
@@ -29,6 +32,18 @@ class CommentsController: UIViewController {
         registerCell()
         addGesture()
         tableView.layer.cornerRadius = 12
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,6 +78,38 @@ class CommentsController: UIViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    func moveViewWithKeyboard(notification: NSNotification, viewBottomConstraint: NSLayoutConstraint, keyboardWillShow: Bool) {
+
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        let keyboardHeight = keyboardSize.height
+        let keyboardDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
+        let keyboardCurve = UIView.AnimationCurve(rawValue: notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as! Int)!
+        
+        if keyboardWillShow {
+            let safeAreaExists = (self.view?.window?.safeAreaInsets.bottom != 0)
+            let bottomConstant: CGFloat = 20
+            viewBottomConstraint.constant = keyboardHeight + (safeAreaExists ? 0 : bottomConstant)
+        } else {
+            viewBottomConstraint.constant = 20
+        }
+        
+        let animator = UIViewPropertyAnimator(duration: keyboardDuration, curve: keyboardCurve) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+        
+        animator.startAnimation()
+    }
+    
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+        if enterCommentField.isEditing {
+            moveViewWithKeyboard(notification: notification, viewBottomConstraint: self.textFieldBottomCinstraint, keyboardWillShow: true)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: NSNotification) {
+        moveViewWithKeyboard(notification: notification, viewBottomConstraint: self.textFieldBottomCinstraint, keyboardWillShow: false)
     }
     
 }

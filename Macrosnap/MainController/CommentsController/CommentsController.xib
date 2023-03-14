@@ -17,6 +17,7 @@
                 <outlet property="lenseLabel" destination="7bU-HL-w0y" id="RQI-6v-cQj"/>
                 <outlet property="noCommentsView" destination="HLa-xY-O3p" id="Gcn-H1-CGF"/>
                 <outlet property="tableView" destination="LvF-8b-7Jo" id="sxC-sI-OUx"/>
+                <outlet property="textFieldBottomCinstraint" destination="icz-N3-0nw" id="08j-v8-xVe"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

@@ -21,6 +21,8 @@ class DescriptionController: UIViewController {
     @IBOutlet weak var filmPhotoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     
+    
+    
     private var postType: PostType = .digitalPost
     var imageForAdd: UIImage?
     
