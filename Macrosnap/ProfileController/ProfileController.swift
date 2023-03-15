@@ -169,9 +169,26 @@ extension ProfileController {
         guard let user = user else { return }
         
         self.userNameLabel.text = user.username
+        
+        let scale = UIScreen.main.scale
+        let thumbnailSize = CGSize(width: 400 * scale, height: 300 * scale)
         let avatarUrl = user.avatarURL
         guard let url = URL(string: avatarUrl) else { return }
-        profileimage.sd_setImage(with: url)
+        profileimage.sd_setImage(
+            with: url,
+            placeholderImage: nil,
+            options: [
+                .progressiveLoad,
+                .continueInBackground,
+                .preloadAllFrames,
+                .waitStoreCache,
+                .scaleDownLargeImages
+            ],
+            context: [
+                .imageThumbnailPixelSize: thumbnailSize,
+                .imageScaleFactor : 3
+            ]
+        )
     }
     
     

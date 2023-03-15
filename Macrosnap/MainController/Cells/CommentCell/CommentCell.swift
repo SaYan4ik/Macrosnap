@@ -24,7 +24,24 @@ class CommentCell: UITableViewCell {
             
             guard let userUrl = comment?.post.user.avatarURL else { return }
             guard let userUrlRef = URL(string: userUrl) else { return }
-            userAvatarImage.sd_setImage(with: userUrlRef, completed: nil)
+            
+            let scale = UIScreen.main.scale
+            let thumbnailSize = CGSize(width: 200 * scale, height: 150 * scale)
+            userAvatarImage.sd_setImage(
+                with: userUrlRef,
+                placeholderImage: nil,
+                options: [
+                    .progressiveLoad,
+                    .continueInBackground,
+                    .refreshCached,
+                    .preloadAllFrames,
+                    .waitStoreCache,
+                    .scaleDownLargeImages],
+                context: [
+                    .imageThumbnailPixelSize: thumbnailSize,
+                    .imageScaleFactor : 3
+                ]
+            )
             
             self.commentTextLabel.text = comment?.commentText
             guard let date = comment?.date.dateValue() else { return }
