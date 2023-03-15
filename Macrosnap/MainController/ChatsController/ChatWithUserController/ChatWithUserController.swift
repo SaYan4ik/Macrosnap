@@ -93,7 +93,8 @@ class ChatWithUserController: UIViewController {
     private func moveViewWithKeyboard(notification: NSNotification, viewBottomConstraint: NSLayoutConstraint, keyboardWillShow: Bool) {
 
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        let keyboardHeight = keyboardSize.height
+        guard let tabBarHeight = self.tabBarController?.tabBar.frame.size.height else { return }
+        let keyboardHeight = keyboardSize.height - tabBarHeight + 5.0
         guard let keyboardDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
         guard let keyboardCurve = UIView.AnimationCurve(rawValue: notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as? Int ?? 0) else { return }
         
@@ -106,7 +107,11 @@ class ChatWithUserController: UIViewController {
         }
         
         let animator = UIViewPropertyAnimator(duration: keyboardDuration, curve: keyboardCurve) { [weak self] in
-            self?.view.layoutIfNeeded()
+            guard let self else { return }
+            self.view.layoutIfNeeded()
+            let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+            
         }
         
         animator.startAnimation()

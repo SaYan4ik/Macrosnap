@@ -63,6 +63,7 @@ class FirebaseSingolton {
                     let post = Post(user: user, postId: postId, userId: userId, lense: lense, camera: camera, description: description, like: like, postType: postType)
                     allPosts.append(post)
                 }
+                
                 complition(allPosts)
             }
         }

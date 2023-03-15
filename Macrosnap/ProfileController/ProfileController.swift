@@ -185,7 +185,7 @@ extension ProfileController {
             self.unfollowButton.isHidden = true
         } else {
             guard let user else { return }
-            FirebaseSingolton.shared.checkFollowUser(user: user) { [weak self] result in
+            FirebaseSingolton().checkFollowUser(user: user) { [weak self] result in
                 guard let self else { return }
                 if result {
                     self.followButton.isHidden = true
@@ -202,7 +202,7 @@ extension ProfileController {
     
     private func existFollowUser() {
         guard let user else { return }
-        FirebaseSingolton.shared.checkFollowUser(user: user) { [weak self] result in
+        FirebaseSingolton().checkFollowUser(user: user) { [weak self] result in
             guard let self else { return }
             if result {
                 self.unfollowButton.isHidden = false
@@ -216,7 +216,7 @@ extension ProfileController {
     
     private func getPostsCountForUser() {
         guard let user else { return }
-        FirebaseSingolton.shared.getAllPostsCount(user: user) { [weak self] count in
+        FirebaseSingolton().getAllPostsCount(user: user) { [weak self] count in
             guard let self else { return }
             self.postsCount.text = "\(count)"
         }
@@ -225,7 +225,7 @@ extension ProfileController {
     private func setupFollowCount() {
         followersCountLabel.text = "\(0)"
         
-        FirebaseSingolton.shared.getFollowingUsers { followingUsers in
+        FirebaseSingolton().getFollowingUsers { followingUsers in
             self.followingUsers = followingUsers
             self.followCountLabel.text = "\(followingUsers.count)"
         }
@@ -235,7 +235,7 @@ extension ProfileController {
         guard let user else { return }
         followersCountLabel.text = "\(0)"
         
-        FirebaseSingolton.shared.getAllFollowsUsersUID(user: user) { [weak self] allUsersList in
+        FirebaseSingolton().getAllFollowsUsersUID(user: user) { [weak self] allUsersList in
             guard let self else { return }
             self.followersCountLabel.text = "\(allUsersList.count)"
         }

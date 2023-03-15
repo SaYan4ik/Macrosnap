@@ -111,12 +111,14 @@ extension DescriptionController {
     
     private func uploadPost(photo: UIImage?, completion: @escaping (Result<URL, Error>) -> Void) {
         let ref = Storage.storage().reference().child("posts").child(NSUUID().uuidString)
-        guard let imageData = postImageView.image?.jpegData(compressionQuality: 0.3) else { return }
+        guard let photo else { return }
+        
+        guard let postData = resizeImage(image: photo, targetSize: CGSize(width: 1920.0, height: 1080.0))?.jpegData(compressionQuality: 0.5) else { return }
         
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
         
-        ref.putData(imageData, metadata: metadata) { (metadata, error) in
+        ref.putData(postData, metadata: metadata) { (metadata, error) in
             guard let _ = metadata else {
                 guard let error = error else { return }
                 completion(.failure(error))
@@ -159,6 +161,32 @@ extension DescriptionController {
                     completionBlock(false)
             }
         }
+    }
+    
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(origin: .zero, size: newSize)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
     
     private func setSelectionButton(button: UIButton) {
