@@ -172,6 +172,7 @@ class ChatWithUserController: UIViewController {
                 return
             }
             self.tableView.reloadData()
+            self.mesageField.text = ""
         }
     }
     

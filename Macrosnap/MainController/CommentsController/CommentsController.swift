@@ -61,6 +61,17 @@ class CommentsController: UIViewController {
         FirebaseSingolton.shared.getCommentForPost(post: post) { comments in
             self.comments = comments
             self.tableView.reloadData()
+            self.scrollToBottom()
+        }
+    }
+    
+    
+    private func scrollToBottom(){
+        DispatchQueue.main.async {
+            if self.comments.count != 0 {
+                let indexPath = IndexPath(row: self.comments.count-1, section: 0)
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
         }
     }
     
