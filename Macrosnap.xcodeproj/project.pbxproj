@@ -38,7 +38,6 @@
 		A255BC252934B27600224FB2 /* SettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A255BC232934B27600224FB2 /* SettingController.swift */; };
 		A255BC262934B27600224FB2 /* SettingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A255BC242934B27600224FB2 /* SettingController.xib */; };
 		A257260129810E4700972B14 /* PostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257260029810E4700972B14 /* PostType.swift */; };
-		A257260329810F9400972B14 /* ProfilePostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257260229810F9400972B14 /* ProfilePostType.swift */; };
 		A258B105298EA37A0003E712 /* FollowersType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A258B104298EA37A0003E712 /* FollowersType.swift */; };
 		A27727E429A3D8CB00F78254 /* ExtensionSaveIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27727E329A3D8CB00F78254 /* ExtensionSaveIndex.swift */; };
 		A27E03C129530EC200FCF8CB /* FollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27E03BF29530EC200FCF8CB /* FollowCell.swift */; };
@@ -117,7 +116,6 @@
 		A255BC232934B27600224FB2 /* SettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
 		A255BC242934B27600224FB2 /* SettingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingController.xib; sourceTree = "<group>"; };
 		A257260029810E4700972B14 /* PostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostType.swift; sourceTree = "<group>"; };
-		A257260229810F9400972B14 /* ProfilePostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostType.swift; sourceTree = "<group>"; };
 		A258B104298EA37A0003E712 /* FollowersType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersType.swift; sourceTree = "<group>"; };
 		A27727E329A3D8CB00F78254 /* ExtensionSaveIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionSaveIndex.swift; sourceTree = "<group>"; };
 		A27E03BF29530EC200FCF8CB /* FollowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowCell.swift; sourceTree = "<group>"; };
@@ -369,7 +367,6 @@
 			isa = PBXGroup;
 			children = (
 				A257260029810E4700972B14 /* PostType.swift */,
-				A257260229810F9400972B14 /* ProfilePostType.swift */,
 				A258B104298EA37A0003E712 /* FollowersType.swift */,
 			);
 			path = Enums;
@@ -726,7 +723,6 @@
 			files = (
 				A2DFBDFD29B3535900D4ED75 /* UITextField+Extension.swift in Sources */,
 				A236E14C292013AD00B54E2F /* MainController.swift in Sources */,
-				A257260329810F9400972B14 /* ProfilePostType.swift in Sources */,
 				A283876C292397350042A8BB /* PostModel.swift in Sources */,
 				A258B105298EA37A0003E712 /* FollowersType.swift in Sources */,
 				A2D3354D298BBBA300F24E0D /* ChatsController.swift in Sources */,

@@ -14,7 +14,7 @@ class ChatsController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var noChatsView: UIView!
     
-    var chats = [Chat]()
+    private var chats = [Chat]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

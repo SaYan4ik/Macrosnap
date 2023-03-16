@@ -42,7 +42,6 @@ class PostCollectionCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
 }

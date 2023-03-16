@@ -97,11 +97,7 @@ class UserPostsCollectionController: UIViewController {
     
 }
 
-extension UserPostsCollectionController: UICollectionViewDelegate {
-    
-}
-
-extension UserPostsCollectionController: UICollectionViewDataSource {
+extension UserPostsCollectionController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
     }

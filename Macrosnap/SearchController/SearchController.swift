@@ -106,7 +106,6 @@ extension SearchController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchUserCell.id, for: indexPath)
         guard let searcCell = cell as? SearchUserCell else { return cell }
         searcCell.user = filteredUsers[indexPath.row]
-//        searcCell.set(user: filteredUsers[indexPath.row])
         return cell
     }
     

@@ -45,7 +45,7 @@ class FollowersController: UIViewController {
     
     private func setupNavBar() {
         let button = UIButton()
-        button.addTarget(self, action: #selector(backAction), for: .allEvents)
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.tintColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
@@ -88,8 +88,6 @@ extension FollowersController: UITableViewDelegate {
                 let chatVC = ChatWithUserController(nibName: nib, bundle: nil)
                 chatVC.chatUserUID = followingUsers[indexPath.row].uid
                 navigationController?.pushViewController(chatVC, animated: true)
-                
-                
         }
     }
 }

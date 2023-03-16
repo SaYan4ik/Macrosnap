@@ -191,11 +191,8 @@ extension RegistrationController {
 
 // MARK: -
 // MARK: - UINavigationControllerDelegate, UIImagePickerControllerDelegate
-extension RegistrationController: UINavigationControllerDelegate {
 
-}
-
-extension RegistrationController: UIImagePickerControllerDelegate {
+extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }

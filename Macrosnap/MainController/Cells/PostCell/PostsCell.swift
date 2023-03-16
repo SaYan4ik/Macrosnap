@@ -34,8 +34,17 @@ class PostsCell: UITableViewCell {
             userProfileimage.sd_setImage(
                 with: userUrlRef,
                 placeholderImage: nil,
-                options: [.progressiveLoad, .continueInBackground, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
-                context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
+                options: [
+                    .progressiveLoad,
+                    .continueInBackground,
+                    .preloadAllFrames,
+                    .waitStoreCache,
+                    .scaleDownLargeImages
+                ],
+                context: [
+                    .imageThumbnailPixelSize: thumbnailSize,
+                    .imageScaleFactor : 3
+                ]
             )
             
             guard let postUrl = post?.postId else { return }
@@ -44,8 +53,16 @@ class PostsCell: UITableViewCell {
             userPostImage.sd_setImage(
                 with: postURLRef,
                 placeholderImage: nil,
-                options: [.progressiveLoad, .continueInBackground, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
-                context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
+                options: [
+                    .progressiveLoad,
+                    .continueInBackground,
+                    .preloadAllFrames,
+                    .waitStoreCache,
+                    .scaleDownLargeImages],
+                context: [
+                    .imageThumbnailPixelSize: thumbnailSize,
+                    .imageScaleFactor : 3
+                ]
             )
             
         }

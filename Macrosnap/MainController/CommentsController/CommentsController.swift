@@ -21,7 +21,7 @@ class CommentsController: UIViewController {
     @IBOutlet weak var textFieldBottomCinstraint: NSLayoutConstraint!
     
     var post: Post?
-    var comments = [Comment]()
+    private var comments = [Comment]()
     static var id = String(describing: CommentsController.self)
     
     override func viewDidLoad() {
@@ -108,12 +108,20 @@ class CommentsController: UIViewController {
     
     @objc func keyboardWillShow(_ notification: NSNotification) {
         if enterCommentField.isEditing {
-            moveViewWithKeyboard(notification: notification, viewBottomConstraint: self.textFieldBottomCinstraint, keyboardWillShow: true)
+            moveViewWithKeyboard(
+                notification: notification,
+                viewBottomConstraint: self.textFieldBottomCinstraint,
+                keyboardWillShow: true
+            )
         }
     }
     
     @objc func keyboardWillHide(_ notification: NSNotification) {
-        moveViewWithKeyboard(notification: notification, viewBottomConstraint: self.textFieldBottomCinstraint, keyboardWillShow: false)
+        moveViewWithKeyboard(
+            notification: notification,
+            viewBottomConstraint: self.textFieldBottomCinstraint,
+            keyboardWillShow: false
+        )
     }
     
 }
@@ -153,14 +161,8 @@ extension CommentsController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.id, for: indexPath)
         guard let commentCell = cell as? CommentCell else { return cell }
         
-        commentCell.set(delegate: self)
         commentCell.comment = comments[indexPath.row]
         return commentCell
     }
 }
 
-extension CommentsController: CommentButtonDelegate {
-    func likeCommentButtonDidTap(comment: Comment, button: UIButton) {
-        print("Like button did tap")
-    }
-}

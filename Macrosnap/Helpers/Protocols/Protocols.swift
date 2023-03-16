@@ -22,9 +22,3 @@ protocol UserPostCollectionButtonDelegate: AnyObject {
     func present(vc: UIViewController)
     func push(vc: UIViewController)
 }
-
-//MARK: -
-//MARK: - CommentCellProtocol
-protocol CommentButtonDelegate: AnyObject {
-    func likeCommentButtonDidTap(comment: Comment, button: UIButton)
-}

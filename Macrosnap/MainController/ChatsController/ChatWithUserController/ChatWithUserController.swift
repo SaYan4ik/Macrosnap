@@ -39,8 +39,10 @@ class ChatWithUserController: UIViewController {
     
     private func scrollToBottom(){
         DispatchQueue.main.async {
-            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
-            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            if self.messages.count != 0 {
+                let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
         }
     }
     
@@ -109,8 +111,7 @@ class ChatWithUserController: UIViewController {
         let animator = UIViewPropertyAnimator(duration: keyboardDuration, curve: keyboardCurve) { [weak self] in
             guard let self else { return }
             self.view.layoutIfNeeded()
-            let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
-            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+            self.scrollToBottom()
             
         }
         
@@ -138,6 +139,7 @@ class ChatWithUserController: UIViewController {
         ]) { error in
             if error != nil {
                 print("Unable create chat \(String(describing: error?.localizedDescription))")
+                self.showAlert(title: "Error", message: "Unable create chat \(String(describing: error?.localizedDescription))")
             } else {
                 self.loadChat()
             }
@@ -166,6 +168,7 @@ class ChatWithUserController: UIViewController {
         ]) { error in
             if let error = error {
                 print("Error send mesage: \(error)")
+                self.showAlert(title: "Error send mesage", message: "\(error.localizedDescription)")
                 return
             }
             self.tableView.reloadData()

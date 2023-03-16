@@ -24,14 +24,22 @@ class SearchUserCell: UITableViewCell {
             
             let scale = UIScreen.main.scale
             let thumbnailSize = CGSize(width: 200 * scale, height: 150 * scale)
-
+            
             userAvatarImage.sd_setImage(
                 with: avatarURLRef,
                 placeholderImage: nil,
-                options: [.progressiveLoad, .continueInBackground, .preloadAllFrames, .waitStoreCache, .scaleDownLargeImages],
-                context: [ .imageThumbnailPixelSize: thumbnailSize, .imageScaleFactor : 3]
+                options: [
+                    .progressiveLoad,
+                    .continueInBackground,
+                    .preloadAllFrames,
+                    .waitStoreCache,
+                    .scaleDownLargeImages
+                ],
+                context: [
+                    .imageThumbnailPixelSize: thumbnailSize,
+                    .imageScaleFactor : 3
+                ]
             )
-            
         }
     }
         

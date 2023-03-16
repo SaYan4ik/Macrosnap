@@ -15,7 +15,6 @@ class CommentCell: UITableViewCell {
     @IBOutlet weak var dataOfCreateCommentLabel: UILabel!
     @IBOutlet weak var containerView: UIView!
     
-    weak var buttonDelegate: CommentButtonDelegate?
     static var id = String(describing: CommentCell.self)
     
     var comment: Comment? {
@@ -64,10 +63,6 @@ extension CommentCell {
         userAvatarImage.layer.cornerRadius = userAvatarImage.frame.height / 2
         self.contentView.layer.cornerRadius = 12
         self.containerView.layer.cornerRadius = 12
-    }
-    
-    func set(delegate: CommentButtonDelegate?) {
-        self.buttonDelegate = delegate
     }
 
 }

@@ -96,7 +96,7 @@ class ProfileController: UIViewController {
         navigationController?.pushViewController(followVC, animated: true)
     }
     
-     func setupNavBar() {
+    func setupNavBar() {
         let button = UIButton()
         button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)

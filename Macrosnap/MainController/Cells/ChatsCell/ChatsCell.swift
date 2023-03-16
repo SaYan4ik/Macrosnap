@@ -14,17 +14,34 @@ class ChatsCell: UITableViewCell {
     @IBOutlet weak var lastMessageLabel: UILabel!
     @IBOutlet weak var chatWithUserLabe: UILabel!
     
-    
     @IBOutlet weak var container: UIView!
     
     static var id = String(describing: ChatsCell.self)
     
-    var chat: Chat?
+    private var chat: Chat?
     var user: User? {
-        didSet {            
+        didSet {
+            
+            let scale = UIScreen.main.scale
+            let thumbnailSize = CGSize(width: 200 * scale, height: 150 * scale)
+            
             guard let userUrl = user?.avatarURL else { return }
             guard let userUrlRef = URL(string: userUrl) else { return }
-            userAvatarImage.sd_setImage(with: userUrlRef, completed: nil)
+            userAvatarImage.sd_setImage(
+                with: userUrlRef,
+                placeholderImage: nil,
+                options: [
+                    .progressiveLoad,
+                    .continueInBackground,
+                    .preloadAllFrames,
+                    .waitStoreCache,
+                    .scaleDownLargeImages
+                ],
+                context: [
+                    .imageThumbnailPixelSize: thumbnailSize,
+                    .imageScaleFactor : 3
+                ]
+            )
         }
     }
     

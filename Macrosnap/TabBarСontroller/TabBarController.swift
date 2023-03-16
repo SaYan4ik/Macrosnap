@@ -64,11 +64,23 @@ class TabBarController: UITabBarController {
     }
     
     private func performSpringAnimation(imgView: UIImageView) {
-        UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
+        UIView.animate(
+            withDuration: 0.8,
+            delay: 0,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 0.5,
+            options: .curveEaseInOut,
+            animations: {
             
             imgView.transform = CGAffineTransform.init(scaleX: 1.4, y: 1.4)
             
-            UIView.animate(withDuration: 0.5, delay: 0.2, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
+            UIView.animate(
+                withDuration: 0.5,
+                delay: 0.2,
+                usingSpringWithDamping: 0.5,
+                initialSpringVelocity: 0.5,
+                options: .curveEaseInOut,
+                animations: {
                 imgView.transform = CGAffineTransform.init(scaleX: 1, y: 1)
             }) { (flag) in
             }

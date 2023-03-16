@@ -21,8 +21,6 @@ class DescriptionController: UIViewController {
     @IBOutlet weak var filmPhotoButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     
-    
-    
     private var postType: PostType = .digitalPost
     var imageForAdd: UIImage?
     
@@ -113,7 +111,11 @@ extension DescriptionController {
         let ref = Storage.storage().reference().child("posts").child(NSUUID().uuidString)
         guard let photo else { return }
         
-        guard let postData = resizeImage(image: photo, targetSize: CGSize(width: 1920.0, height: 1080.0))?.jpegData(compressionQuality: 0.5) else { return }
+        guard let postData = resizeImage(
+            image: photo,
+            targetSize: CGSize(width: 1920.0, height: 1080.0))?.jpegData(compressionQuality: 0.5) else {
+            return
+        }
         
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
