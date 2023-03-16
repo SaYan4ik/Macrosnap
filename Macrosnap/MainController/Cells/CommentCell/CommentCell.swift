@@ -19,9 +19,9 @@ class CommentCell: UITableViewCell {
     
     var comment: Comment? {
         didSet {
-            self.usernameLabel.text = comment?.post.user.username
+            self.usernameLabel.text = comment?.senderName
             
-            guard let userUrl = comment?.post.user.avatarURL else { return }
+            guard let userUrl = comment?.senderAvatarURL else { return }
             guard let userUrlRef = URL(string: userUrl) else { return }
             
             let scale = UIScreen.main.scale

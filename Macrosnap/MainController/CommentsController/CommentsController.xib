@@ -16,6 +16,7 @@
                 <outlet property="enterCommentField" destination="Exy-HL-q5F" id="YWA-fw-PQC"/>
                 <outlet property="lenseLabel" destination="7bU-HL-w0y" id="RQI-6v-cQj"/>
                 <outlet property="noCommentsView" destination="HLa-xY-O3p" id="Gcn-H1-CGF"/>
+                <outlet property="spinner" destination="Jb1-d4-V4Z" id="YN1-AK-EN1"/>
                 <outlet property="tableView" destination="LvF-8b-7Jo" id="sxC-sI-OUx"/>
                 <outlet property="textFieldBottomCinstraint" destination="icz-N3-0nw" id="08j-v8-xVe"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -77,6 +78,9 @@
                     <rect key="frame" x="16" y="335" width="361" height="439"/>
                     <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 </tableView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Jb1-d4-V4Z">
+                    <rect key="frame" x="178" y="420" width="37" height="37"/>
+                </activityIndicatorView>
                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Exy-HL-q5F">
                     <rect key="frame" x="16" y="784" width="321" height="34"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -124,6 +128,7 @@
             <color key="backgroundColor" red="0.15686275059999999" green="0.1647058874" blue="0.2117646933" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="LvF-8b-7Jo" secondAttribute="trailing" constant="16" id="4WS-ph-ifv"/>
+                <constraint firstItem="Jb1-d4-V4Z" firstAttribute="centerY" secondItem="jF8-gl-zkY" secondAttribute="centerY" id="53f-8L-bDh"/>
                 <constraint firstItem="Exy-HL-q5F" firstAttribute="top" secondItem="HLa-xY-O3p" secondAttribute="bottom" id="9IR-0p-RPv"/>
                 <constraint firstItem="jF8-gl-zkY" firstAttribute="trailing" secondItem="IQV-YF-ZBy" secondAttribute="trailing" constant="16" id="GuT-Ma-9MN"/>
                 <constraint firstItem="LvF-8b-7Jo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="IFD-AE-Cs9"/>
@@ -137,6 +142,7 @@
                 <constraint firstItem="LvF-8b-7Jo" firstAttribute="top" secondItem="IQV-YF-ZBy" secondAttribute="bottom" constant="10" id="UPF-9g-A2e"/>
                 <constraint firstItem="Exy-HL-q5F" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="WEj-Fk-4i4"/>
                 <constraint firstItem="jF8-gl-zkY" firstAttribute="trailing" secondItem="HLa-xY-O3p" secondAttribute="trailing" constant="16" id="Wj2-UA-oa9"/>
+                <constraint firstItem="Jb1-d4-V4Z" firstAttribute="centerX" secondItem="jF8-gl-zkY" secondAttribute="centerX" id="hb5-JO-pDi"/>
                 <constraint firstItem="jF8-gl-zkY" firstAttribute="bottom" secondItem="Exy-HL-q5F" secondAttribute="bottom" id="icz-N3-0nw"/>
                 <constraint firstItem="HLa-xY-O3p" firstAttribute="top" secondItem="IQV-YF-ZBy" secondAttribute="bottom" id="jIG-mA-CTd"/>
             </constraints>

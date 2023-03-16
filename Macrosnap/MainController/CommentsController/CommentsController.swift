@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import FirebaseAuth
 
 class CommentsController: UIViewController {
     @IBOutlet weak var descriptionView: UIView!
@@ -17,6 +17,8 @@ class CommentsController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var noCommentsView: UIView!
+    
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     @IBOutlet weak var textFieldBottomCinstraint: NSLayoutConstraint!
     
@@ -44,8 +46,14 @@ class CommentsController: UIViewController {
     @IBAction func enterCommentButtonDidTap(_ sender: Any) {
         guard let post else { return }
         guard let comment = enterCommentField.text else { return }
-        FirebaseSingolton.shared.addCommentForPost(post: post, commentText: comment)
-        getComment()
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+        spinner.startAnimating()
+        FirebaseSingolton.shared.getUserWithUID(uid: userUID) { user in
+            FirebaseSingolton.shared.addCommentForPost(user: user, post: post, commentText: comment)
+            self.enterCommentField.text = ""
+            self.getComment()
+            self.spinner.stopAnimating()
+        }
     }
     
     private func getComment() {

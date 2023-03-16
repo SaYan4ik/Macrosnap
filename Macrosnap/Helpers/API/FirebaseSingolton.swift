@@ -210,10 +210,13 @@ class FirebaseSingolton {
         }
     }
 
-    func addCommentForPost(post: Post, commentText: String) {
+    func addCommentForPost(user: User, post: Post, commentText: String) {
         let postNameURL = Storage.storage().reference(forURL: post.postId).name
         
         Firestore.firestore().collection("comments").document(postNameURL).collection("postComments").addDocument(data: [
+            "senderName": user.username,
+            "senderUID": user.uid,
+            "senderAvatarURL": user.avatarURL,
             "commentText": commentText,
             "postId": postNameURL,
             "date": Timestamp(date: Date.now)
@@ -231,11 +234,14 @@ class FirebaseSingolton {
                 var allComments = [Comment]()
                 for document in snapshot.documents {
                     let data = document.data()
-                    guard let commentText = data["commentText"] as? String,
+                    guard let senderName = data["senderName"] as? String,
+                          let senderUID = data["senderUID"] as? String,
+                          let senderAvatarURL = data["senderAvatarURL"] as? String,
+                          let commentText = data["commentText"] as? String,
                           let dateOfCreation = data["date"] as? Timestamp
                     else { return }
                     
-                    let comment = Comment(commentText: commentText, post: post, date: dateOfCreation)
+                    let comment = Comment(senderName: senderName, senderUID: senderUID, senderAvatarURL: senderAvatarURL, commentText: commentText, post: post, date: dateOfCreation)
                     allComments.append(comment)
                 }
                 comlition(allComments)
