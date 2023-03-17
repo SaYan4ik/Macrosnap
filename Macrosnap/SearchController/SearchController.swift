@@ -91,6 +91,7 @@ extension SearchController: UITableViewDelegate {
         
         let profVC = ProfileController(nibName: String(describing: ProfileController.self), bundle: nil)
         profVC.user = filteredUsers[indexPath.row]
+        profVC.setupNavBar()
         navigationController?.pushViewController(profVC, animated: true)
         
     }

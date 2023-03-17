@@ -189,6 +189,7 @@ extension PostsCell {
         self.likeCountLabel.text = "\(post.like)"
         self.type = type
         setStyle()
+        setAction()
     }
     
     private func setStyle() {
@@ -197,6 +198,23 @@ extension PostsCell {
         self.userPostImage.layer.cornerRadius = 12
         self.likeButton.setImage(likeButtonImage, for: .normal)
         self.favouriteButton.setImage(favouriteButtonImage, for: .normal)
+    }
+    
+    private func setAction() {
+        let labelTap = UITapGestureRecognizer(target: self, action: #selector(self.openUserProfile(_:)))
+        self.userNameLabel.isUserInteractionEnabled = true
+        self.userNameLabel.addGestureRecognizer(labelTap)
+    }
+    
+    @objc private func openUserProfile(_ sender: UITapGestureRecognizer) {
+        guard let post else { return }
+        let profileVC = ProfileController(nibName: String(describing: ProfileController.self), bundle: nil)
+        FirebaseSingolton.shared.getUserWithUID(uid: post.user.uid) { [weak self] user in
+            guard let self else { return }
+            profileVC.user = user
+            self.buttonDelegate?.push(vc: profileVC)
+        }
+
     }
 
 }

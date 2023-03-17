@@ -24,7 +24,7 @@ class ChatWithUserController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.loadChat()
+        self.loadChatTest()
         self.getUser()
         self.setupNavBar()
         self.setupTableView()
@@ -141,7 +141,7 @@ class ChatWithUserController: UIViewController {
                 print("Unable create chat \(String(describing: error?.localizedDescription))")
                 self.showAlert(title: "Error", message: "Unable create chat \(String(describing: error?.localizedDescription))")
             } else {
-                self.loadChat()
+                self.loadChatTest()
             }
         }
     }
@@ -176,64 +176,88 @@ class ChatWithUserController: UIViewController {
         }
     }
     
-    private func loadChat() {
+    func loadChatTest() {
+        //Fetch all the chats which has current user in it
         let db = Firestore.firestore().collection("chats").whereField("users", arrayContains: Auth.auth().currentUser?.uid ?? "Not found user 1")
-        db.getDocuments { (chatSnapshot, error) in
+        
+        db.getDocuments { (chatQuerySnap, error) in
+            
             if let error = error {
-                print("Error \(error.localizedDescription)")
+                print("Error: \(error)")
                 return
             } else {
-                guard let queryCount = chatSnapshot?.documents.count else { return }
-
+                
+                //Count the no. of documents returned
+                guard let queryCount = chatQuerySnap?.documents.count else {
+                    return
+                }
+                
                 if queryCount == 0 {
+                    //If documents count is zero that means there is no chat available and we need to create a new instance
                     self.createChat()
-
-                } else if queryCount >= 1 {
-
-                    guard let chatSnapshot else { return }
-
-                    for document in chatSnapshot.documents {
-                        let data = document.data()
-                        guard let users = data["users"] as? [String],
-                              let chatUID = data["chatUID"] as? String
+                }
+                else if queryCount >= 1 {
+                    //Chat(s) found for currentUser
+                    guard let chatQuerySnap else { return }
+                    for doc in chatQuerySnap.documents {
+                        guard let users = doc["users"] as? [String],
+                              let chatUID = doc["chatUID"] as? String
                         else { return }
-
-                        let chat = Chat(users: users, chatUID: chatUID)
-                        self.chat = chat
                         
+                        let chat = Chat(
+                            users: users,
+                            chatUID: chatUID
+                        )
+                        //Get the chat which has chatUserUID
                         if chat.users.contains(self.chatUserUID) {
-                            self.docReference = document.reference
-                            document.reference.collection("messages").order(by: "created", descending: false).addSnapshotListener(includeMetadataChanges: true, listener: { (messageSnapshot, error )in
-                                if let error = error {
-                                    print("Error \(error.localizedDescription)")
-                                    return
-                                } else {
-                                    self.messages.removeAll()
-                                    guard let messageSnapshot else { return }
-                                    for message in messageSnapshot.documents {
-                                        let data = message.data()
-                                        guard let id = data["id"] as? String,
-                                              let content = data["content"] as? String,
-                                              let created = data["created"] as? Timestamp,
-                                              let senderUID = data["senderUID"] as? String,
-                                              let senderName = data["senderName"] as? String
-                                        else { return }
-
-                                        let msg = Message(id: id, content: content, created: created, senderUID: senderUID, senderName: senderName)
-                                        self.messages.append(msg)
+                            
+                            self.docReference = doc.reference
+                            //fetch it's thread collection
+                            doc.reference.collection("messages")
+                                .order(by: "created", descending: false)
+                                .addSnapshotListener(includeMetadataChanges: true, listener: { (messageSnapshot, error) in
+                                    if let error = error {
+                                        print("Error: \(error)")
+                                        return
+                                    } else {
+                                        self.messages.removeAll()
+                                        var allMessages = [Message]()
+                                        guard let messageSnapshot else { return }
+                                        for message in messageSnapshot.documents {
+                                            let data = message.data()
+                                            guard let id = data["id"] as? String,
+                                                  let content = data["content"] as? String,
+                                                  let created = data["created"] as? Timestamp,
+                                                  let senderUID = data["senderUID"] as? String,
+                                                  let senderName = data["senderName"] as? String
+                                            else { return }
+                                            
+                                            let msg = Message(
+                                                id: id,
+                                                content: content,
+                                                created: created,
+                                                senderUID: senderUID,
+                                                senderName: senderName
+                                            )
+                                            allMessages.append(msg)
+                                            print("Data: \(msg.content)")
+                                        }
+                                        self.messages = allMessages
+                                        self.tableView.reloadData()
+                                        self.scrollToBottom()
                                     }
-                                    self.tableView.reloadData()
-                                    self.scrollToBottom()
-                                }
-                            })
+                                })
                             return
-                        }
-                        self.createChat()
-                    }
+                        } //end of if
+                    } //end of for
+                    self.createChat()
+                } else {
+                    print("Let's hope this error never prints!")
                 }
             }
         }
     }
+    
 }
 
 extension ChatWithUserController: UITableViewDataSource {

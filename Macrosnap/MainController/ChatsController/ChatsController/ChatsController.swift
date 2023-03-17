@@ -64,6 +64,7 @@ class ChatsController: UIViewController {
     }
     
     private func getChats() {
+        self.chats.removeAll()
         let db = Firestore.firestore().collection("chats").whereField("users", arrayContains: Auth.auth().currentUser?.uid ?? "Not found user 1")
         db.getDocuments { (chatSnapshot, error) in
             if let error = error {
@@ -81,8 +82,8 @@ class ChatsController: UIViewController {
                     allChats.append(chat)
                 }
                 self.chats = allChats
-                self.tableView.reloadData()
             }
+            self.tableView.reloadData()
         }
     }
     
