@@ -88,33 +88,6 @@ class PostsTableController: UIViewController {
         }
     }
     
-    private func getAllPostsForFollowUsers() {
-        let dispatchGroup = DispatchGroup()
-        let dispatchQueue = DispatchQueue(label: "com.bestkora.mySerial", attributes: .concurrent)
-        var followUsers = [User]()
-        
-        let followUsersWorkItem = DispatchWorkItem {
-            FirebaseSingolton.shared.getFollowingUsers { users in
-                followUsers = users
-                dispatchGroup.leave()
-            }
-        }
-        
-        dispatchGroup.enter()
-        dispatchQueue.async(execute: followUsersWorkItem)
-        
-        dispatchGroup.notify(queue: .main) {
-            self.tableView.refreshControl?.beginRefreshing()
-            followUsers.forEach { user in
-                FirebaseSingolton.shared.getPostsByTypeWithUserUID(user: user, postType: self.postType) { allPosts in
-                    self.posts.append(contentsOf: allPosts)
-                    self.tableView.reloadData()
-                    self.tableView.refreshControl?.endRefreshing()
-                }
-            }
-        }
-    }
-    
     private func chekLike() {
         posts.forEach { post in
             FirebaseSingolton.shared.checkLikeByUser(post: post) { didLike in

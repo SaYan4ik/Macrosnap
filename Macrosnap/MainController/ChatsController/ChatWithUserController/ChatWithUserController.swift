@@ -208,6 +208,8 @@ class ChatWithUserController: UIViewController {
                             users: users,
                             chatUID: chatUID
                         )
+                        
+                        self.chat = chat
                         //Get the chat which has chatUserUID
                         if chat.users.contains(self.chatUserUID) {
                             

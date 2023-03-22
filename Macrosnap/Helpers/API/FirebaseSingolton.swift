@@ -93,18 +93,40 @@ class FirebaseSingolton {
     }
 
     
-    func deletePost(post: Post, comlition: @escaping ((Bool) -> Void)) {
+    func deletePost(post: Post, userUID: String, comlition: @escaping ((Bool) -> Void), deletePostError: @escaping ((Error?) -> Void)) {
         let postNameURL = Storage.storage().reference(forURL: post.postId).name
         
         Firestore.firestore().collection("posts").document(post.user.uid).collection("userPosts").document(postNameURL).delete()
+
+        
+        getAllUsers { users in
+            users.forEach { user in
+                Firestore.firestore().collection("users").document(user.uid).collection("favouritePosts").document(postNameURL).delete { error in
+                    if let error = error {
+                        deletePostError(error)
+                    }
+                }
+                
+                Firestore.firestore().collection("users").document(user.uid).collection("usersLike").document(postNameURL).delete { error in
+                    if let error = error {
+                        deletePostError(error)
+                    }
+                }
+            }
+        }
         
         Storage.storage().reference().child("posts").child(postNameURL).delete { error in
             if let error = error {
                 print(error.localizedDescription)
+                deletePostError(error)
+            } else {
+                comlition(true)
             }
         }
-        comlition(true)
     }
+    
+    
+    
 
     func likePost(post: Post) {
         guard let userUID = Auth.auth().currentUser?.uid else { return }

@@ -97,14 +97,13 @@ extension DescriptionController {
               let description = descriptionTextView.text
         else { return }
         
-        addNewPostDocement(camera: camera, lense: lense, description: description) { [weak self] success in
-            guard let self else { return }
-            if (success) {
-                self.navigationController?.popViewController(animated: true)
-            } else {
-                self.showAlert(title: "Error", message: "Post did't upload.")
+        addNewPostDocement(camera: camera, lense: lense, description: description) { error in
+            if let error = error {
+                self.showAlert(title: "Error", message: "\(error.localizedDescription)")
             }
         }
+        
+        navigationController?.popToRootViewController(animated: true)
     }
     
     private func uploadPost(photo: UIImage?, completion: @escaping (Result<URL, Error>) -> Void) {
@@ -137,9 +136,8 @@ extension DescriptionController {
         }
     }
     
-    private func addNewPostDocement(camera: String, lense: String, description: String, completionBlock: @escaping (_ success: Bool) -> Void) {
-        guard let user = Auth.auth().currentUser else {
-            completionBlock(false)
+    private func addNewPostDocement(camera: String, lense: String, description: String, completionBlock: @escaping (Error?) -> Void) {
+        guard let userUID = Auth.auth().currentUser?.uid else {
             return
         }
     
@@ -149,9 +147,9 @@ extension DescriptionController {
                     
                 case .success(let url):
                     let postNameURL = Storage.storage().reference(forURL: url.absoluteString).name
-                    Firestore.firestore().collection("posts").document(user.uid).collection("userPosts").document("\(postNameURL)").setData([
+                    Firestore.firestore().collection("posts").document(userUID).collection("userPosts").document("\(postNameURL)").setData([
                         "postId": url.absoluteString,
-                        "userId": user.uid,
+                        "userId": userUID,
                         "lense": lense,
                         "camera": camera,
                         "description": description,
@@ -160,7 +158,7 @@ extension DescriptionController {
                     ])
                 case .failure(let error):
                     print("\(String(describing: error.localizedDescription))")
-                    completionBlock(false)
+                    completionBlock(error)
             }
         }
     }

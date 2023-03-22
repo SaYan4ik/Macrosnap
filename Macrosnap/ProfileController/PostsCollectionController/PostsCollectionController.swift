@@ -21,10 +21,6 @@ class PostsCollectionController: UIViewController {
         super.viewDidLoad()
         configure()
         collectionViewRefresher()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         getAllPosts()
     }
 
@@ -43,17 +39,24 @@ class PostsCollectionController: UIViewController {
     }
     
     @objc private func handleRefresh() {
+        self.posts.removeAll()
         getAllPosts()
     }
     
     private func getAllPosts() {
         guard let user else { return }
 
-        posts.removeAll()
+        self.collectionView.refreshControl?.beginRefreshing()
+        
         switch postType {
             case .favouritePost:
                 FirebaseSingolton.shared.getfavouritePostsWithUser(user: user) { [weak self] allPosts in
                     guard let self else { return }
+                    if allPosts.count == 0 {
+                        self.collectionView.reloadData()
+                        self.collectionView.refreshControl?.endRefreshing()
+                    }
+                    
                     allPosts.forEach { post in
                         FirebaseSingolton.shared.getPostByUID(post: post) { post in
                             self.posts.append(post)
@@ -133,6 +136,47 @@ extension PostsCollectionController: UICollectionViewDelegate {
             typePost: postType
         )
         navigationController?.pushViewController(userPostsCollection, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        configureContextMenu(index: indexPath.row)
+    }
+ 
+    func configureContextMenu(index: Int) -> UIContextMenuConfiguration{
+
+        let context = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
+            guard let userUID = Auth.auth().currentUser?.uid,
+                  let user  = self.user
+            else { return UIMenu(title: "Error")}
+            
+            let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), identifier: nil, discoverabilityTitle: nil,attributes: .destructive, state: .off) { (_) in
+                print("delete button clicked")
+                
+                FirebaseSingolton.shared.deletePost(post: self.posts[index], userUID: userUID) { succesDeletePost in
+                    self.getAllPosts()
+                } deletePostError: { error in
+                    if let error = error {
+                        self.showAlert(title: "Error: Delete post", message: "\(error.localizedDescription)")
+                        return
+                    }
+                }
+            }
+            
+            
+            if userUID != user.uid || self.postType == .favouritePost {
+                return UIMenu(title: "In work")
+            } else {
+                return UIMenu(title: "Options", image: nil, identifier: nil, options: UIMenu.Options.displayInline, children: [delete])
+
+            }
+            
+//            if userUID == user.uid {
+//                return UIMenu(title: "Options", image: nil, identifier: nil, options: UIMenu.Options.displayInline, children: [delete])
+//            } else {
+//                return UIMenu(title: "In work")
+//            }
+        }
+        return context
     }
     
 }
