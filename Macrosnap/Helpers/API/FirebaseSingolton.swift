@@ -474,6 +474,7 @@ class FirebaseSingolton {
     
 // MARK: -
 // MARK: - Pagination
+    
     func pagination(user: User, posts: [Post], type: PostType, complition: @escaping (([Post]) -> Void)) {
         var query: Query?
         var lastDocumentSnapshot: DocumentSnapshot?

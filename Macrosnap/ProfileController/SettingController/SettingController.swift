@@ -18,6 +18,7 @@ class SettingController: UIViewController {
     
     var user: User?
     var updateAvatarBlock: ((UIImage) -> ())?
+    var updateUsernameBlock: ((String) -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,7 @@ class SettingController: UIViewController {
         
         if user?.username != newUserName {
             FirebaseSingolton.shared.updateUserName(newUserName: newUserName)
+            self.updateUsernameBlock?(newUserName)
         } else {
             self.showAlert(title: "Error", message: "You need to change your name")
         }

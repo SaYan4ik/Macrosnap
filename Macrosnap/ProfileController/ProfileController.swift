@@ -87,6 +87,12 @@ class ProfileController: UIViewController {
             self.profileimage.image = newImage
             print(newImage)
         }
+        
+        settingVC.updateUsernameBlock = { [weak self] newName in
+            guard let self else { return }
+            self.userNameLabel.text = newName
+        }
+        
         navigationController?.pushViewController(settingVC, animated: true)
     }
     
