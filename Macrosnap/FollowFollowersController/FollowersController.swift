@@ -12,7 +12,7 @@ class FollowersController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     private var typeController: FollowersControllerType = .openProfile
-    private var followingUsers = [User]()
+    var followingUsers = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class FollowersController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getFollowUsers()
+//        getFollowUsers()
     }
 
     func set(type: FollowersControllerType) {
