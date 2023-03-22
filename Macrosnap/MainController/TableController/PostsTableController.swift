@@ -71,9 +71,10 @@ class PostsTableController: UIViewController {
     }
     
     private func getAllFollowUserPosts() {
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
         tableView.refreshControl?.beginRefreshing()
 
-        FirebaseSingolton.shared.getFollowingUsers { followUsers in
+        FirebaseSingolton.shared.getFollowingUsers(userUID: userUID) { followUsers in
             followUsers.forEach { user in
                 FirebaseSingolton.shared.getPostsByTypeWithUserUID(
                     user: user,

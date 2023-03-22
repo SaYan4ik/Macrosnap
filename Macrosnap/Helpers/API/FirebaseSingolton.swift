@@ -396,8 +396,8 @@ class FirebaseSingolton {
         }
     }
     
-    func getFollowingUsers(complition: @escaping ([User]) -> Void) {
-        guard let userUID = Auth.auth().currentUser?.uid else { return }
+    func getFollowingUsers(userUID: String, complition: @escaping ([User]) -> Void) {
+//        guard let userUID = Auth.auth().currentUser?.uid else { return }
         
         Firestore.firestore().collection("following").document(userUID).collection("usersFollowing").getDocuments { (snapshot, error) in
             if let error = error {

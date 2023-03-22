@@ -247,11 +247,13 @@ extension ProfileController {
     
     private func setupFollowCount() {
         followersCountLabel.text = "\(0)"
+        guard let user else { return }
         
-        FirebaseSingolton().getFollowingUsers { followingUsers in
+        FirebaseSingolton().getFollowingUsers(userUID: user.uid) { followingUsers in
             self.followingUsers = followingUsers
             self.followCountLabel.text = "\(followingUsers.count)"
         }
+        
     }
     
     private func setupFollowsCount() {

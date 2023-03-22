@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class FollowersController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -37,7 +38,8 @@ class FollowersController: UIViewController {
     }
     
     private func getFollowUsers() {
-        FirebaseSingolton.shared.getFollowingUsers { users in
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+        FirebaseSingolton.shared.getFollowingUsers(userUID: userUID) { users in
             self.followingUsers = users
             self.tableView.reloadData()
         }
