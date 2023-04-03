@@ -21,6 +21,7 @@ class FollowersController: UIViewController {
         registrationCell()
         setupNavBar()
         tableView.layer.cornerRadius = 12
+        getFollowUsers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,11 +39,17 @@ class FollowersController: UIViewController {
     }
     
     private func getFollowUsers() {
-        guard let userUID = Auth.auth().currentUser?.uid else { return }
-        FirebaseSingolton.shared.getFollowingUsers(userUID: userUID) { users in
-            self.followingUsers = users
-            self.tableView.reloadData()
+        switch typeController {
+            case .openChat:
+                guard let userUID = Auth.auth().currentUser?.uid else { return }
+                FirebaseSingolton.shared.getFollowingUsers(userUID: userUID) { users in
+                    self.followingUsers = users
+                    self.tableView.reloadData()
+                }
+            default:
+                break
         }
+        
     }
     
     private func setupNavBar() {

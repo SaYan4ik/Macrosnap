@@ -20,6 +20,7 @@ class SearchController: UIViewController {
         getAllUsers()
         setupSearchBar()
         setupRefreshController()
+        tableView.keyboardDismissMode = .onDrag
     }
     
     private func setupTableView() {
